@@ -108,6 +108,7 @@ Multi_Lang = "zh"
 | 繁體中文 | cht |
 | 日本語 | jp |
 | English | en |
+
 ### 3. 修改自动复制状态
 - 默认关闭，如需自动复制首个匹配结果至剪贴板，请于 `GTB_Solver_EN_main.py` 内找到以下代码，更换 `False` 为 `True` 即可  
 ``` Python
