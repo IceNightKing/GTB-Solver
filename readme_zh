@@ -1,7 +1,19 @@
 # GTB_Solver_EN
+
+**简体中文 | [繁體中文](./readme_cht.md) | [日本語](./readme_jp.md) | [English](./readme_en.md)**
+
 依据英语提示及正则表达式快速猜测 Hypixel 服务器《建筑猜猜乐》小游戏中的建筑主题。  
-Quickly guess the theme of "Guess The Build" game on Hypixel server based on English hints and regular expressions.  
 > **淦翻红牌ldx，一人盲猜虐全场！**  
+
+## 更新日志
+### 2024/02/04 - Demo_202402
+- \[Add\] 多语言 `readme` 支持  
+- \[Add\] 输出萌化模式支持  
+- \[Fix\] 修复了用户输入不合法可能造成的 `OverflowError` 崩溃  
+- \[Fix\] 修复了用户输入不合法可能造成的 `re.error` 崩溃  
+- \[Opt\] 程序输出语言现在默认取决于系统语言  
+- \[Opt\] 词库更新  
+- \[Opt\] 代码重构  
 
 ## 前置条件
 ### 1. 搭建 Python 运行环境
@@ -22,7 +34,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 ### 1. 使用数字+字母进行猜测
 ``` Python
 主题: _____ ______
-请输入部分英语: 5 6
+请输入匹配式: 5 6
 Build Battle - 建筑大师
 Chili Pepper - 红辣椒 - Piment
 Ender Dragon - 末影龙
@@ -42,7 +54,7 @@ Water Bottle - 水瓶 - Waterfle
 Water Bucket - 水桶
 
 主题: _a___ ______
-请输入部分英语: 1a3 6
+请输入匹配式: 1a3 6
 Magic Carpet - 魔毯
 Paint Bucket - 油漆桶
 Table Tennis - 乒乓球 - Ping Pong
@@ -51,13 +63,13 @@ Water Bucket - 水桶
 # 在此即可依据玩家建筑大致轮廓进行选择
 
 主题: _a___ _o____
-请输入部分英语: 1a3 1o4
+请输入匹配式: 1a3 1o4
 Water Bottle - 水瓶 - Waterfle
 ```
 ### 2. 结合使用正则表达式进行猜测
 ``` Python
 主题: _a___ ______
-请输入部分英语: .a3 .*
+请输入匹配式: .a3 .*
 Candy Buckets - 糖果篮子
 Candy Cane - 糖果手杖
 Games Controller - 游戏手柄
@@ -79,38 +91,43 @@ Water Park - 水上乐园
 Water Slide - 水上滑梯 - Tobogan
 
 主题: _a___ _o____
-请输入部分英语: .a3 .o.*
+请输入匹配式: .a3 .o.*
 Games Controller - 游戏手柄
 Water Bottle - 水瓶 - Waterfle
 # 在此即可依据玩家建筑大致轮廓进行选择
 
 主题: _a___ _o___e
-请输入部分英语: .a3 .o.*e
+请输入匹配式: .a3 .o.*e
 Water Bottle - 水瓶 - Waterfle
 ```
 
 ## 配置修改
 ### 1. 修改词库文件路径或更换词库文件
-- 默认路径为 `GTB_Solver_EN_main.py` 同文件夹，如需修改词库文件路径或更换词库文件，请于 `GTB_Solver_EN_main.py` 内找到以下代码，更换引号内的路径即可（支持中文路径）  
+- 默认路径为 `GTB_Solver_EN_main.py` 同文件夹。如需修改词库文件路径或更换词库文件，请在 `GTB_Solver_EN_main.py` 内找到以下代码，替换引号内的路径即可（支持中文路径）  
 ``` Python
 GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 ```
 ### 2. 修改程序输出语言
-- 默认语言为简体中文，如需修改程序输出语言，请于 `GTB_Solver_EN_main.py` 内找到以下代码，更换引号内的语言代码即可  
+- 默认输出语言为系统语言，若系统语言尚未支持，则为英语。如需修改程序输出语言，请在 `GTB_Solver_EN_main.py` 内找到以下代码，于引号内加入对应语言代码即可  
 ``` Python
-Multi_Lang = "zh"
+Multi_Lang = ""
 ```
 - 语言代码列表  
 
 | 输出语言 | 语言代码 |
 | :----: | :----: |
 | 简体中文 | zh |
-| 繁體中文 | cht |
-| 日本語 | jp |
-| English | en |
+| 繁体中文 | cht |
+| 日语 | jp |
+| 英语 | en |
 
-### 3. 修改自动复制状态
-- 默认关闭，如需自动复制首个匹配结果至剪贴板，请于 `GTB_Solver_EN_main.py` 内找到以下代码，更换 `False` 为 `True` 即可  
+### 3. 修改输出萌化状态
+- 默认关闭。如需开启输出萌化模式，请在 `GTB_Solver_EN_main.py` 内找到以下代码，替换 `False` 为 `True` 即可  
+``` Python
+Moe_Mode = False
+```
+### 4. 修改自动复制状态
+- 默认关闭。如需自动复制首个匹配结果至剪贴板，请在 `GTB_Solver_EN_main.py` 内找到以下代码，替换 `False` 为 `True` 即可  
 ``` Python
 Auto_Copy = False
 ```
