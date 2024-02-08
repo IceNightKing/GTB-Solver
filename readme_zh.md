@@ -1,11 +1,22 @@
-# GTB_Solver_EN
+# 建筑猜猜宝
 
 **简体中文 | [繁體中文](./readme_cht.md) | [日本語](./readme_jp.md) | [English](./readme.md)**
 
-依据英语提示及正则表达式快速猜测 Hypixel 服务器《建筑猜猜乐》小游戏中的建筑主题。  
+依据英语或简体中文提示及正则表达式快速猜测 Hypixel 服务器《建筑猜猜乐》小游戏中的建筑主题。  
 > **淦翻红牌ldx，一人盲猜虐全场！**  
 
 ## 更新日志
+### 2024/02/08 - v3.0
+- \[Add\] 简体中文输入匹配支持  
+- \[Fix\] 修复了字符 `-` 无法被匹配的问题  
+  ``` Python
+  # 现在以下主题已经能够被正确匹配
+  Jack-O-Lantern - 南瓜灯
+  T-Rex - 霸王龙
+  Trick-or-Treating - 不给糖就捣蛋
+  T-Shirt - T恤 - Tricou
+  ```
+- \[Fix\] 修复了词库列名配置不正确可能造成的 `KeyError` 崩溃  
 ### 2024/02/04 - Demo_202402
 - \[Add\] 多语言 `readme` 支持  
 - \[Add\] 输出萌化模式支持  
@@ -28,7 +39,7 @@
 
 ## 使用方法
 ### 运行主程序
-- 前置条件满足后，运行 `GTB_Solver_EN.bat` 即可  
+- 前置条件满足后，运行 `GTB-Solver.bat` 即可  
 
 ## 猜测方法（以 Water Bottle 为例）
 ### 1. 使用数字+字母进行猜测
@@ -39,27 +50,27 @@ Build Battle - 建筑大师
 Chili Pepper - 红辣椒 - Piment
 Ender Dragon - 末影龙
 Fruit Basket - 果篮 - Obstkorb
-Horse Racing - 赛马
-Horse Riding - 骑马
-Light Switch - 照明开关
+Horse Racing - 赛马 - Zavod koni
+Horse Riding - 骑马 - Ridning
+Light Switch - 照明开关 - Lysbryter
 Magic Carpet - 魔毯
-Paint Bucket - 油漆桶
+Paint Bucket - 油漆桶 - Fargburk
 Scuba Diving - 水肺潜水 - Buceo
 Snowy Forest - 积雪森林
-Solar System - 太阳系
+Solar System - 太阳系 - Solsystem
 Swiss Cheese - 瑞士奶酪
-Table Tennis - 乒乓球 - Ping Pong
+Table Tennis - 乒乓球 - Bordtenni
 Train Tracks - 铁轨 - Rail - Rautatie
 Water Bottle - 水瓶 - Waterfle
-Water Bucket - 水桶
+Water Bucket - 水桶 - Vandspand
 
 主题: _a___ ______
 请输入匹配式: 1a3 6
 Magic Carpet - 魔毯
-Paint Bucket - 油漆桶
-Table Tennis - 乒乓球 - Ping Pong
+Paint Bucket - 油漆桶 - Fargburk
+Table Tennis - 乒乓球 - Bordtenni
 Water Bottle - 水瓶 - Waterfle
-Water Bucket - 水桶
+Water Bucket - 水桶 - Vandspand
 # 在此即可依据玩家建筑大致轮廓进行选择
 
 主题: _a___ _o____
@@ -71,28 +82,28 @@ Water Bottle - 水瓶 - Waterfle
 主题: _a___ ______
 请输入匹配式: .a3 .*
 Candy Buckets - 糖果篮子
-Candy Cane - 糖果手杖
-Games Controller - 游戏手柄
+Candy Cane - 糖果手杖 - Acadea
+Games Controller - 游戏手柄 - Controller
 Magic Carpet - 魔毯
-Magic Hat - 魔法帽子
+Magic Hat - 魔法帽子 - Joben
 Magic Wand - 魔术棒
 Magma Cube - 岩浆怪
-Paint Bucket - 油漆桶
+Paint Bucket - 油漆桶 - Fargburk
 Paint Palette - 调色板 - Verfpalet
 Paper Airplane - 纸飞机 - Papirfly
 Party Hat - 派对帽子
 Santa Claus - 圣诞老人
 Table Cloth - 桌布 - Dug
-Table Tennis - 乒乓球 - Ping Pong
-Water Balloon - 水气球
+Table Tennis - 乒乓球 - Bordtenni
+Water Balloon - 水气球 - Gavettone
 Water Bottle - 水瓶 - Waterfle
-Water Bucket - 水桶
+Water Bucket - 水桶 - Vandspand
 Water Park - 水上乐园
 Water Slide - 水上滑梯 - Tobogan
 
 主题: _a___ _o____
 请输入匹配式: .a3 .o.*
-Games Controller - 游戏手柄
+Games Controller - 游戏手柄 - Controller
 Water Bottle - 水瓶 - Waterfle
 # 在此即可依据玩家建筑大致轮廓进行选择
 
@@ -100,38 +111,56 @@ Water Bottle - 水瓶 - Waterfle
 请输入匹配式: .a3 .o.*e
 Water Bottle - 水瓶 - Waterfle
 ```
+### 3. 使用简体中文进行猜测
+``` Python
+主题: 水_
+请输入匹配式: 水1
+Crystal - 水晶
+Fruit - 水果
+Jellyfish - 水母 - Kwal
+Kettle - 水壶 - Tetera
+Otter - 水獭
+Pool - 水池 - Basen
+Puddle - 水坑 - Pla
+Water Bottle - 水瓶 - Waterfle
+Water Bucket - 水桶 - Vandspand
+Well - 水井
+# 在此即可依据玩家建筑大致轮廓进行选择
+# 鉴于提示时间靠后，不建议使用简体中文猜测两字及两字以下主题
+```
 
 ## 配置修改
 ### 1. 修改词库文件路径或更换词库文件
-- 默认路径为 `GTB_Solver_EN_main.py` 同文件夹。如需修改词库文件路径或更换词库文件，请在 `GTB_Solver_EN_main.py` 内找到以下代码，替换引号内的路径即可（支持中文路径）  
+- 默认路径为 `GTB-Solver_main.py` 同文件夹。如需修改词库文件路径或更换词库文件，请在 `GTB-Solver_main.py` 内找到以下代码，替换引号内的路径即可（支持中文路径）  
 ``` Python
 GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 ```
+- 注意：词库文件内应至少存在 English 列（严格区分大小写）  
 ### 2. 修改程序输出语言
-- 默认输出语言为系统语言，若系统语言尚未支持，则为英语。如需修改程序输出语言，请在 `GTB_Solver_EN_main.py` 内找到以下代码，于引号内加入对应语言代码即可  
+- 默认输出语言为系统语言，若系统语言尚未支持，则为英语。如需修改程序输出语言，请在 `GTB-Solver_main.py` 内找到以下代码，于引号内加入对应语言代码即可  
 ``` Python
 Multi_Lang = ""
 ```
 - 语言代码列表  
 
-| 输出语言 | 语言代码 |
-| :----: | :----: |
-| 简体中文 | zh |
-| 繁体中文 | cht |
-| 日语 | jp |
-| 英语 | en |
+  | 输出语言 | 语言代码 |
+  | :----: | :----: |
+  | 简体中文 | zh |
+  | 繁体中文 | cht |
+  | 日语 | jp |
+  | 英语 | en |
 
 ### 3. 修改输出萌化状态
-- 默认关闭。如需开启输出萌化模式，请在 `GTB_Solver_EN_main.py` 内找到以下代码，替换 `False` 为 `True` 即可  
+- 默认关闭。如需开启输出萌化模式，请在 `GTB-Solver_main.py` 内找到以下代码，替换 `False` 为 `True` 即可  
 ``` Python
 Moe_Mode = False
 ```
 ### 4. 修改自动复制状态
-- 默认关闭。如需自动复制首个匹配结果至剪贴板，请在 `GTB_Solver_EN_main.py` 内找到以下代码，替换 `False` 为 `True` 即可  
+- 默认关闭。如需自动复制首个匹配结果至剪贴板，请在 `GTB-Solver_main.py` 内找到以下代码，替换 `False` 为 `True` 即可  
 ``` Python
 Auto_Copy = False
 ```
 
 ## 注意事项
 - 本项目仅作 Demo 演示之用，所提供的词库文件 `GTB_Thesaurus_Demo.xlsx` 内含 100 对示例词汇及少量 Shortcut(s) & Multiword(s)，您可在原有基础上继续补充使用或依据前述配置修改方法更换词库文件  
-- 滥用 GTB_Solver_EN 会给您带来不公平的游戏优势！请在有限范围内合理使用，作者对因滥用本程序而导致的封禁问题概不负责  
+- 滥用建筑猜猜宝会给您带来不公平的游戏优势！请在有限范围内合理使用，作者对因滥用本程序而导致的封禁问题概不负责  

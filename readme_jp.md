@@ -1,10 +1,21 @@
-# GTB_Solver_EN
+# GTB-Solver
 
 **[简体中文](./readme_zh.md) | [繁體中文](./readme_cht.md) | 日本語 | [English](./readme.md)**
 
-英語のヒントと正規表現に基づいて、Hypixel サーバー上の「Guess The Build」ゲームのテーマを素早く推測します。  
+英語または簡体字中国語のヒントと正規表現に基づいて、Hypixel サーバー上の「Guess The Build」ゲームのテーマを素早く推測します。  
 
 ## 更新ログ
+### 2024/02/08 - v3.0
+- \[Add\] 簡体字中国語入力マッチングのサポート  
+- \[Fix\] 文字 `-` がマッチしない問題を修正しました  
+  ``` Python
+  # 以下のテーマが正しくマッチングできるようになりました
+  Jack-O-Lantern
+  T-Rex
+  Trick-or-Treating
+  T-Shirt - Tricou
+  ```
+- \[Fix\] シソーラス・カラム名が正しく設定されていないことが原因で発生する可能性がある `KeyError` クラッシュを修正しました  
 ### 2024/02/04 - Demo_202402
 - \[Add\] 多言語 `readme` ファイルのサポート  
 - \[Add\] 出力萌えモードのサポート  
@@ -26,7 +37,7 @@
 
 ## 使用方法
 ### メインプログラムを実行する
-- 前提条件が満たされたら、`GTB_Solver_EN.bat` を実行します  
+- 前提条件が満たされたら、`GTB-Solver.bat` を実行します  
 
 ## 推測方法(「Water Bottle」を例にします)
 ### 1. 数字とアルファベットを使って推測する
@@ -37,27 +48,27 @@ Build Battle
 Chili Pepper - Piment
 Ender Dragon
 Fruit Basket - Obstkorb
-Horse Racing
-Horse Riding
-Light Switch
+Horse Racing - Zavod koni
+Horse Riding - Ridning
+Light Switch - Lysbryter
 Magic Carpet
-Paint Bucket
+Paint Bucket - Fargburk
 Scuba Diving - Buceo
 Snowy Forest
-Solar System
+Solar System - Solsystem
 Swiss Cheese
-Table Tennis - Ping Pong
+Table Tennis - Bordtenni
 Train Tracks - Rail - Rautatie
 Water Bottle - Waterfle
-Water Bucket
+Water Bucket - Vandspand
 
 テーマ: _a___ ______
 マッチする式を入力してください: 1a3 6
 Magic Carpet
-Paint Bucket
-Table Tennis - Ping Pong
+Paint Bucket - Fargburk
+Table Tennis - Bordtenni
 Water Bottle - Waterfle
-Water Bucket
+Water Bucket - Vandspand
 # ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
 
 テーマ: _a___ _o____
@@ -69,28 +80,28 @@ Water Bottle - Waterfle
 テーマ: _a___ ______
 マッチする式を入力してください: .a3 .*
 Candy Buckets
-Candy Cane
-Games Controller
+Candy Cane - Acadea
+Games Controller - Controller
 Magic Carpet
-Magic Hat
+Magic Hat - Joben
 Magic Wand
 Magma Cube
-Paint Bucket
+Paint Bucket - Fargburk
 Paint Palette - Verfpalet
 Paper Airplane - Papirfly
 Party Hat
 Santa Claus
 Table Cloth - Dug
-Table Tennis - Ping Pong
-Water Balloon
+Table Tennis - Bordtenni
+Water Balloon - Gavettone
 Water Bottle - Waterfle
-Water Bucket
+Water Bucket - Vandspand
 Water Park
 Water Slide - Tobogan
 
 テーマ: _a___ _o____
 マッチする式を入力してください: .a3 .o.*
-Games Controller
+Games Controller - Controller
 Water Bottle - Waterfle
 # ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
 
@@ -101,35 +112,36 @@ Water Bottle - Waterfle
 
 ## コンフィギュレーションの変更
 ### 1. シソーラス・ファイルのパスを変更するか、シソーラス・ファイルを置き換える
-- デフォルトのパスは `GTB_Solver_EN_main.py` と同じフォルダです。シソーラス・ファイルのパスを変更したり、シソーラス・ファイルを置き換えたりする必要がある場合は、`GTB_Solver_EN_main.py` で次のコードを見つけ、引用符で囲まれたパスを置換してください(中国語のパスはサポートされています)  
+- デフォルトのパスは `GTB-Solver_main.py` と同じフォルダです。シソーラス・ファイルのパスを変更したり、シソーラス・ファイルを置き換えたりする必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけ、引用符で囲まれたパスを置換してください(中国語のパスはサポートされています)  
 ``` Python
 GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 ```
+- 注: シソーラス・ファイルには、少なくとも「English」カラムが必要です(大文字と小文字は厳密に区別されます)  
 ### 2. プログラム出力言語の変更
-- デフォルトの出力言語はシステム言語であり、システム言語がサポートされていない場合は英語となります。プログラムの出力言語を変更する必要がある場合は、`GTB_Solver_EN_main.py` で次のコードを見つけ、引用符に適切な言語コードを追加します  
+- デフォルトの出力言語はシステム言語であり、システム言語がサポートされていない場合は英語となります。プログラムの出力言語を変更する必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけ、引用符に適切な言語コードを追加します  
 ``` Python
 Multi_Lang = ""
 ```
 - 言語コードリスト  
 
-| 出力言語 | 言語コード |
-| :----: | :----: |
-| 簡体字中国語 | zh |
-| 繁体字中国語 | cht |
-| 日本語 | jp |
-| 英語 | en |
+  | 出力言語 | 言語コード |
+  | :----: | :----: |
+  | 簡体字中国語 | zh |
+  | 繁体字中国語 | cht |
+  | 日本語 | jp |
+  | 英語 | en |
 
 ### 3. 出力萌えステータスの変更
-- 出力萌えステータスはデフォルトではオフになっています。出力萌えモードを有効にするには、`GTB_Solver_EN_main.py` で次のコードを見つけ、`False` を `True` に置き換えてください  
+- 出力萌えステータスはデフォルトではオフになっています。出力萌えモードを有効にするには、`GTB-Solver_main.py` で次のコードを見つけ、`False` を `True` に置き換えてください  
 ``` Python
 Moe_Mode = False
 ```
 ### 4. 自動コピーステータスの変更
-- 自動コピーステータスはデフォルトではオフになっています。最初にマッチした結果を自動的にクリップボードにコピーするには、`GTB_Solver_EN_main.py` で次のコードを見つけ、`False` を `True` に置き換えてください  
+- 自動コピーステータスはデフォルトではオフになっています。最初にマッチした結果を自動的にクリップボードにコピーするには、`GTB-Solver_main.py` で次のコードを見つけ、`False` を `True` に置き換えてください  
 ``` Python
 Auto_Copy = False
 ```
 
 ## 重要な注意事項
 - このプロジェクトはデモ専用で、提供されたシソーラス・ファイル `GTB_Thesaurus_Demo.xlsx` には 100 組のサンプル単語といくつかの「Shortcut(s) & Multiword(s)」が含まれています。元のベースで補足し続けることも、前述の構成変更方法に従ってシソーラス・ファイルを置き換えることもできます  
-- GTB_Solver_EN を悪用すると、ゲームで不当な優位性が得られます。限られた範囲内で合理的に使用してください。プログラムの悪用による BAN について、作者は一切責任を負いません  
+- GTB-Solver を悪用すると、ゲームで不当な優位性が得られます。限られた範囲内で合理的に使用してください。プログラムの悪用による BAN について、作者は一切責任を負いません  
