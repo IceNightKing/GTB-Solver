@@ -1,5 +1,5 @@
 """
-GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on English hints and regular expressions.
+GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.
 Version: 3.0
 Author: IceNight
 GitHub: https://github.com/IceNightKing
