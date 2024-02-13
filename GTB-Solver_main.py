@@ -1,6 +1,6 @@
 """
 GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.
-Version: 3.0
+Version: 3.1
 Author: IceNight
 GitHub: https://github.com/IceNightKing
 """
@@ -29,10 +29,10 @@ def output_message(key, lang, Moe_Mode = False):
             "en": f'Warn: Language code "{lang}" is not yet supported, GTB-Solver will output in English'
         },
         "program_information": {
-            "zh": "欢迎使用建筑猜猜宝 v3.0 ",
-            "cht": "歡迎使用建築猜猜寶 v3.0 ",
-            "jp": "GTB-Solver v3.0 へようこそ",
-            "en": "Welcome to GTB-Solver v3.0"
+            "zh": "欢迎使用建筑猜猜宝 v3.1 ",
+            "cht": "歡迎使用建築猜猜寶 v3.1 ",
+            "jp": "GTB-Solver v3.1 へようこそ",
+            "en": "Welcome to GTB-Solver v3.1"
         },
         "program_note": {
             "zh": "温馨提示: 本程序默认重复运行, 输入 0 以退出程序",
@@ -98,15 +98,15 @@ if Multi_Lang:
     lang = Multi_Lang.lower()
 else:
     def get_system_language():
-        system_lang, _ = locale.getdefaultlocale()
+        system_lang, _ = locale.getlocale()
         return system_lang
     system_lang = get_system_language()
 
-    if "zh" in system_lang.lower():
-        lang = "cht" if any(system_lang_part in system_lang.lower() for system_lang_part in {"cht", "hk", "mo", "tw"}) else "zh"
-    elif "jp" in system_lang.lower():
+    if any(system_lang_part in system_lang.lower() for system_lang_part in {"zh", "chinese"}):
+        lang = "cht" if any(system_lang_part in system_lang for system_lang_part in {"cht", "traditional", "hk", "hong kong", "mo", "macao", "tw", "taiwan"}) else "zh"
+    elif any(system_lang_part in system_lang.lower() for system_lang_part in {"ja", "jp", "japanese"}):
         lang = "jp"
-    elif "en" in system_lang.lower():
+    elif any(system_lang_part in system_lang.lower() for system_lang_part in {"en", "english"}):
         lang = "en"
     else:
         print(Fore.YELLOW + output_message("unsupported_language", system_lang.split("_")[0], Moe_Mode) + Style.RESET_ALL)

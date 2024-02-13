@@ -5,6 +5,9 @@
 Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.  
 
 ## Update Log
+### 2024/02/13 - v3.1
+- \[Fix\] Fixed an issue that the number of related dependency libraries may be insufficient even after running `Installation of Dependency Libraries.bat` to install the related dependency libraries  
+- \[Opt\] Updated the way the system language is fetched to work with future versions of Python  
 ### 2024/02/08 - v3.0
 - \[Add\] Simplified Chinese input matching support  
 - \[Fix\] Fixed an issue where the character `-` could not be matched  
