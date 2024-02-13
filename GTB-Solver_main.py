@@ -103,7 +103,7 @@ else:
     system_lang = get_system_language()
 
     if any(system_lang_part in system_lang.lower() for system_lang_part in {"zh", "chinese"}):
-        lang = "cht" if any(system_lang_part in system_lang for system_lang_part in {"cht", "traditional", "hk", "hong kong", "mo", "macao", "tw", "taiwan"}) else "zh"
+        lang = "cht" if any(system_lang_part in system_lang.lower() for system_lang_part in {"cht", "traditional", "hk", "hong kong", "mo", "macao", "tw", "taiwan"}) else "zh"
     elif any(system_lang_part in system_lang.lower() for system_lang_part in {"ja", "jp", "japanese"}):
         lang = "jp"
     elif any(system_lang_part in system_lang.lower() for system_lang_part in {"en", "english"}):
