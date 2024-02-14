@@ -1,6 +1,6 @@
 """
 GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.
-Version: 3.1
+Version: 3.2
 Author: IceNight
 GitHub: https://github.com/IceNightKing
 """
@@ -29,10 +29,10 @@ def output_message(key, lang, Moe_Mode = False):
             "en": f'Warn: Language code "{lang}" is not yet supported, GTB-Solver will output in English'
         },
         "program_information": {
-            "zh": "欢迎使用建筑猜猜宝 v3.1 ",
-            "cht": "歡迎使用建築猜猜寶 v3.1 ",
-            "jp": "GTB-Solver v3.1 へようこそ",
-            "en": "Welcome to GTB-Solver v3.1"
+            "zh": "欢迎使用建筑猜猜宝 v3.2 ",
+            "cht": "歡迎使用建築猜猜寶 v3.2 ",
+            "jp": "GTB-Solver v3.2 へようこそ",
+            "en": "Welcome to GTB-Solver v3.2"
         },
         "program_note": {
             "zh": "温馨提示: 本程序默认重复运行, 输入 0 以退出程序",
@@ -71,6 +71,7 @@ def output_message(key, lang, Moe_Mode = False):
             "en": "Match failed, no matching entry found in the current thesaurus"
         },
     }
+
     moe_suffixes = {
         "zh": "喵~",
         "cht": "喵~",
@@ -100,8 +101,8 @@ else:
     def get_system_language():
         system_lang, _ = locale.getlocale()
         return system_lang
-    system_lang = get_system_language()
 
+    system_lang = get_system_language()
     if any(system_lang_part in system_lang.lower() for system_lang_part in {"zh", "chinese"}):
         lang = "cht" if any(system_lang_part in system_lang.lower() for system_lang_part in {"cht", "traditional", "hk", "hong kong", "mo", "macao", "tw", "taiwan"}) else "zh"
     elif any(system_lang_part in system_lang.lower() for system_lang_part in {"ja", "jp", "japanese"}):
@@ -127,24 +128,34 @@ except FileNotFoundError:
 def pattern_from_input(user_input):
     pattern = ""
     num = ""
-    special_chars = r"^$*-+=:?!|()[]{}"
-    bracket_chars = r"()[]{}"
+    special_chars = r"^$*-+=:?!|()[]{}\\"
+    banned_chars = r"()[]{}\\"
     rep_chars = r"*+?"
     prev_char = ""
     if user_input and user_input[0] in special_chars:
         pattern += re.escape(user_input[0])
         user_input = user_input[1:]
+
+    if user_input.startswith("@zh"):
+        user_input = user_input[3:]
+        target_column = "简体中文"
+    elif user_input.startswith("@en"):
+        user_input = user_input[3:]
+        target_column = "English"
+    else:
+        target_column = None
+
     for char in user_input:
         if char.isdigit():
             num += char
         else:
             if num:
-                pattern += r"[a-zA-Z\u4e00-\u9fa5-]{" + num + r"}"
+                pattern += rf"[a-zA-Z\u4e00-\u9fa5-]{{{num}}}"
                 num = ""
-            pattern += re.escape(char) if char in bracket_chars or (char in rep_chars and prev_char in rep_chars and prev_char) else char
+            pattern += re.escape(char) if char in banned_chars or (char in rep_chars and prev_char in rep_chars and prev_char) else char
             prev_char = char
-    pattern += r"[a-zA-Z\u4e00-\u9fa5-]{" + num + r"}" if num else ""
-    return pattern
+    pattern += rf"[a-zA-Z\u4e00-\u9fa5-]{{{num}}}" if num else ""
+    return pattern, target_column
 
 while True:
     user_input = input(Fore.RED + output_message("input_prompt", lang, Moe_Mode) + Style.RESET_ALL).lower()
@@ -152,9 +163,9 @@ while True:
         print(Fore.MAGENTA + output_message("exit_program", lang, Moe_Mode) + Style.RESET_ALL)
         break
 
-    input_pattern = pattern_from_input(user_input)
+    input_pattern, target_column = pattern_from_input(user_input)
     try:
-        matching_rows = df[df[["English", "简体中文"]].apply(lambda x: x.str.lower().str.contains("^" + input_pattern + "$")).any(axis = 1)] if "简体中文" in df.columns else df[df["English"].str.lower().str.contains("^" + input_pattern + "$")]
+        matching_rows = df[df[target_column].str.lower().str.contains(f"^{input_pattern}$")] if target_column else (df[df[["English", "简体中文"]].apply(lambda x: x.str.lower().str.contains(f"^{input_pattern}$")).any(axis = 1)] if "简体中文" in df.columns else df[df["English"].str.lower().str.contains(f"^{input_pattern}$")])
     except OverflowError:
         print(Fore.YELLOW + output_message("match_failed", lang, Moe_Mode) + Style.RESET_ALL)
         continue
@@ -167,6 +178,7 @@ while True:
         for index, row in matching_rows.iterrows():
             def get_text_color(color_count):
                 return Fore.GREEN if color_count%2 != 0 else ""
+
             text_color = get_text_color(color_count)
             text_row = f'{text_color}{row["English"]}{Style.RESET_ALL}'
             text_row += f' - {text_color}{row["简体中文"]}{Style.RESET_ALL}' if lang in {"zh", "cht"} else ""

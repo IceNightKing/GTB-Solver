@@ -1,10 +1,15 @@
 # GTB-Solver
 
-**[简体中文](./readme_zh.md) | [繁體中文](./readme_cht.md) | [日本語](./readme_jp.md) | English**
+**[简体中文](./readme_zh.md) | [繁體中文](./readme_cht.md) | [日本語](./readme_jp.md) | English**  
+**GTB-Solver Demo Branch | [GTB-Solver OCR Branch](https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme.md)**  
 
 Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.  
 
 ## Update Log
+### 2024/02/14 - v3.2
+- \[Add\] [GTB-Solver OCR Branch Link](https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme.md "GTB-Solver OCR Branch")  
+- \[Add\] English & Simplified Chinese matching selection support  
+- \[Fix\] Fixed `re.error` crash that could be caused by illegitimate user inputs  
 ### 2024/02/13 - v3.1
 - \[Fix\] Fixed an issue that the number of related dependency libraries may be insufficient even after running `Installation of Dependency Libraries.bat` to install the related dependency libraries  
 - \[Opt\] Updated the way the system language is fetched to work with future versions of Python  
@@ -39,8 +44,23 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 - Type `/lang en` in the Hypixel server to switch  
 
 ## How to Use
-### Run the main program
+### 1. Run the main program
 - Once the preconditions are met, run `GTB-Solver.bat`  
+### 2. Exit the main program
+- GTB-Solver runs repeatedly by default, enter `0` to exit the program  
+
+## Matching Rules
+1. Number: number of underscores  
+2. Letter: will be matched and can be inserted directly before and after the number  
+    - Letters are not case sensitive when entering  
+3. Simplified Chinese: will be matched and can be inserted directly before and after the number  
+4. Hyphen: will be matched and can be inserted directly before and after the number  
+5. Space: will not be matched, needs to be manually entered into the matching expression  
+6. Regular expression characters: partially available  
+7. Default matching: English + Simplified Chinese  
+    - If you need to match English only when you enter a purely numeric matching expression: prefix `@en` can be used  
+    - If you need to match Simplified Chinese only when you enter a purely numeric matching expression: prefix `@zh` can be used  
+> Tip: After entering spaces, hyphens or numbers greater than 7, only English will be matched. After entering any Simplified Chinese, only Simplified Chinese will be matched  
 
 ## How to Guess (Taking Water Bottle as an Example)
 ### 1. Use numbers + letters to guess
