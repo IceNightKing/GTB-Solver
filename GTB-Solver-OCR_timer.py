@@ -1,6 +1,6 @@
 """
 GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.
-Version: 3.1-OCR
+Version: 3.2-OCR
 Author: IceNight
 GitHub: https://github.com/IceNightKing
 """
@@ -26,10 +26,10 @@ def output_message(key, lang, Moe_Mode = False):
             "en": f'Warn: Language code "{lang}" is not yet supported, GTB-Solver will output in English'
         },
         "program_information": {
-            "zh": "欢迎使用建筑猜猜宝 v3.1-OCR ",
-            "cht": "歡迎使用建築猜猜寶 v3.1-OCR ",
-            "jp": "GTB-Solver v3.1-OCR へようこそ",
-            "en": "Welcome to GTB-Solver v3.1-OCR"
+            "zh": "欢迎使用建筑猜猜宝 v3.2-OCR ",
+            "cht": "歡迎使用建築猜猜寶 v3.2-OCR ",
+            "jp": "GTB-Solver v3.2-OCR へようこそ",
+            "en": "Welcome to GTB-Solver v3.2-OCR"
         },
         "program_note": {
             "zh": "温馨提示: 本程序默认重复运行, 按下 Ctrl+C 以退出程序",
@@ -44,6 +44,7 @@ def output_message(key, lang, Moe_Mode = False):
             "en": "Error:"
         },
     }
+
     moe_suffixes = {
         "zh": "喵~",
         "cht": "喵~",
@@ -64,8 +65,8 @@ else:
     def get_system_language():
         system_lang, _ = locale.getlocale()
         return system_lang
-    system_lang = get_system_language()
 
+    system_lang = get_system_language()
     if any(system_lang_part in system_lang.lower() for system_lang_part in {"zh", "chinese"}):
         lang = "cht" if any(system_lang_part in system_lang.lower() for system_lang_part in {"cht", "traditional", "hk", "hong kong", "mo", "macao", "tw", "taiwan"}) else "zh"
     elif any(system_lang_part in system_lang.lower() for system_lang_part in {"ja", "jp", "japanese"}):
