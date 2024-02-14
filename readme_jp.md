@@ -8,6 +8,7 @@
 ## 更新ログ
 ### 2024/02/14 - v3.2
 - \[Add\] [GTB-Solver OCR ブランチリンク](https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme_jp.md "GTB-Solver OCR Branch")  
+- \[Add\] macOS および Linux システムのサポート  
 - \[Add\] 英語と簡体字中国語のマッチング選択のサポート  
 - \[Fix\] 不正なユーザー入力によって引き起こされる可能性のある `re.error` クラッシュを修正しました  
 ### 2024/02/13 - v3.1
@@ -39,13 +40,15 @@
   - Python 3.10 以降をインストールすることを推奨します、古いバージョンのバグはメンテナンスされなくなります  
   - Python を初めてインストールするときは、必ず `Add Python x.x to PATH` をチェックして環境変数を追加してください  
 ### 2. 関連する依存ライブラリをインストールする
-- `Installation of Dependency Libraries.bat` を実行して、関連する依存ライブラリをインストールします  
+- Windows: `Installation of Dependency Libraries.bat` を実行して、関連する依存ライブラリをインストールします  
+- macOS & Linux: `Installation of Dependency Libraries.sh` を実行して、関連する依存ライブラリをインストールします  
 ### 3. Hypixel サーバーの言語を英語に切り替える
 - Hypixel サーバーに `/lang en` と入力して切り替えます  
 
 ## 使用方法
 ### 1. メインプログラムを実行する
-- 前提条件が満たされたら、`GTB-Solver.bat` を実行します  
+- Windows: 前提条件が満たされたら、`GTB-Solver.bat` を実行します  
+- macOS & Linux: 前提条件が満たされたら、`GTB-Solver.sh` を実行します  
 ### 2. メインプログラムを終了する
 - このプログラムはデフォルトで繰り返し実行されます、プログラムを終了するには `0` を入力します  
 

@@ -8,6 +8,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 ## Update Log
 ### 2024/02/14 - v3.2
 - \[Add\] [GTB-Solver OCR Branch Link](https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme.md "GTB-Solver OCR Branch")  
+- \[Add\] macOS & Linux system support  
 - \[Add\] English & Simplified Chinese matching selection support  
 - \[Fix\] Fixed `re.error` crash that could be caused by illegitimate user inputs  
 ### 2024/02/13 - v3.1
@@ -39,13 +40,15 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
   - It is recommended that you install Python 3.10 and above, bugs with older versions will no longer be maintained  
   - When installing Python for the first time, be sure to check `Add Python x.x to PATH` to add environment variables  
 ### 2. Install the related dependency libraries
-- Run `Installation of Dependency Libraries.bat` to install the related dependency libraries  
+- Windows: Run `Installation of Dependency Libraries.bat` to install the related dependency libraries  
+- macOS & Linux: Run `Installation of Dependency Libraries.sh` to install the related dependency libraries  
 ### 3. Switch Hypixel server language to English
 - Type `/lang en` in the Hypixel server to switch  
 
 ## How to Use
 ### 1. Run the main program
-- Once the preconditions are met, run `GTB-Solver.bat`  
+- Windows: Once the preconditions are met, run `GTB-Solver.bat`  
+- macOS & Linux: Once the preconditions are met, run `GTB-Solver.sh`  
 ### 2. Exit the main program
 - GTB-Solver runs repeatedly by default, enter `0` to exit the program  
 

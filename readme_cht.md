@@ -9,6 +9,7 @@
 ## 更新日誌
 ### 2024/02/14 - v3.2
 - \[Add\] [建築猜猜寶 OCR 分支連結](https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme_cht.md "GTB-Solver OCR Branch")  
+- \[Add\] macOS & Linux 系統支援  
 - \[Add\] 英文 & 簡體中文匹配選擇支援  
 - \[Fix\] 修復了用戶輸入不合法可能造成的 `re.error` 崩潰  
 ### 2024/02/13 - v3.1
@@ -40,13 +41,15 @@
   - 建議安裝 Python 3.10 及以上版本，較舊版本出現的問題我們將不再維護  
   - 首次安裝 Python 時請注意勾選 `Add Python x.x to PATH` 新增環境變量  
 ### 2. 安裝相關依賴程式庫
-- 運行 `Installation of Dependency Libraries.bat` 安裝相關依賴程式庫  
+- Windows：運行 `Installation of Dependency Libraries.bat` 安裝相關依賴程式庫  
+- macOS & Linux：運行 `Installation of Dependency Libraries.sh` 安裝相關依賴程式庫  
 ### 3. 切換 Hypixel 伺服器語言為英文
 - 於 Hypixel 伺服器內輸入 `/lang en` 即可完成切換  
 
 ## 使用方法
 ### 1. 運行主程式
-- 前置條件滿足後，運行 `GTB-Solver.bat` 即可  
+- Windows：前置條件滿足後，運行 `GTB-Solver.bat` 即可  
+- macOS & Linux：前置條件滿足後，運行 `GTB-Solver.sh` 即可  
 ### 2. 退出主程式
 - 本程式默認重複運行，輸入 `0` 以退出程式  
 
