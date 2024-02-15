@@ -1,23 +1,40 @@
-# 建筑猜猜宝
+<h1 align="center">
+  <br>
+  建筑猜猜宝
+  <br>
+</h1>
 
-**简体中文 | [繁體中文](./readme_cht.md) | [日本語](./readme_jp.md) | [English](./readme.md)**  
-**建筑猜猜宝 Demo 分支 | [建筑猜猜宝 OCR 分支](https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme_zh.md)**  
+<h3 align="center">
+建筑猜猜宝 Demo 分支 | <a href="https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme_zh.md">[Beta] 建筑猜猜宝 OCR 分支</a>
+</h3>
 
-依据英语或简体中文提示及正则表达式快速猜测 Hypixel 服务器《建筑猜猜乐》小游戏中的建筑主题。  
-> **淦翻红牌ldx，一人盲猜虐全场！**  
+## 功能简介
+
+**简体中文 | [繁體中文](./readme_cht.md) | [日本語](./readme_jp.md) | [English](./readme.md)**
+
+依据英语或简体中文提示及正则表达式快速猜测 Hypixel 服务器《建筑猜猜乐》小游戏中的建筑主题。
+
+> **淦翻红牌ldx，一人盲猜虐全场！**
 
 ## 更新日志
+
 ### 2024/02/14 - v3.2
-- \[Add\] [建筑猜猜宝 OCR 分支链接](https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme_zh.md "GTB-Solver OCR Branch")  
-- \[Add\] macOS & Linux 系统支持  
-- \[Add\] 英语 & 简体中文匹配选择支持  
-- \[Fix\] 修复了用户输入不合法可能造成的 `re.error` 崩溃  
+
+- \[Add\] [建筑猜猜宝 OCR 分支链接](https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme_zh.md "GTB-Solver OCR Branch")
+- \[Add\] macOS & Linux 系统支持
+- \[Add\] 英语 & 简体中文匹配选择支持
+- \[Fix\] 修复了用户输入不合法可能造成的 `re.error` 崩溃
+
 ### 2024/02/13 - v3.1
-- \[Fix\] 修复了运行 `Installation of Dependency Libraries.bat` 安装相关依赖库后仍可能出现依赖库数量不足的问题  
-- \[Opt\] 更新了获取系统语言的方式以适配 Python 的未来版本  
+
+- \[Fix\] 修复了运行 `Installation of Dependency Libraries.bat` 安装相关依赖库后仍可能出现依赖库数量不足的问题
+- \[Opt\] 更新了获取系统语言的方式以适配 Python 的未来版本
+
 ### 2024/02/08 - v3.0
-- \[Add\] 简体中文输入匹配支持  
-- \[Fix\] 修复了字符 `-` 无法被匹配的问题  
+
+- \[Add\] 简体中文输入匹配支持
+- \[Fix\] 修复了字符 `-` 无法被匹配的问题
+
   ``` Python
   # 现在以下主题已经能够被正确匹配
   Jack-O-Lantern - 南瓜灯
@@ -25,50 +42,67 @@
   Trick-or-Treating - 不给糖就捣蛋
   T-Shirt - T恤 - Tricou
   ```
-- \[Fix\] 修复了词库列名配置不正确可能造成的 `KeyError` 崩溃  
+
+- \[Fix\] 修复了词库列名配置不正确可能造成的 `KeyError` 崩溃
+
 ### 2024/02/04 - Demo_202402
-- \[Add\] 多语言 `readme` 支持  
-- \[Add\] 输出萌化模式支持  
-- \[Fix\] 修复了用户输入不合法可能造成的 `OverflowError` 崩溃  
-- \[Fix\] 修复了用户输入不合法可能造成的 `re.error` 崩溃  
-- \[Opt\] 程序输出语言现在默认取决于系统语言  
-- \[Opt\] 词库更新  
-- \[Opt\] 代码重构  
+
+- \[Add\] 多语言 `readme` 支持
+- \[Add\] 输出萌化模式支持
+- \[Fix\] 修复了用户输入不合法可能造成的 `OverflowError` 崩溃
+- \[Fix\] 修复了用户输入不合法可能造成的 `re.error` 崩溃
+- \[Opt\] 程序输出语言现在默认取决于系统语言
+- \[Opt\] 词库更新
+- \[Opt\] 代码重构
 
 ## 前置条件
+
 ### 1. 搭建 Python 运行环境
-- [前往 Python 官网下载](https://www.python.org/downloads/ "Python Source Releases")  
-  - 建议安装 Python 3.10 及以上版本，较老版本出现的问题我们将不再维护  
-  - 首次安装 Python 时请注意勾选 `Add Python x.x to PATH` 添加环境变量  
+
+- [前往 Python 官网下载](https://www.python.org/downloads/ "Python Source Releases")
+  - 建议安装 Python 3.10 及以上版本，较老版本出现的问题我们将不再维护
+  - 首次安装 Python 时请注意勾选 `Add Python x.x to PATH` 添加环境变量
+
 ### 2. 安装相关依赖库
-- Windows：运行 `Installation of Dependency Libraries.bat` 安装相关依赖库  
-- macOS & Linux：运行 `Installation of Dependency Libraries.sh` 安装相关依赖库  
-  - 若您位于中国大陆且相关依赖库的下载速度较慢，可尝试通过 `pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/` 指令更换下载源  
+
+- **Windows**：运行 `Installation of Dependency Libraries.bat` 安装相关依赖库
+- **macOS & Linux**：运行 `Installation of Dependency Libraries.sh` 安装相关依赖库
+  - 若您位于中国大陆且相关依赖库的下载速度较慢，可尝试通过 `pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/` 指令更换下载源
+
 ### 3. 切换 Hypixel 服务器语言至英语
-- 于 Hypixel 服务器内输入 `/lang en` 即可完成切换  
+
+- 于 Hypixel 服务器内输入 `/lang en` 即可完成切换
 
 ## 使用方法
+
 ### 1. 运行主程序
-- Windows：前置条件满足后，运行 `GTB-Solver.bat` 即可  
-- macOS & Linux：前置条件满足后，运行 `GTB-Solver.sh` 即可  
+
+- **Windows**：前置条件满足后，运行 `GTB-Solver.bat` 即可
+- **macOS & Linux**：前置条件满足后，运行 `GTB-Solver.sh` 即可
+
 ### 2. 退出主程序
-- 本程序默认重复运行，输入 `0` 以退出程序  
+
+- 本程序默认重复运行，输入 `0` 以退出程序
 
 ## 匹配规则
-1. 数字：下划线的数量  
-2. 字母：会被匹配，可直接插入到数字前后  
-    - 字母输入时无需区分大小写  
-3. 简体中文：会被匹配，可直接插入到数字前后  
-4. 连字符：会被匹配，可直接插入到数字前后  
-5. 空格：不会被匹配，需手动输入至匹配式内  
-6. 正则表达式字符：部分可用  
-7. 默认匹配：英语+简体中文  
-    - 如输入纯数字匹配式时仅需匹配英语：前缀 `@en` 即可  
-    - 如输入纯数字匹配式时仅需匹配简体中文：前缀 `@zh` 即可  
-> 提示：输入空格、连字符或大于 7 的数字后仅会匹配到英语，输入任意简体中文后仅会匹配到简体中文  
+
+1. **数字**：下划线的数量
+2. **字母**：会被匹配，可直接插入到数字前后
+    - 输入字母时无需区分大小写
+3. **简体中文**：会被匹配，可直接插入到数字前后
+4. **连字符**：会被匹配，可直接插入到数字前后
+5. **空格**：不会被匹配，需手动输入至匹配式内
+6. **正则表达式字符**：部分可用
+7. **默认匹配**：英语+简体中文
+    - 如输入纯数字匹配式时仅需匹配英语：前缀 `@en` 即可
+    - 如输入纯数字匹配式时仅需匹配简体中文：前缀 `@zh` 即可
+
+> **提示**：输入空格、连字符或大于 7 的数字后仅会匹配到英语，输入任意简体中文后仅会匹配到简体中文
 
 ## 猜测方法（以 Water Bottle 为例）
+
 ### 1. 使用数字+字母进行猜测
+
 ``` Python
 主题: _____ ______
 请输入匹配式: 5 6
@@ -103,7 +137,9 @@ Water Bucket - 水桶 - Vandspand
 请输入匹配式: 1a3 1o4
 Water Bottle - 水瓶 - Waterfle
 ```
+
 ### 2. 结合使用正则表达式进行猜测
+
 ``` Python
 主题: _a___ ______
 请输入匹配式: .a3 .*
@@ -137,7 +173,9 @@ Water Bottle - 水瓶 - Waterfle
 请输入匹配式: .a3 .o.*e
 Water Bottle - 水瓶 - Waterfle
 ```
+
 ### 3. 使用简体中文进行猜测
+
 ``` Python
 主题: 水_
 请输入匹配式: 水1
@@ -156,18 +194,26 @@ Well - 水井
 ```
 
 ## 配置修改
+
 ### 1. 修改词库文件路径或更换词库文件
-- 默认路径为 `GTB-Solver_main.py` 同文件夹。如需修改词库文件路径或更换词库文件，请在 `GTB-Solver_main.py` 内找到以下代码，替换引号内的路径即可（支持中文路径）  
+
+- 默认路径为 `GTB-Solver_main.py` 同文件夹。如需修改词库文件路径或更换词库文件，请在 `GTB-Solver_main.py` 内找到以下代码，替换引号内的路径即可（支持中文路径）
+
 ``` Python
 GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 ```
-- 注意：词库文件内应至少存在 English 列（严格区分大小写）  
+
+- 注意：词库文件内应至少存在 English 列（严格区分大小写）
+
 ### 2. 修改程序输出语言
-- 默认输出语言为系统语言，若系统语言尚未支持，则为英语。如需修改程序输出语言，请在 `GTB-Solver_main.py` 内找到以下代码，于引号内加入对应语言代码即可  
+
+- 默认输出语言为系统语言，若系统语言尚未支持，则为英语。如需修改程序输出语言，请在 `GTB-Solver_main.py` 内找到以下代码，于引号内加入对应语言代码即可
+
 ``` Python
 Multi_Lang = ""
 ```
-- 语言代码列表  
+
+- 语言代码列表
 
   | 输出语言 | 语言代码 |
   | :----: | :----: |
@@ -177,16 +223,22 @@ Multi_Lang = ""
   | 英语 | en |
 
 ### 3. 修改输出萌化状态
-- 默认关闭。如需开启输出萌化模式，请在 `GTB-Solver_main.py` 内找到以下代码，替换 `False` 为 `True` 即可  
+
+- 默认关闭。如需开启输出萌化模式，请在 `GTB-Solver_main.py` 内找到以下代码，替换 `False` 为 `True` 即可
+
 ``` Python
 Moe_Mode = False
 ```
+
 ### 4. 修改自动复制状态
-- 默认关闭。如需自动复制首个匹配结果至剪贴板，请在 `GTB-Solver_main.py` 内找到以下代码，替换 `False` 为 `True` 即可  
+
+- 默认关闭。如需自动复制首个匹配结果至剪贴板，请在 `GTB-Solver_main.py` 内找到以下代码，替换 `False` 为 `True` 即可
+
 ``` Python
 Auto_Copy = False
 ```
 
 ## 注意事项
-- 本项目仅作 Demo 演示之用，所提供的词库文件 `GTB_Thesaurus_Demo.xlsx` 内含 100 对示例词汇及少量 Shortcut(s) & Multiword(s)，您可在原有基础上继续补充使用或依据前述配置修改方法更换词库文件  
-- 滥用建筑猜猜宝会给您带来不公平的游戏优势！请在有限范围内合理使用，作者对因滥用本程序而导致的封禁问题概不负责  
+
+- 本项目仅作 Demo 演示之用，所提供的词库文件 `GTB_Thesaurus_Demo.xlsx` 内含 100 对示例词汇及少量 Shortcut(s) & Multiword(s)，您可在原有基础上继续补充使用或依据前述配置修改方法更换词库文件
+- 滥用建筑猜猜宝会给您带来不公平的游戏优势！请在有限范围内合理使用，作者对因滥用本程序而导致的封禁问题概不负责
