@@ -8,13 +8,13 @@
 GTB-Solver Demo Branch | <a href="https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme.md">[Beta] GTB-Solver OCR Branch</a>
 </h3>
 
-## Function Introduction
+## ⚜ Function Introduction
 
 **[简体中文](./readme_zh.md) | [繁體中文](./readme_cht.md) | [日本語](./readme_jp.md) | English**
 
 Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.
 
-## Update Log
+## ⚜ Update Log
 
 ### 2024/02/14 - v3.2
 
@@ -53,7 +53,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 - \[Opt\] Thesaurus update
 - \[Opt\] Code refactoring
 
-## Pre-conditions
+## ⚜ Pre-conditions
 
 ### 1. Setting up the Python runtime environment
 
@@ -70,7 +70,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 - Type `/lang en` in the Hypixel server to switch
 
-## How to Use
+## ⚜ How to Use
 
 ### 1. Run the main program
 
@@ -81,7 +81,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 - GTB-Solver runs repeatedly by default, enter `0` to exit the program
 
-## Matching Rules
+## ⚜ Matching Rules
 
 1. **Number**: number of underscores
 2. **Letter**: will be matched and can be inserted directly before and after the number
@@ -96,7 +96,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 > **Tip**: After entering spaces, hyphens or numbers greater than 7, only English will be matched. After entering any Simplified Chinese, only Simplified Chinese will be matched
 
-## How to Guess (Taking Water Bottle as an Example)
+## ⚜ How to Guess (Taking Water Bottle as an Example)
 
 ### 1. Use numbers + letters to guess
 
@@ -171,7 +171,7 @@ Please enter the matching expression: .a3 .o.*e
 Water Bottle - Waterfle
 ```
 
-## Configuration Modification
+## ⚜ Configuration Modification
 
 ### 1. Modify the path of the thesaurus file or replace the thesaurus file
 
@@ -202,7 +202,7 @@ Multi_Lang = ""
 
 ### 3. Modify the output moe status
 
-- The output moe status is turned off by default. To enable the output moe mode, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+- The output moe mode is disabled by default. To enable the output moe mode, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
 
 ``` Python
 Moe_Mode = False
@@ -210,13 +210,13 @@ Moe_Mode = False
 
 ### 4. Modify the automatic copying status
 
-- The automatic copying status is turned off by default. To automatically copy the first matching result to the clipboard, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+- The automatic copying mode is disabled by default. To automatically copy the first matching result to the clipboard, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
 
 ``` Python
 Auto_Copy = False
 ```
 
-## Important Notes
+## ⚜ Important Notes
 
 - This project is for Demo ONLY, the provided thesaurus file `GTB_Thesaurus_Demo.xlsx` contains 100 pairs of sample words and a few Shortcut(s) & Multiword(s), you can continue to supplement it on the original basis or replace the thesaurus file according to the aforementioned configuration modification method
 - Abuse of GTB-Solver will give you an unfair advantage in the game! Please use it reasonably within a limited scope. The author is NOT responsible for the BAN caused by the abuse of the program

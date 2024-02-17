@@ -36,7 +36,7 @@ def output_message(key, lang, Moe_Mode = False):
         },
         "program_note": {
             "zh": "温馨提示: 本程序默认重复运行, 输入 0 以退出程序",
-            "cht": "溫馨提示: 本程式默認重複運行, 輸入 0 以退出程式",
+            "cht": "溫馨提示: 本程式預設重複運行, 輸入 0 以退出程式",
             "jp": "注: このプログラムはデフォルトで繰り返し実行されます、プログラムを終了するには「0」を入力します",
             "en": "Note: GTB-Solver runs repeatedly by default, enter 0 to exit the program"
         },
