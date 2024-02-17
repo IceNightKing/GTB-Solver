@@ -181,9 +181,9 @@ while True:
 
             text_color = get_text_color(color_count)
             text_row = f'{text_color}{row["English"]}{Style.RESET_ALL}'
-            text_row += f' - {text_color}{row["简体中文"]}{Style.RESET_ALL}' if lang in {"zh", "cht"} else ""
-            text_row += f' - {text_color}{row["Shortcut(s)"]}{Style.RESET_ALL}' if row["Shortcut(s)"] != "-" else ""
-            text_row += f' - {text_color}{row["Multiword(s)"]}{Style.RESET_ALL}' if row["Multiword(s)"] != "-" else ""
+            text_row += f' - {text_color}{row["简体中文"]}{Style.RESET_ALL}' if lang in {"zh", "cht"} and "简体中文" in df.columns else ""
+            text_row += f' - {text_color}{row["Shortcut(s)"]}{Style.RESET_ALL}' if "Shortcut(s)" in df.columns and row["Shortcut(s)"] != "-" else ""
+            text_row += f' - {text_color}{row["Multiword(s)"]}{Style.RESET_ALL}' if "Multiword(s)" in df.columns and row["Multiword(s)"] != "-" else ""
             print(text_row)
             color_count += 1
 
