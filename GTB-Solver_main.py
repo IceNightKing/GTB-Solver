@@ -188,12 +188,12 @@ while True:
             color_count += 1
 
             if copy_to_clipboard:
-                if row["Shortcut(s)"] != "-":
+                if "Shortcut(s)" in df.columns and row["Shortcut(s)"] != "-":
                     pyperclip.copy(row["Shortcut(s)"].split(" & ")[0].lower())
-                elif row["Multiword(s)"] != "-":
+                elif "Multiword(s)" in df.columns and row["Multiword(s)"] != "-":
                     pyperclip.copy(row["Multiword(s)"].split(" & ")[0].lower())
                 else:
-                    pyperclip.copy(row["简体中文"].lower()) if lang in {"zh", "cht"} else pyperclip.copy(row["English"].lower())
+                    pyperclip.copy(row["简体中文"].lower()) if lang in {"zh", "cht"} and "简体中文" in df.columns else pyperclip.copy(row["English"].lower())
                 copy_to_clipboard = False
 
         copy_to_clipboard = True if Auto_Copy else False
