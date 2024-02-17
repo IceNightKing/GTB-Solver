@@ -52,13 +52,13 @@ def output_message(key, lang, Moe_Mode = False):
         },
         "ocr_result_null": {
             "zh": "识别结果为空",
-            "cht": "識別結果為空",
+            "cht": "辨識結果為空",
             "jp": "認識結果は NULL である",
             "en": "The recognition result is null"
         },
         "input_prompt": {
             "zh": "光学字符识别结果:",
-            "cht": "光學字元識別結果:",
+            "cht": "光學字元辨識結果:",
             "jp": "光学式文字認識結果:",
             "en": "Optical character recognition result:"
         },
@@ -86,7 +86,7 @@ def output_message(key, lang, Moe_Mode = False):
     if key == "input_prompt" and Moe_Mode:
         input_prompt_moe = {
             "zh": "奇妙咒语识别结果:",
-            "cht": "奇妙咒語識別結果:",
+            "cht": "奇妙咒語辨識結果:",
             "jp": "魔法の呪文認識結果:",
             "en": "Marvelous spell recognition result:"
         }
@@ -182,7 +182,6 @@ def pattern_from_input(user_input):
             prev_char = char
     pattern += rf"[a-zA-Z\u4e00-\u9fa5-]{{{num}}}" if num else ""
     return pattern, target_column
-
 
 input_pattern, target_column = pattern_from_input(user_input)
 try:

@@ -33,7 +33,7 @@ def output_message(key, lang, Moe_Mode = False):
         },
         "program_note": {
             "zh": "温馨提示: 本程序默认重复运行, 按下 Ctrl+C 以退出程序",
-            "cht": "溫馨提示: 本程式默認重複運行, 按下 Ctrl+C 以退出程式",
+            "cht": "溫馨提示: 本程式預設重複運行, 按下 Ctrl+C 以退出程式",
             "jp": "注: このプログラムはデフォルトで繰り返し実行されます、「Ctrl+C」を押してプログラムを終了します",
             "en": "Note: GTB-Solver runs repeatedly by default, press Ctrl+C to exit the program"
         },
