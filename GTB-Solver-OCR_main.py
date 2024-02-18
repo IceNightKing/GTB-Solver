@@ -162,7 +162,7 @@ def pattern_from_input(user_input):
         pattern += re.escape(user_input[0])
         user_input = user_input[1:]
 
-    if user_input.startswith("@zh"):
+    if user_input.startswith("@zh") and all(column in df.columns for column in ("简体中文", "English")):
         user_input = user_input[3:]
         target_column = "简体中文"
     elif user_input.startswith("@en"):
