@@ -18,6 +18,10 @@
 
 ## ⚜ 更新日志
 
+### 2024/02/20 - v3.3
+
+- \[Opt\] 代码优化
+
 ### 2024/02/14 - v3.2
 
 - \[Add\] [建筑猜猜宝 OCR 分支链接](https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme_zh.md "GTB-Solver OCR Branch")
@@ -66,8 +70,9 @@
 ### 2. 安装相关依赖库
 
 - **Windows**：运行 `Installation of Dependency Libraries.bat` 安装相关依赖库
-- **macOS & Linux**：运行 `Installation of Dependency Libraries.sh` 安装相关依赖库
   - 若您位于中国大陆且相关依赖库的下载速度较慢，可尝试通过 `pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/` 指令更换下载源
+- **macOS & Linux**：运行 `Installation of Dependency Libraries.sh` 安装相关依赖库
+  - 若您位于中国大陆且相关依赖库的下载速度较慢，可尝试通过 `pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple/` 指令更换下载源
 
 ### 3. 切换 Hypixel 服务器语言至英语
 

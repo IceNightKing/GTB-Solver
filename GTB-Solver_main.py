@@ -1,6 +1,6 @@
 """
 GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.
-Version: 3.2
+Version: 3.3
 Author: IceNight
 GitHub: https://github.com/IceNightKing
 """
@@ -29,10 +29,10 @@ def output_message(key, lang, Moe_Mode = False):
             "en": f'Warn: Language code "{lang}" is not yet supported, GTB-Solver will output in English'
         },
         "program_information": {
-            "zh": "欢迎使用建筑猜猜宝 v3.2 ",
-            "cht": "歡迎使用建築猜猜寶 v3.2 ",
-            "jp": "GTB-Solver v3.2 へようこそ",
-            "en": "Welcome to GTB-Solver v3.2"
+            "zh": "欢迎使用建筑猜猜宝 v3.3 ",
+            "cht": "歡迎使用建築猜猜寶 v3.3 ",
+            "jp": "GTB-Solver v3.3 へようこそ",
+            "en": "Welcome to GTB-Solver v3.3"
         },
         "program_note": {
             "zh": "温馨提示: 本程序默认重复运行, 输入 0 以退出程序",
@@ -128,13 +128,7 @@ except FileNotFoundError:
 def pattern_from_input(user_input):
     pattern = ""
     num = ""
-    special_chars = r"^$*-+=:?!|()[]{}\\"
-    banned_chars = r"()[]{}\\"
-    rep_chars = r"*+?"
-    prev_char = ""
-    if user_input and user_input[0] in special_chars:
-        pattern += re.escape(user_input[0])
-        user_input = user_input[1:]
+    banned_chars = r"()"
 
     if user_input.startswith("@zh") and all(column in df.columns for column in ("简体中文", "English")):
         user_input = user_input[3:]
@@ -152,8 +146,7 @@ def pattern_from_input(user_input):
             if num:
                 pattern += rf"[a-zA-Z\u4e00-\u9fa5-]{{{num}}}"
                 num = ""
-            pattern += re.escape(char) if char in banned_chars or (char in rep_chars and prev_char in rep_chars and prev_char) else char
-            prev_char = char
+            pattern += re.escape(char) if char in banned_chars else char
     pattern += rf"[a-zA-Z\u4e00-\u9fa5-]{{{num}}}" if num else ""
     return pattern, target_column
 
@@ -166,7 +159,7 @@ while True:
     input_pattern, target_column = pattern_from_input(user_input)
     try:
         matching_rows = df[df[target_column].str.lower().str.contains(f"^{input_pattern}$")] if target_column else (df[df[["English", "简体中文"]].apply(lambda x: x.str.lower().str.contains(f"^{input_pattern}$")).any(axis = 1)] if "简体中文" in df.columns else df[df["English"].str.lower().str.contains(f"^{input_pattern}$")])
-    except OverflowError:
+    except (OverflowError, re.error):
         print(Fore.YELLOW + output_message("match_failed", lang, Moe_Mode) + Style.RESET_ALL)
         continue
     except KeyError:

@@ -18,6 +18,10 @@
 
 ## ⚜ 更新日誌
 
+### 2024/02/20 - v3.3
+
+- \[Opt\] 代碼優化
+
 ### 2024/02/14 - v3.2
 
 - \[Add\] [建築猜猜寶 OCR 分支連結](https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme_cht.md "GTB-Solver OCR Branch")

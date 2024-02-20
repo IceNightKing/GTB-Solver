@@ -16,6 +16,10 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 ## ⚜ 更新ログ
 
+### 2024/02/20 - v3.3
+
+- \[Opt\] コードの最適化
+
 ### 2024/02/14 - v3.2
 
 - \[Add\] [GTB-Solver OCR ブランチリンク](https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme_jp.md "GTB-Solver OCR Branch")

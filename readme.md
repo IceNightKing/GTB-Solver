@@ -16,6 +16,10 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 ## ⚜ Update Log
 
+### 2024/02/20 - v3.3
+
+- \[Opt\] Code optimization
+
 ### 2024/02/14 - v3.2
 
 - \[Add\] [GTB-Solver OCR Branch Link](https://github.com/IceNightKing/GTB-Solver/blob/OCR/readme.md "GTB-Solver OCR Branch")
