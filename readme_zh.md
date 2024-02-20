@@ -29,8 +29,9 @@
 ### 2. 安装相关依赖库
 
 - **Windows**：运行 `Installation of Dependency Libraries.bat` 安装相关依赖库
-- **macOS & Linux**：运行 `Installation of Dependency Libraries.sh` 安装相关依赖库
   - 若您位于中国大陆且相关依赖库的下载速度较慢，可尝试通过 `pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/` 指令更换下载源
+- **macOS & Linux**：运行 `Installation of Dependency Libraries.sh` 安装相关依赖库
+  - 若您位于中国大陆且相关依赖库的下载速度较慢，可尝试通过 `pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple/` 指令更换下载源
 
 ### 3. 修改光学字符识别区域
 
@@ -40,7 +41,7 @@
 
 - 为提高识别准确性，建议按照以下步骤修改游戏内相关设置
   - `选项...` > `辅助功能设置...` > `文本背景 : 全局`
-  - `选项...` > `聊天设置...` > `文本背景不透明度 : 70%`
+  - `选项...` > `聊天设置...` > `文本背景不透明度 : 60%`
   - `选项...` > `聊天设置...` > `宽度 : 40px`
 
 > **提示**：以上为 **Minecraft 1.19** 的相关设置修改方法，仅供参考。若您的实际游戏版本不同，修改方法可能会有所改变
@@ -64,7 +65,7 @@
 
 ``` Python
 主题: _____ ______
-光学字符识别结果: 5 6
+光学字符识别结果: _____ ______
 Build Battle - 建筑大师
 Chili Pepper - 红辣椒 - Piment
 Ender Dragon - 末影龙
@@ -84,7 +85,7 @@ Water Bottle - 水瓶 - Waterfle
 Water Bucket - 水桶 - Vandspand
 
 主题: _a___ ______
-光学字符识别结果: 1a3 6
+光学字符识别结果: _a___ ______
 Magic Carpet - 魔毯
 Paint Bucket - 油漆桶 - Fargburk
 Table Tennis - 乒乓球 - Bordtenni
@@ -93,7 +94,7 @@ Water Bucket - 水桶 - Vandspand
 # 在此即可依据玩家建筑大致轮廓进行选择
 
 主题: _a___ _o____
-光学字符识别结果: 1a3 1o4
+光学字符识别结果: _a___ _o____
 Water Bottle - 水瓶 - Waterfle
 ```
 

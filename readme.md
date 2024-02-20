@@ -39,7 +39,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 - To improve recognition accuracy, it is recommended that you follow the steps below to modify the relevant in-game settings
   - `Options...` > `Accessibility Settings...` > `Text Background: Everywhere`
-  - `Options...` > `Chat Settings...` > `Text Background Opacity: 70%`
+  - `Options...` > `Chat Settings...` > `Text Background Opacity: 60%`
   - `Options...` > `Chat Settings...` > `Width: 40px`
 
 > **Tip**: The above is the relevant settings modification method for **Minecraft 1.19**, and it is for reference only. If your actual game version is different, the modification method may change
@@ -63,7 +63,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 ``` Python
 Theme: _____ ______
-Optical character recognition result: 5 6
+Optical character recognition result: _____ ______
 Build Battle
 Chili Pepper - Piment
 Ender Dragon
@@ -83,7 +83,7 @@ Water Bottle - Waterfle
 Water Bucket - Vandspand
 
 Theme: _a___ ______
-Optical character recognition result: 1a3 6
+Optical character recognition result: _a___ ______
 Magic Carpet
 Paint Bucket - Fargburk
 Table Tennis - Bordtenni
@@ -92,7 +92,7 @@ Water Bucket - Vandspand
 # Here you can choose according to the general outline of the player's building
 
 Theme: _a___ _o____
-Optical character recognition result: 1a3 1o4
+Optical character recognition result: _a___ _o____
 Water Bottle - Waterfle
 ```
 

@@ -1,6 +1,6 @@
 """
 GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.
-Version: 3.2-OCR
+Version: 3.3-OCR
 Author: IceNight
 GitHub: https://github.com/IceNightKing
 """
@@ -26,10 +26,10 @@ def output_message(key, lang, Moe_Mode = False):
             "en": f'Warn: Language code "{lang}" is not yet supported, GTB-Solver will output in English'
         },
         "program_information": {
-            "zh": "欢迎使用建筑猜猜宝 v3.2-OCR ",
-            "cht": "歡迎使用建築猜猜寶 v3.2-OCR ",
-            "jp": "GTB-Solver v3.2-OCR へようこそ",
-            "en": "Welcome to GTB-Solver v3.2-OCR"
+            "zh": "欢迎使用建筑猜猜宝 v3.3-OCR ",
+            "cht": "歡迎使用建築猜猜寶 v3.3-OCR ",
+            "jp": "GTB-Solver v3.3-OCR へようこそ",
+            "en": "Welcome to GTB-Solver v3.3-OCR"
         },
         "program_note": {
             "zh": "温馨提示: 本程序默认重复运行, 按下 Ctrl+C 以退出程序",
