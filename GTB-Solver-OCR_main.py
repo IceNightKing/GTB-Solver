@@ -170,10 +170,10 @@ def pattern_from_input(user_input):
             num += char
         else:
             if num:
-                pattern += rf"[a-zA-Z\u4e00-\u9fa5-]{{{num}}}"
+                pattern += rf"[a-zA-Z\u4e00-\u9fa5-.]{{{num}}}"
                 num = ""
             pattern += re.escape(char) if char in banned_chars else char
-    pattern += rf"[a-zA-Z\u4e00-\u9fa5-]{{{num}}}" if num else ""
+    pattern += rf"[a-zA-Z\u4e00-\u9fa5-.]{{{num}}}" if num else ""
     return pattern, target_column
 
 input_pattern, target_column = pattern_from_input(user_input)
