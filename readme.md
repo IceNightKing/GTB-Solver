@@ -18,6 +18,13 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 ### 2024/02/20 - v3.3
 
+- \[Fix\] Fixed an issue where the character `.` could not be matched
+
+  ``` Python
+  # The following theme(s) have now been able to be matched correctly
+  Mrs. Claus
+  ```
+
 - \[Opt\] Code optimization
 
 ### 2024/02/14 - v3.2
@@ -38,7 +45,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 - \[Fix\] Fixed an issue where the character `-` could not be matched
 
   ``` Python
-  # The following themes have now been able to be matched correctly
+  # The following theme(s) have now been able to be matched correctly
   Jack-O-Lantern
   T-Rex
   Trick-or-Treating

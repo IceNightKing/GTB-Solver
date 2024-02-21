@@ -18,6 +18,13 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 ### 2024/02/20 - v3.3
 
+- \[Fix\] 文字 `.` がマッチしない問題を修正しました
+
+  ``` Python
+  # 以下のテーマが正しくマッチングできるようになりました
+  Mrs. Claus
+  ```
+
 - \[Opt\] コードの最適化
 
 ### 2024/02/14 - v3.2
