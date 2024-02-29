@@ -16,6 +16,11 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 ## ⚜ Update Log
 
+### 2024/02/29 - v3.4
+
+- \[Opt\] Now the user can exit the program normally by pressing `Ctrl+C`
+- \[Opt\] Code optimization
+
 ### 2024/02/20 - v3.3
 
 - \[Fix\] Fixed an issue where the character `.` could not be matched
@@ -90,7 +95,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 ### 2. Exit the main program
 
-- GTB-Solver runs repeatedly by default, enter `0` to exit the program
+- GTB-Solver runs repeatedly by default, enter `0` or press `Ctrl+C` to exit the program
 
 ## ⚜ Matching Rules
 
