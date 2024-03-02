@@ -113,7 +113,7 @@ Right, Bottom = 1550, 1300
 
 ### 2. 修改重复识别间隔
 
-- 默认识别间隔为 `3.0` 秒。如需修改重复识别间隔，请在 `GTB-Solver-OCR_timer.py` 内找到以下代码，修改数值即可
+- 默认识别间隔为 `3.0` 秒。如需修改重复识别间隔，请在 `GTB-Solver-OCR_main.py` 内找到以下代码，修改数值即可
 
 ``` Python
 Interval_Time = 3.0
@@ -121,10 +121,10 @@ Interval_Time = 3.0
 
 ### 3. 修改 GPU 加速识别状态
 
-- 默认开启。如需关闭 GPU 加速识别模式，请在 `GTB-Solver-OCR_main.py` 内找到以下代码，替换 `True` 为 `False` 即可
+- 默认关闭。如需开启 GPU 加速识别模式，请在 `GTB-Solver-OCR_main.py` 内找到以下代码，替换 `False` 为 `True` 即可
 
 ``` Python
-GPU_Mode = True
+GPU_Mode = False
 ```
 
 - 注意：启用 GPU 加速识别模式需要设备本身具备支持 CUDA 的 NVIDIA GPU，安装合适的 [GPU 驱动程序](https://www.nvidia.cn/Download/index.aspx?lang=cn "NVIDIA Driver Downloads")、[CUDA 工具包](https://developer.nvidia.com/cuda-downloads "NVIDIA CUDA Toolkit Downloads")以及对应版本的 [PyTorch](https://pytorch.org/get-started/locally/ "Install PyTorch Locally")，否则仍将使用 CPU 进行识别
@@ -141,7 +141,7 @@ GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 
 ### 5. 修改程序输出语言
 
-- 默认输出语言为系统语言，若系统语言尚未支持，则为英语。如需修改程序输出语言，请在 `GTB-Solver-OCR_main.py` 与 `GTB-Solver-OCR_timer.py` 内找到以下代码，于引号内加入对应语言代码即可
+- 默认输出语言为系统语言，若系统语言尚未支持，则为英语。如需修改程序输出语言，请在 `GTB-Solver-OCR_main.py` 内找到以下代码，于引号内加入对应语言代码即可
 
 ``` Python
 Multi_Lang = ""
@@ -158,7 +158,7 @@ Multi_Lang = ""
 
 ### 6. 修改输出萌化状态
 
-- 默认关闭。如需开启输出萌化模式，请在 `GTB-Solver-OCR_main.py` 与 `GTB-Solver-OCR_timer.py` 内找到以下代码，替换 `False` 为 `True` 即可
+- 默认关闭。如需开启输出萌化模式，请在 `GTB-Solver-OCR_main.py` 内找到以下代码，替换 `False` 为 `True` 即可
 
 ``` Python
 Moe_Mode = False

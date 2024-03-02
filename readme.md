@@ -111,7 +111,7 @@ Right, Bottom = 1550, 1300
 
 ### 2. Modify the repeat recognition interval
 
-- The default recognition interval is `3.0` seconds. If you need to modify the repeat recognition interval, please find the following code in `GTB-Solver-OCR_timer.py` and modify the value
+- The default recognition interval is `3.0` seconds. If you need to modify the repeat recognition interval, please find the following code in `GTB-Solver-OCR_main.py` and modify the value
 
 ``` Python
 Interval_Time = 3.0
@@ -119,10 +119,10 @@ Interval_Time = 3.0
 
 ### 3. Modify the GPU acceleration recognition status
 
-- The GPU acceleration recognition mode is enabled by default. To disable GPU acceleration recognition mode, please find the following code in `GTB-Solver-OCR_main.py` and replace `True` with `False`
+- The GPU acceleration recognition mode is disabled by default. To enable the GPU acceleration recognition mode, please find the following code in `GTB-Solver-OCR_main.py` and replace `False` with `True`
 
 ``` Python
-GPU_Mode = True
+GPU_Mode = False
 ```
 
 - Note: Enabling GPU acceleration recognition mode requires that the device has an NVIDIA GPU with CUDA, install the appropriate [GPU Driver](https://www.nvidia.com/Download/index.aspx?lang=en-us "NVIDIA Driver Downloads"), [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads "NVIDIA CUDA Toolkit Downloads"), and the corresponding version of [PyTorch](https://pytorch.org/get-started/locally/ "Install PyTorch Locally"), or it will still use the CPU for recognition
@@ -139,7 +139,7 @@ GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 
 ### 5. Modify the program output language
 
-- The default output language is the system language, or English if the system language is not yet supported. If you need to modify the program output language, please find the following code in `GTB-Solver-OCR_main.py` and `GTB-Solver-OCR_timer.py`, and add the corresponding language code in quotation marks
+- The default output language is the system language, or English if the system language is not yet supported. If you need to modify the program output language, please find the following code in `GTB-Solver-OCR_main.py`, and add the corresponding language code in quotation marks
 
 ``` Python
 Multi_Lang = ""
@@ -156,7 +156,7 @@ Multi_Lang = ""
 
 ### 6. Modify the output moe status
 
-- The output moe mode is disabled by default. To enable the output moe mode, please find the following code in `GTB-Solver-OCR_main.py` and `GTB-Solver-OCR_timer.py`, and replace `False` with `True`
+- The output moe mode is disabled by default. To enable the output moe mode, please find the following code in `GTB-Solver-OCR_main.py`, and replace `False` with `True`
 
 ``` Python
 Moe_Mode = False

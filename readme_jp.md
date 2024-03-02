@@ -57,7 +57,7 @@
 
 ### 2. メインプログラムを終了する
 
-- このプログラムはデフォルトで繰り返し実行されます、`Ctrl+C` を押してプログラムを終了します
+- GTB-Solver はデフォルトで繰り返し実行されます、`Ctrl+C` を押してプログラムを終了します
 
 ## ⚜ 認識結果(「Water Bottle」を例にします)
 
@@ -111,7 +111,7 @@ Right, Bottom = 1550, 1300
 
 ### 2. 繰り返し認識間隔の変更
 
-- デフォルトの認識間隔は `3.0` 秒です。繰り返し認識間隔を変更する必要がある場合は、`GTB-Solver-OCR_timer.py` で次のコードを見つけて、値を変更してください
+- デフォルトの認識間隔は `3.0` 秒です。繰り返し認識間隔を変更する必要がある場合は、`GTB-Solver-OCR_main.py` で次のコードを見つけて、値を変更してください
 
 ``` Python
 Interval_Time = 3.0
@@ -119,10 +119,10 @@ Interval_Time = 3.0
 
 ### 3. GPU アクセラレーション認識ステータスの変更
 
-- GPU アクセラレーション認識モードはデフォルトで有効になっています。GPU アクセラレーション認識モードを無効にするには、`GTB-Solver-OCR_main.py` で次のコードを見つけて、`True` を `False` に置き換えてください
+- GPU アクセラレーション認識モードはデフォルトで無効になっています。GPU アクセラレーション認識モードを有効にするには、`GTB-Solver-OCR_main.py` で次のコードを見つけて、`False` を `True` に置き換えてください
 
 ``` Python
-GPU_Mode = True
+GPU_Mode = False
 ```
 
 - 注: GPU アクセラレーション認識モードを有効にするには、デバイスに CUDA 搭載の NVIDIA GPU があり、適切な [GPU ドライバー](https://www.nvidia.co.jp/Download/index.aspx?lang=jp "NVIDIA Driver Downloads")、[CUDA ツールキット](https://developer.nvidia.com/cuda-downloads "NVIDIA CUDA Toolkit Downloads")、および対応するバージョンの [PyTorch](https://pytorch.org/get-started/locally/ "Install PyTorch Locally") をインストールする必要があります。それ以外の場合は、認識に CPU が引き続き使用されます
@@ -139,7 +139,7 @@ GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 
 ### 5. プログラム出力言語の変更
 
-- デフォルトの出力言語はシステム言語であり、システム言語がサポートされていない場合は英語となります。プログラムの出力言語を変更する必要がある場合は、`GTB-Solver-OCR_main.py` および `GTB-Solver-OCR_timer.py` で次のコードを見つけて、対応する言語コードを引用符で囲んで追加してください
+- デフォルトの出力言語はシステム言語であり、システム言語がサポートされていない場合は英語となります。プログラムの出力言語を変更する必要がある場合は、`GTB-Solver-OCR_main.py` で次のコードを見つけて、対応する言語コードを引用符で囲んで追加してください
 
 ``` Python
 Multi_Lang = ""
@@ -156,7 +156,7 @@ Multi_Lang = ""
 
 ### 6. 出力萌えステータスの変更
 
-- 出力萌えモードはデフォルトでは無効になっています。出力萌えモードを有効にするには、`GTB-Solver-OCR_main.py` および `GTB-Solver-OCR_timer.py` で次のコードを見つけて、`False` を `True` に置き換えてください
+- 出力萌えモードはデフォルトでは無効になっています。出力萌えモードを有効にするには、`GTB-Solver-OCR_main.py` で次のコードを見つけて、`False` を `True` に置き換えてください
 
 ``` Python
 Moe_Mode = False

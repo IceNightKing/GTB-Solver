@@ -1,6 +1,6 @@
 """
-GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.
-Version: 3.3-OCR
+GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on English hints and optical character recognition.
+Version: 3.4-OCR
 Author: IceNight
 GitHub: https://github.com/IceNightKing
 """
@@ -10,8 +10,10 @@ GitHub: https://github.com/IceNightKing
 Left, Top = 1000, 1200
 # Modify the coordinates of the lower right corner of the recognition area
 Right, Bottom = 1550, 1300
+# Modify the repeat recognition interval (sec)
+Interval_Time = 3.0
 # Modify the GPU acceleration recognition status
-GPU_Mode = True
+GPU_Mode = False
 # Modify the path of the thesaurus file or replace the thesaurus file
 GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 # Modify the program output language: 简体中文(zh), 繁體中文(cht), 日本語(jp), English(en)
@@ -32,11 +34,46 @@ import numpy as np
 import easyocr
 import re
 import pyperclip
+import time
+
+def output_language():
+    global lang
+
+    if Multi_Lang:
+        lang = Multi_Lang.lower()
+    else:
+        system_lang, _ = locale.getlocale()
+
+        if any(system_lang_part in system_lang.lower() for system_lang_part in {"zh", "chinese"}):
+            lang = "cht" if any(system_lang_part in system_lang.lower() for system_lang_part in {"cht", "traditional", "hk", "hong kong", "mo", "macao", "tw", "taiwan"}) else "zh"
+        elif any(system_lang_part in system_lang.lower() for system_lang_part in {"ja", "jp", "japanese"}):
+            lang = "jp"
+        elif any(system_lang_part in system_lang.lower() for system_lang_part in {"en", "english"}):
+            lang = "en"
+        else:
+            print(f'{Fore.YELLOW}{output_message("unsupported_language", system_lang.split("_")[0], Moe_Mode)}{Style.RESET_ALL}')
+            lang = "en"
+
+    if lang not in {"zh", "cht", "jp", "en"}:
+        print(f'{Fore.YELLOW}{output_message("unsupported_language", lang, Moe_Mode)}{Style.RESET_ALL}')
+        lang = "en"
 
 def output_message(key, lang, Moe_Mode = False):
     messages = {
         "unsupported_language": {
             "en": f'Warn: Language code "{lang}" is not yet supported, GTB-Solver will output in English'
+        },
+        "program_information": {
+            "zh": "欢迎使用建筑猜猜宝 v3.4-OCR ",
+            "cht": "歡迎使用建築猜猜寶 v3.4-OCR ",
+            "jp": "GTB-Solver v3.4-OCR へようこそ",
+            "en": "Welcome to GTB-Solver v3.4-OCR"
+        },
+        "program_note": {
+            "zh": "温馨提示: 本程序默认重复运行, 按下 Ctrl+C 以退出程序",
+            "cht": "溫馨提示: 本程式預設重複運行, 按下 Ctrl+C 以退出程式",
+            "jp": "注: GTB-Solver はデフォルトで繰り返し実行されます、「Ctrl+C」を押してプログラムを終了します",
+            "en": "Note: GTB-Solver runs repeatedly by default, press Ctrl+C to exit the program"
         },
         "error_thesaurus_file_not_found": {
             "zh": "错误: 未找到词库文件, 请检查文件路径是否配置正确",
@@ -50,17 +87,23 @@ def output_message(key, lang, Moe_Mode = False):
             "jp": "エラー: 「English」カラムが見つかりません、シソーラス・カラム名が正しく設定されているか確認してください",
             "en": 'Error: "English" column not found, please check if the the thesaurus column name is configured correctly'
         },
+        "error_exception": {
+            "zh": "错误: ",
+            "cht": "錯誤: ",
+            "jp": "エラー: ",
+            "en": "Error: "
+        },
+        "input_prompt": {
+            "zh": "光学字符识别结果: ",
+            "cht": "光學字元辨識結果: ",
+            "jp": "光学式文字認識結果: ",
+            "en": "Optical character recognition result: "
+        },
         "ocr_result_null": {
             "zh": "识别结果为空",
             "cht": "辨識結果為空",
             "jp": "認識結果は NULL である",
             "en": "The recognition result is null"
-        },
-        "input_prompt": {
-            "zh": "光学字符识别结果:",
-            "cht": "光學字元辨識結果:",
-            "jp": "光学式文字認識結果:",
-            "en": "Optical character recognition result:"
         },
         "exit_program": {
             "zh": "您已退出程序",
@@ -96,65 +139,10 @@ def output_message(key, lang, Moe_Mode = False):
     message += f'{moe_suffixes.get(lang, moe_suffixes["en"])}' if Moe_Mode else ""
     return message
 
-colorama.init(autoreset = True)
-copy_to_clipboard = True if Auto_Copy else False
-
-if Multi_Lang:
-    lang = Multi_Lang.lower()
-else:
-    def get_system_language():
-        system_lang, _ = locale.getlocale()
-        return system_lang
-
-    system_lang = get_system_language()
-    if any(system_lang_part in system_lang.lower() for system_lang_part in {"zh", "chinese"}):
-        lang = "cht" if any(system_lang_part in system_lang.lower() for system_lang_part in {"cht", "traditional", "hk", "hong kong", "mo", "macao", "tw", "taiwan"}) else "zh"
-    elif any(system_lang_part in system_lang.lower() for system_lang_part in {"ja", "jp", "japanese"}):
-        lang = "jp"
-    elif any(system_lang_part in system_lang.lower() for system_lang_part in {"en", "english"}):
-        lang = "en"
-    else:
-        print(Fore.YELLOW + output_message("unsupported_language", system_lang.split("_")[0], Moe_Mode) + Style.RESET_ALL)
-        lang = "en"
-
-if lang not in {"zh", "cht", "jp", "en"}:
-    print(Fore.YELLOW + output_message("unsupported_language", lang, Moe_Mode) + Style.RESET_ALL)
-    lang = "en"
-
-try:
-    df = pd.read_excel(GTB_Thesaurus)
-except FileNotFoundError:
-    print(Fore.YELLOW + output_message("error_thesaurus_file_not_found", lang, Moe_Mode) + Style.RESET_ALL)
-    exit()
-
-screenshot = pyautogui.screenshot()
-screenshot.save(r"GTB-Solver-OCR_image.jpg")
-ocr_img = cv2.imread(r"GTB-Solver-OCR_image.jpg")
-ocr_img = ocr_img[Top:Bottom, Left:Right]
-ocr_img = cv2.cvtColor(np.array(ocr_img), cv2.COLOR_RGB2BGR)
-ocr_img = cv2.cvtColor(ocr_img, cv2.COLOR_BGR2GRAY)
-reader = easyocr.Reader(["en"], gpu = GPU_Mode)
-results = reader.readtext(ocr_img, detail = 0)
-
-ocr_str = ""
-word_count = 0
-for word in results:
-    ocr_str += " " if word_count != 0 else ""
-    ocr_str += word
-    word_count += 1
-resultlist = re.findall("(?<= is )(.*)", ocr_str)
-ocr_result = resultlist[0] if resultlist else output_message("ocr_result_null", lang, Moe_Mode)
-print(Fore.RED + output_message("input_prompt", lang, Moe_Mode) + Style.RESET_ALL, ocr_result)
-
-def transform_underscore(ocr_result):
-    transformed_str = re.sub(r"_+", lambda match: str(len(match.group(0))), ocr_result)
-    return transformed_str
-user_input = transform_underscore(ocr_result).lower()
-
 def pattern_from_input(user_input):
     pattern = ""
     num = ""
-    banned_chars = r"()"
+    banned_chars = r'()'
 
     if user_input.startswith("@zh") and all(column in df.columns for column in ("简体中文", "English")):
         user_input = user_input[3:]
@@ -170,46 +158,106 @@ def pattern_from_input(user_input):
             num += char
         else:
             if num:
-                pattern += rf"[a-zA-Z\u4e00-\u9fa5-.]{{{num}}}"
+                pattern += rf'[a-zA-Z\u4e00-\u9fa5-.]{{{num}}}'
                 num = ""
             pattern += re.escape(char) if char in banned_chars else char
-    pattern += rf"[a-zA-Z\u4e00-\u9fa5-.]{{{num}}}" if num else ""
+    pattern += rf'[a-zA-Z\u4e00-\u9fa5-.]{{{num}}}' if num else ""
     return pattern, target_column
 
-input_pattern, target_column = pattern_from_input(user_input)
-try:
-    matching_rows = df[df[target_column].str.lower().str.contains(f"^{input_pattern}$")] if target_column else (df[df[["English", "简体中文"]].apply(lambda x: x.str.lower().str.contains(f"^{input_pattern}$")).any(axis = 1)] if "简体中文" in df.columns else df[df["English"].str.lower().str.contains(f"^{input_pattern}$")])
-except (OverflowError, re.error):
-    print(Fore.YELLOW + output_message("match_failed", lang, Moe_Mode) + Style.RESET_ALL)
-except KeyError:
-    print(Fore.YELLOW + output_message("error_thesaurus_column_not_found", lang, Moe_Mode) + Style.RESET_ALL)
-    exit()
+def input_thesaurus():
+    global df
 
-if not matching_rows.empty:
-    color_count = 0
-    for index, row in matching_rows.iterrows():
-        def get_text_color(color_count):
-            return Fore.GREEN if color_count%2 != 0 else ""
+    try:
+        df = pd.read_excel(GTB_Thesaurus)
+    except FileNotFoundError:
+        print(f'{Fore.YELLOW}{output_message("error_thesaurus_file_not_found", lang, Moe_Mode)}{Style.RESET_ALL}')
+        exit()
 
-        text_color = get_text_color(color_count)
-        text_row = f'{text_color}{row["English"]}{Style.RESET_ALL}'
-        text_row += f' - {text_color}{row["简体中文"]}{Style.RESET_ALL}' if lang in {"zh", "cht"} and "简体中文" in df.columns else ""
-        text_row += f' - {text_color}{row["Shortcut(s)"]}{Style.RESET_ALL}' if "Shortcut(s)" in df.columns and row["Shortcut(s)"] != "-" else ""
-        text_row += f' - {text_color}{row["Multiword(s)"]}{Style.RESET_ALL}' if "Multiword(s)" in df.columns and row["Multiword(s)"] != "-" else ""
-        print(text_row)
-        color_count += 1
+def input_matching():
+    global copy_to_clipboard
 
-        if copy_to_clipboard:
-            if "Shortcut(s)" in df.columns and row["Shortcut(s)"] != "-":
-                pyperclip.copy(row["Shortcut(s)"].split(" & ")[0].lower())
-            elif "Multiword(s)" in df.columns and row["Multiword(s)"] != "-":
-                pyperclip.copy(row["Multiword(s)"].split(" & ")[0].lower())
-            else:
-                pyperclip.copy(row["简体中文"].lower()) if lang in {"zh", "cht"} and "简体中文" in df.columns else pyperclip.copy(row["English"].lower())
-            copy_to_clipboard = False
+    while True:
+        ocr_str = ""
+        word_count = 0
+        screenshot = pyautogui.screenshot()
+        screenshot.save(r'GTB-Solver-OCR_image.jpg')
 
-    print(Fore.YELLOW + "------------------------------" + Style.RESET_ALL)
-else:
-    print(Fore.YELLOW + output_message("match_failed", lang, Moe_Mode) + Style.RESET_ALL)
+        ocr_img = cv2.imread(r'GTB-Solver-OCR_image.jpg')
+        ocr_img = ocr_img[Top:Bottom, Left:Right]
+        ocr_img = cv2.cvtColor(np.array(ocr_img), cv2.COLOR_RGB2BGR)
+        ocr_img = cv2.cvtColor(ocr_img, cv2.COLOR_BGR2GRAY)
 
+        reader = easyocr.Reader(["en"], gpu = GPU_Mode)
+        results = reader.readtext(ocr_img, detail = 0)
+
+        for word in results:
+            ocr_str += " " if word_count != 0 else ""
+            ocr_str += word
+            word_count += 1
+
+        resultlist = re.findall(r'(?<= is )(.*)', ocr_str)
+        ocr_result = resultlist[0] if resultlist else output_message("ocr_result_null", lang, Moe_Mode)
+        print(f'{Fore.RED}{output_message("input_prompt", lang, Moe_Mode)}{Style.RESET_ALL}{ocr_result}')
+
+        user_input = re.sub(r'_+', lambda match: str(len(match.group(0))), ocr_result).lower()
+        input_pattern, target_column = pattern_from_input(user_input)
+
+        try:
+            matching_rows = df[df[target_column].str.lower().str.contains(f'^{input_pattern}$')] if target_column else (df[df[["English", "简体中文"]].apply(lambda x: x.str.lower().str.contains(f'^{input_pattern}$')).any(axis = 1)] if "简体中文" in df.columns else df[df["English"].str.lower().str.contains(f'^{input_pattern}$')])
+        except (OverflowError, re.error):
+            print(f'{Fore.YELLOW}{output_message("match_failed", lang, Moe_Mode)}{Style.RESET_ALL}')
+            continue
+        except KeyError:
+            print(f'{Fore.YELLOW}{output_message("error_thesaurus_column_not_found", lang, Moe_Mode)}{Style.RESET_ALL}')
+            exit()
+
+        if not matching_rows.empty:
+            color_count = 0
+            for _, row in matching_rows.iterrows():
+                def get_text_color(color_count):
+                    return Fore.GREEN if color_count%2 != 0 else ""
+
+                text_color = get_text_color(color_count)
+                text_row = f'{text_color}{row["English"]}{Style.RESET_ALL}'
+                text_row += f' - {text_color}{row["简体中文"]}{Style.RESET_ALL}' if lang in {"zh", "cht"} and "简体中文" in df.columns else ""
+                text_row += f' - {text_color}{row["Shortcut(s)"]}{Style.RESET_ALL}' if "Shortcut(s)" in df.columns and row["Shortcut(s)"] != "-" else ""
+                text_row += f' - {text_color}{row["Multiword(s)"]}{Style.RESET_ALL}' if "Multiword(s)" in df.columns and row["Multiword(s)"] != "-" else ""
+                print(text_row)
+                color_count += 1
+
+                if copy_to_clipboard:
+                    if "Shortcut(s)" in df.columns and row["Shortcut(s)"] != "-":
+                        pyperclip.copy(row["Shortcut(s)"].split(" & ")[0].lower())
+                    elif "Multiword(s)" in df.columns and row["Multiword(s)"] != "-":
+                        pyperclip.copy(row["Multiword(s)"].split(" & ")[0].lower())
+                    else:
+                        pyperclip.copy(row["简体中文"].lower()) if lang in {"zh", "cht"} and "简体中文" in df.columns else pyperclip.copy(row["English"].lower())
+                    copy_to_clipboard = False
+
+            copy_to_clipboard = True if Auto_Copy else False
+            print(f'{Fore.YELLOW}{"-" * 30}{Style.RESET_ALL}')
+        else:
+            print(f'{Fore.YELLOW}{output_message("match_failed", lang, Moe_Mode)}{Style.RESET_ALL}')
+
+        time.sleep(Interval_Time)
+
+def solver():
+    global copy_to_clipboard
+
+    try:
+        copy_to_clipboard = True if Auto_Copy else False
+        output_language()
+        print(f'{Fore.MAGENTA}{output_message("program_information", lang, Moe_Mode)}{Style.RESET_ALL}')
+        print(f'{Fore.CYAN}{output_message("program_note", lang, Moe_Mode)}{Style.RESET_ALL}')
+        input_thesaurus()
+        input_matching()
+    except KeyboardInterrupt:
+        print(f'{Fore.MAGENTA}{output_message("exit_program", lang, Moe_Mode)}{Style.RESET_ALL}')
+        exit()
+    except Exception as e:
+        print(f'{Fore.YELLOW}{output_message("error_exception", lang, Moe_Mode)}{e}{Style.RESET_ALL}')
+        exit()
+
+colorama.init(autoreset = True)
+solver()
 colorama.deinit()
