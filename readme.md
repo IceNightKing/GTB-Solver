@@ -22,7 +22,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 ### 1. Setting up the Python runtime environment
 
-- [Go to the official Python website to download](https://www.python.org/downloads/ "Python Source Releases")
+- [Visit the official Python website to download](https://www.python.org/downloads/ "Python Source Releases")
   - It is recommended that you install Python 3.10 and above, bugs in older versions will not be fixed
   - When installing Python for the first time, be sure to check `Add Python x.x to PATH` to add environment variables
 
