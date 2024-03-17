@@ -16,6 +16,12 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 ## ⚜ Update Log
 
+### 2024/03/17 - v3.5
+
+- \[Add\] Added matching word count prompt for non-multi-word count result(s)
+- \[Opt\] Now the user can switch the output language within the program
+- \[Opt\] Code optimization
+
 ### 2024/02/29 - v3.4
 
 - \[Opt\] Now the user can exit the program normally by pressing `Ctrl+C`
@@ -25,7 +31,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 - \[Fix\] Fixed an issue where the character `.` could not be matched
 
-  ``` Python
+  ``` TXT
   # The following theme(s) have now been able to be matched correctly
   Mrs. Claus
   ```
@@ -49,7 +55,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 - \[Add\] Simplified Chinese input matching support
 - \[Fix\] Fixed an issue where the character `-` could not be matched
 
-  ``` Python
+  ``` TXT
   # The following theme(s) have now been able to be matched correctly
   Jack-O-Lantern
   T-Rex
@@ -116,9 +122,10 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 ### 1. Use numbers + letters to guess
 
-``` Python
+``` TXT
 Theme: _____ ______
 Please enter the matching expression: 5 6
+The theme is 12 characters long in English
 Build Battle
 Chili Pepper - Piment
 Ender Dragon
@@ -136,24 +143,30 @@ Table Tennis - Bordtenni
 Train Tracks - Rail - Rautatie
 Water Bottle - Waterfle
 Water Bucket - Vandspand
+```
 
+``` TXT
 Theme: _a___ ______
 Please enter the matching expression: 1a3 6
+The theme is 12 characters long in English
 Magic Carpet
 Paint Bucket - Fargburk
 Table Tennis - Bordtenni
 Water Bottle - Waterfle
 Water Bucket - Vandspand
 # Here you can choose according to the general outline of the player's building
+```
 
+``` TXT
 Theme: _a___ _o____
 Please enter the matching expression: 1a3 1o4
+The theme is 12 characters long in English
 Water Bottle - Waterfle
 ```
 
 ### 2. Guessing in conjunction with the use of regular expressions
 
-``` Python
+``` TXT
 Theme: _a___ ______
 Please enter the matching expression: .a3 .*
 Candy Buckets
@@ -175,15 +188,20 @@ Water Bottle - Waterfle
 Water Bucket - Vandspand
 Water Park
 Water Slide - Tobogan
+```
 
+``` TXT
 Theme: _a___ _o____
 Please enter the matching expression: .a3 .o.*
 Games Controller - Controller
 Water Bottle - Waterfle
 # Here you can choose according to the general outline of the player's building
+```
 
+``` TXT
 Theme: _a___ _o___e
 Please enter the matching expression: .a3 .o.*e
+The theme is 12 characters long in English
 Water Bottle - Waterfle
 ```
 
@@ -201,20 +219,20 @@ GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 
 ### 2. Modify the program output language
 
-- The default output language is the system language, or English if the system language is not yet supported. If you need to modify the program output language, please find the following code in `GTB-Solver_main.py` and add the corresponding language code in quotation marks
+- The default output language is the system language, or English if the system language is not yet supported. If you need to modify the default output language of the program, please find the following code in `GTB-Solver_main.py` and add the corresponding language code in quotation marks. If you only need to temporarily modify the program output language, you can directly enter the corresponding switching command
 
 ``` Python
 Multi_Lang = ""
 ```
 
-- Language Code List
+- Language Code and Switching Command List
 
-  | Output Language | Language Code |
-  | :----: | :----: |
-  | Simplified Chinese | zh |
-  | Traditional Chinese | cht |
-  | Japanese | jp |
-  | English | en |
+  | Output Language | Language Code | Switching Command |
+  | :----: | :----: | :----: |
+  | Simplified Chinese | zh | /lang zh |
+  | Traditional Chinese | cht | /lang cht |
+  | Japanese | jp | /lang jp |
+  | English | en | /lang en |
 
 ### 3. Modify the output moe status
 

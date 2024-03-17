@@ -18,6 +18,12 @@
 
 ## ⚜ 更新日誌
 
+### 2024/03/17 - v3.5
+
+- \[Add\] 新增了在非多字數結果下的匹配字數提示
+- \[Opt\] 現在使用者可以在程式內切換輸出語言
+- \[Opt\] 代碼優化
+
 ### 2024/02/29 - v3.4
 
 - \[Opt\] 現在使用者按下 `Ctrl+C` 也能夠正常退出程式
@@ -27,7 +33,7 @@
 
 - \[Fix\] 修復了字元 `.` 無法被匹配的問題
 
-  ``` Python
+  ``` TXT
   # 現在以下主題已經能夠被正確匹配
   Mrs. Claus - 圣诞老奶奶
   ```
@@ -51,7 +57,7 @@
 - \[Add\] 簡體中文輸入匹配支援
 - \[Fix\] 修復了字元 `-` 無法被匹配的問題
 
-  ``` Python
+  ``` TXT
   # 現在以下主題已經能夠被正確匹配
   Jack-O-Lantern - 南瓜灯
   T-Rex - 霸王龙
@@ -118,9 +124,10 @@
 
 ### 1. 使用數字+字母進行猜測
 
-``` Python
+``` TXT
 主題: _____ ______
 請輸入匹配式: 5 6
+此主題字數為 12 個字母
 Build Battle - 建筑大师
 Chili Pepper - 红辣椒 - Piment
 Ender Dragon - 末影龙
@@ -138,24 +145,30 @@ Table Tennis - 乒乓球 - Bordtenni
 Train Tracks - 铁轨 - Rail - Rautatie
 Water Bottle - 水瓶 - Waterfle
 Water Bucket - 水桶 - Vandspand
+```
 
+``` TXT
 主題: _a___ ______
 請輸入匹配式: 1a3 6
+此主題字數為 12 個字母
 Magic Carpet - 魔毯
 Paint Bucket - 油漆桶 - Fargburk
 Table Tennis - 乒乓球 - Bordtenni
 Water Bottle - 水瓶 - Waterfle
 Water Bucket - 水桶 - Vandspand
 # 在此即可依據玩家建築大致輪廓進行選擇
+```
 
+``` TXT
 主題: _a___ _o____
 請輸入匹配式: 1a3 1o4
+此主題字數為 12 個字母
 Water Bottle - 水瓶 - Waterfle
 ```
 
 ### 2. 結合使用正規表示式進行猜測
 
-``` Python
+``` TXT
 主題: _a___ ______
 請輸入匹配式: .a3 .*
 Candy Buckets - 糖果篮子
@@ -177,23 +190,29 @@ Water Bottle - 水瓶 - Waterfle
 Water Bucket - 水桶 - Vandspand
 Water Park - 水上乐园
 Water Slide - 水上滑梯 - Tobogan
+```
 
+``` TXT
 主題: _a___ _o____
 請輸入匹配式: .a3 .o.*
 Games Controller - 游戏手柄 - Controller
 Water Bottle - 水瓶 - Waterfle
 # 在此即可依據玩家建築大致輪廓進行選擇
+```
 
+``` TXT
 主題: _a___ _o___e
 請輸入匹配式: .a3 .o.*e
+此主題字數為 12 個字母
 Water Bottle - 水瓶 - Waterfle
 ```
 
 ### 3. 使用簡體中文進行猜測
 
-``` Python
+``` TXT
 主題: 水_
 請輸入匹配式: 水1
+此主題字數為 2 個字
 Crystal - 水晶
 Fruit - 水果
 Jellyfish - 水母 - Kwal
@@ -222,20 +241,20 @@ GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 
 ### 2. 修改程式輸出語言
 
-- 預設輸出語言為系統語言，若系統語言尚未支援，則為英文。如需修改程式輸出語言，請在 `GTB-Solver_main.py` 內找到以下代碼，於引號內加入對應語言代碼即可
+- 預設輸出語言為系統語言，若系統語言尚未支援，則為英文。如需修改程式預設輸出語言，請在 `GTB-Solver_main.py` 內找到以下代碼，於引號內加入對應語言代碼即可。如僅需暫時性修改程式輸出語言，直接輸入對應切換指令即可
 
 ``` Python
 Multi_Lang = ""
 ```
 
-- 語言代碼列表
+- 語言代碼與切換指令列表
 
-  | 輸出語言 | 語言代碼 |
-  | :----: | :----: |
-  | 簡體中文 | zh |
-  | 繁體中文 | cht |
-  | 日文 | jp |
-  | 英文 | en |
+  | 輸出語言 | 語言代碼 | 切換指令 |
+  | :----: | :----: | :----: |
+  | 簡體中文 | zh | /lang zh |
+  | 繁體中文 | cht | /lang cht |
+  | 日文 | jp | /lang jp |
+  | 英文 | en | /lang en |
 
 ### 3. 修改輸出萌化狀態
 

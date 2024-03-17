@@ -16,6 +16,12 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 ## ⚜ 更新ログ
 
+### 2024/03/17 - v3.5
+
+- \[Add\] 複数の単語カウントではない結果に対して、一致する単語カウントのプロンプトが表示されるようになりました
+- \[Opt\] これで、ユーザーはプログラム内で出力言語を切り替えることができるようになります
+- \[Opt\] コードの最適化
+
 ### 2024/02/29 - v3.4
 
 - \[Opt\] これで、ユーザーは `Ctrl+C` を押してプログラムを通常どおり終了できるようになります
@@ -25,7 +31,7 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 - \[Fix\] 文字 `.` がマッチしない問題を修正しました
 
-  ``` Python
+  ``` TXT
   # 以下のテーマが正しくマッチングできるようになりました
   Mrs. Claus
   ```
@@ -49,7 +55,7 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 - \[Add\] 簡体字中国語入力マッチングのサポート
 - \[Fix\] 文字 `-` がマッチしない問題を修正しました
 
-  ``` Python
+  ``` TXT
   # 以下のテーマが正しくマッチングできるようになりました
   Jack-O-Lantern
   T-Rex
@@ -116,9 +122,10 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 ### 1. 数字とアルファベットを使って推測する
 
-``` Python
+``` TXT
 テーマ: _____ ______
 マッチする式を入力してください: 5 6
+テーマの英語文字数は 12 です
 Build Battle
 Chili Pepper - Piment
 Ender Dragon
@@ -136,24 +143,30 @@ Table Tennis - Bordtenni
 Train Tracks - Rail - Rautatie
 Water Bottle - Waterfle
 Water Bucket - Vandspand
+```
 
+``` TXT
 テーマ: _a___ ______
 マッチする式を入力してください: 1a3 6
+テーマの英語文字数は 12 です
 Magic Carpet
 Paint Bucket - Fargburk
 Table Tennis - Bordtenni
 Water Bottle - Waterfle
 Water Bucket - Vandspand
 # ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
+```
 
+``` TXT
 テーマ: _a___ _o____
 マッチする式を入力してください: 1a3 1o4
+テーマの英語文字数は 12 です
 Water Bottle - Waterfle
 ```
 
 ### 2. 正規表現を使って推測する
 
-``` Python
+``` TXT
 テーマ: _a___ ______
 マッチする式を入力してください: .a3 .*
 Candy Buckets
@@ -175,15 +188,20 @@ Water Bottle - Waterfle
 Water Bucket - Vandspand
 Water Park
 Water Slide - Tobogan
+```
 
+``` TXT
 テーマ: _a___ _o____
 マッチする式を入力してください: .a3 .o.*
 Games Controller - Controller
 Water Bottle - Waterfle
 # ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
+```
 
+``` TXT
 テーマ: _a___ _o___e
 マッチする式を入力してください: .a3 .o.*e
+テーマの英語文字数は 12 です
 Water Bottle - Waterfle
 ```
 
@@ -201,20 +219,20 @@ GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 
 ### 2. プログラム出力言語の変更
 
-- デフォルトの出力言語はシステム言語であり、システム言語がサポートされていない場合は英語となります。プログラムの出力言語を変更する必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、対応する言語コードを引用符で囲んで追加してください
+- デフォルトの出力言語はシステム言語であり、システム言語がサポートされていない場合は英語となります。プログラムのデフォルトの出力言語を変更する必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、対応する言語コードを引用符で囲んで追加してください。プログラム出力言語を一時的に変更するだけの場合は、対応する切り替えコマンドを直接入力できます
 
 ``` Python
 Multi_Lang = ""
 ```
 
-- 言語コードリスト
+- 言語コードと切り替えコマンドリスト
 
-  | 出力言語 | 言語コード |
-  | :----: | :----: |
-  | 簡体字中国語 | zh |
-  | 繁体字中国語 | cht |
-  | 日本語 | jp |
-  | 英語 | en |
+  | 出力言語 | 言語コード | 切り替えコマンド |
+  | :----: | :----: | :----: |
+  | 簡体字中国語 | zh | /lang zh |
+  | 繁体字中国語 | cht | /lang cht |
+  | 日本語 | jp | /lang jp |
+  | 英語 | en | /lang en |
 
 ### 3. 出力萌えステータスの変更
 
