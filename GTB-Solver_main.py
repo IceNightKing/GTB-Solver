@@ -64,7 +64,7 @@ def output_message(key, lang, Moe_Mode = False, word_count = ""):
         },
         "error_thesaurus_file_not_found": {
             "zh": "错误: 未找到词库文件, 请检查文件路径是否配置正确",
-            "cht": "錯誤: 未找到詞庫檔案, 請檢查檔案路徑是否配寘正確",
+            "cht": "錯誤: 未找到詞庫檔案, 請檢查檔案路徑是否配置正確",
             "jp": "エラー: シソーラス・ファイルが見つかりません、ファイルのパスが正しく設定されているか確認してください",
             "en": "Error: Thesaurus file not found, please check if the file path is configured correctly"
         },
@@ -159,7 +159,7 @@ def pattern_from_input(user_input):
             if num:
                 pattern += rf'[a-zA-Z\u4e00-\u9fa5-.]{{{num}}}'
                 num = ""
-            pattern += re.escape(char) if char in banned_chars else char
+            pattern += re.escape(char) if char in banned_chars else ("." if char == "_" else char)
     pattern += rf'[a-zA-Z\u4e00-\u9fa5-.]{{{num}}}' if num else ""
     return pattern, target_column
 
