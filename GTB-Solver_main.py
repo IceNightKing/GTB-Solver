@@ -186,7 +186,7 @@ def input_matching():
                 lang_switch = True
 
         try:
-            matching_rows = df[df[target_column].str.lower().str.contains(f'^{input_pattern}$')] if target_column else (df[df[["English", "简体中文"]].apply(lambda x: x.str.lower().str.contains(f'^{input_pattern}$')).any(axis = 1)] if "简体中文" in df.columns else df[df["English"].str.lower().str.contains(f'^{input_pattern}$')])
+            matching_rows = df[df[target_column].str.lower().str.contains(f'^{input_pattern}$', na = False)] if target_column else (df[df[["English", "简体中文"]].apply(lambda x: x.str.lower().str.contains(f'^{input_pattern}$', na = False)).any(axis = 1)] if "简体中文" in df.columns else df[df["English"].str.lower().str.contains(f'^{input_pattern}$', na = False)])
         except (OverflowError, re.error):
             print(f'{Fore.YELLOW}{output_message("match_failed", lang, Moe_Mode)}{Style.RESET_ALL}')
             continue
@@ -200,8 +200,8 @@ def input_matching():
             color_count = 0
 
             for _, row in matching_rows.iterrows():
-                en_word_count_list.append(len(row["English"]))
-                zh_word_count_list.append(len(row["简体中文"])) if "简体中文" in df.columns else ""
+                en_word_count_list.append(len(str(row["English"])))
+                zh_word_count_list.append(len(str(row["简体中文"]))) if "简体中文" in df.columns else ""
 
             en_word_count_list = sorted(set(en_word_count_list))
             zh_word_count_list = sorted(set(zh_word_count_list))
