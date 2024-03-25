@@ -1,6 +1,6 @@
 """
 GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.
-Version: 3.5
+Version: 3.6
 Author: IceNight
 GitHub: https://github.com/IceNightKing
 """
@@ -51,16 +51,28 @@ def output_message(key, lang, Moe_Mode = False, word_count = ""):
             "en": f'Warn: Language code "{lang}" is not yet supported, GTB-Solver will output in English'
         },
         "program_information": {
-            "zh": "欢迎使用建筑猜猜宝 v3.5 ",
-            "cht": "歡迎使用建築猜猜寶 v3.5 ",
-            "jp": "GTB-Solver v3.5 へようこそ",
-            "en": "Welcome to GTB-Solver v3.5"
+            "zh": "欢迎使用建筑猜猜宝 v3.6 ",
+            "cht": "歡迎使用建築猜猜寶 v3.6 ",
+            "jp": "GTB-Solver v3.6 へようこそ",
+            "en": "Welcome to GTB-Solver v3.6"
         },
         "program_note": {
             "zh": "温馨提示: 本程序默认重复运行, 输入 0 或按下 Ctrl+C 以退出程序",
             "cht": "溫馨提示: 本程式預設重複運行, 輸入 0 或按下 Ctrl+C 以退出程式",
             "jp": "注: GTB-Solver はデフォルトで繰り返し実行されます。「0」を入力するか、「Ctrl+C」を押してプログラムを終了します",
             "en": "Note: GTB-Solver runs repeatedly by default, enter 0 or press Ctrl+C to exit the program"
+        },
+        "thesaurus_self_check_starts": {
+            "zh": "词库状态自检",
+            "cht": "詞庫狀態自檢",
+            "jp": "シソーラスセルフチェック開始",
+            "en": "Thesaurus Self-check"
+        },
+        "thesaurus_self_check_completed": {
+            "zh": "词库自检完成",
+            "cht": "詞庫自檢完成",
+            "jp": "シソーラスセルフチェック完了",
+            "en": "Self-check Completed"
         },
         "error_thesaurus_file_not_found": {
             "zh": "错误: 未找到词库文件, 请检查文件路径是否配置正确",
@@ -139,18 +151,23 @@ def output_message(key, lang, Moe_Mode = False, word_count = ""):
     return message
 
 def pattern_from_input(user_input):
+    target_column = None
     pattern = ""
     num = ""
     banned_chars = r'()'
 
-    if user_input.startswith("@en"):
-        user_input = user_input[3:]
-        target_column = "English"
-    elif user_input.startswith("@zh") and {"English", "简体中文"}.issubset(df.columns):
-        user_input = user_input[3:]
-        target_column = "简体中文"
-    else:
-        target_column = None
+    column_prefix_dic = {
+        "@en": "English",
+        "@zh": "简体中文",
+        "@sc": "Shortcut(s)",
+        "@mw": "Multiword(s)"
+    }
+
+    for prefix, column in column_prefix_dic.items():
+        if user_input.startswith(prefix) and column in df.columns:
+            user_input = user_input[3:]
+            target_column = column
+            break
 
     for char in user_input:
         if char.isdigit():
@@ -163,14 +180,26 @@ def pattern_from_input(user_input):
     pattern += rf'[a-zA-Z\u4e00-\u9fa5-.]{{{num}}}' if num else ""
     return pattern, target_column
 
-def input_matching():
-    global df, lang, lang_switch, copy_to_clipboard
+def input_thesaurus():
+    global df
 
     try:
         df = pd.read_excel(GTB_Thesaurus)
     except FileNotFoundError:
         print(f'{Fore.YELLOW}{output_message("error_thesaurus_file_not_found", lang, Moe_Mode)}{Style.RESET_ALL}')
         exit()
+
+    print(f'{Fore.YELLOW}{"-" * 10} {output_message("thesaurus_self_check_starts", lang, Moe_Mode)} {"-" * 10}{Style.RESET_ALL}')
+    for column in ["English", "简体中文", "Shortcut(s)", "Multiword(s)"]:
+        print(f'{Fore.CYAN}{column} \t\t\t{Fore.GREEN}●{Style.RESET_ALL}') if column in df.columns else print(f'{Fore.CYAN}{column} \t\t\t{Fore.RED}●{Style.RESET_ALL}')
+    print(f'{Fore.YELLOW}{"-" * 10} {output_message("thesaurus_self_check_completed", lang, Moe_Mode)} {"-" * 10}{Style.RESET_ALL}')
+
+    if "English" not in df.columns:
+        print(f'{Fore.YELLOW}{output_message("error_thesaurus_column_not_found", lang, Moe_Mode)}{Style.RESET_ALL}')
+        exit()
+
+def input_matching():
+    global lang, lang_switch, copy_to_clipboard
 
     while True:
         user_input = input(f'{Fore.RED}{output_message("input_prompt", lang, Moe_Mode)}{Style.RESET_ALL}').lower()
@@ -250,6 +279,7 @@ def solver():
         output_language()
         print(f'{Fore.MAGENTA}{output_message("program_information", lang, Moe_Mode)}{Style.RESET_ALL}')
         print(f'{Fore.CYAN}{output_message("program_note", lang, Moe_Mode)}{Style.RESET_ALL}')
+        input_thesaurus()
         input_matching()
     except KeyboardInterrupt:
         print(f'\n{Fore.MAGENTA}{output_message("exit_program", lang, Moe_Mode)}{Style.RESET_ALL}')

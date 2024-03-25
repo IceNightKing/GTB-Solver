@@ -16,6 +16,12 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 ## ⚜ Update Log
 
+### 2024/03/25 - v3.6
+
+- \[Add\] Added thesaurus self-check
+- \[Opt\] Now the user can match Shortcut(s) by prefixing `@sc`
+- \[Opt\] Now the user can match Multiword(s) by prefixing `@mw`
+
 ### 2024/03/17 - v3.5
 
 - \[Add\] Added matching word count prompt for non-multi-word count result(s)
