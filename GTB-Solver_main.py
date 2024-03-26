@@ -130,7 +130,7 @@ def output_message(key, lang, Moe_Mode = False, word_count = ""):
         }
     }
 
-    moe_suffixes = {
+    moe_suffix = {
         "zh": "喵~",
         "cht": "喵~",
         "jp": "ニャー~",
@@ -147,7 +147,7 @@ def output_message(key, lang, Moe_Mode = False, word_count = ""):
         return input_prompt_moe.get(lang, input_prompt_moe["en"])
 
     message = messages.get(key, {}).get(lang, messages["unsupported_language"]["en"])
-    message += f'{moe_suffixes.get(lang, moe_suffixes["en"])}' if Moe_Mode else ""
+    message += f'{moe_suffix.get(lang, moe_suffix["en"])}' if Moe_Mode else ""
     return message
 
 def pattern_from_input(user_input):
@@ -166,6 +166,7 @@ def pattern_from_input(user_input):
     for prefix, column in column_prefix_dic.items():
         if user_input.startswith(prefix) and column in df.columns:
             user_input = user_input[3:]
+            user_input = r'[a-zA-Z]' if prefix in {"@sc", "@mw"} and user_input in {"1", ".", "_"} else user_input
             target_column = column
             break
 
