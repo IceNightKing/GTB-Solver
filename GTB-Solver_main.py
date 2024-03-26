@@ -167,6 +167,7 @@ def pattern_from_input(user_input):
         if user_input.startswith(prefix) and column in df.columns:
             user_input = user_input[3:]
             user_input = r'[a-zA-Z]' if prefix in {"@sc", "@mw"} and user_input in {"1", ".", "_"} else user_input
+            user_input = r'[a-zA-Z].*' if prefix in {"@sc", "@mw"} and user_input in {".*", "_*", "1.*", "1_*", "..*", "._*", "_.*", "__*"} else user_input
             target_column = column
             break
 
