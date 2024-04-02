@@ -12,11 +12,27 @@
 
 **[简体中文](./readme_zh.md) | 繁體中文 | [日本語](./readme_jp.md) | [English](./readme.md)**
 
-依據英文或簡體中文提示及正規表示式快速猜測 Hypixel 伺服器《你蓋我猜》小遊戲中的建築主題。
+依據多語言提示及正規表示式快速猜測 Hypixel 伺服器《你蓋我猜》小遊戲中的建築主題。
 
 > **淦翻紅牌ldx，一人盲猜虐全場！**
 
 ## ⚜ 更新日誌
+
+### 2024/04/02 - v4.0
+
+- \[Add\] 繁體中文輸入匹配支援
+- \[Add\] 日文輸入匹配支援
+- \[Fix\] 修復了字元 `'` 無法被匹配的問題
+
+  ``` TXT
+  # 現在以下主題已經能夠被正確匹配
+  Santa's Sleigh - 聖誕老人的雪橇
+  Santa's Workshop - 聖誕老人工作坊
+  ```
+
+- \[Opt\] 現在使用者可以透過前綴 `@cht` 匹配繁體中文
+- \[Opt\] 現在使用者可以透過前綴 `@jp` 匹配日文
+- \[Opt\] 詞庫更新
 
 ### 2024/03/25 - v3.6
 
@@ -41,7 +57,7 @@
 
   ``` TXT
   # 現在以下主題已經能夠被正確匹配
-  Mrs. Claus - 圣诞老奶奶
+  Mrs. Claus - 聖誕老奶奶
   ```
 
 - \[Opt\] 代碼優化
@@ -65,9 +81,9 @@
 
   ``` TXT
   # 現在以下主題已經能夠被正確匹配
-  Jack-O-Lantern - 南瓜灯
-  T-Rex - 霸王龙
-  Trick-or-Treating - 不给糖就捣蛋
+  Jack-O-Lantern - 南瓜燈
+  T-Rex - 暴龍
+  Trick-or-Treating - 不給糖就搗蛋
   T-Shirt - T恤 - Tricou
   ```
 
@@ -96,7 +112,7 @@
 - **Windows**：運行 `Installation of Dependency Libraries.bat` 安裝相關依賴程式庫
 - **macOS & Linux**：運行 `Installation of Dependency Libraries.sh` 安裝相關依賴程式庫
 
-### 3. 切換 Hypixel 伺服器語言為英文
+### 3. 切換 Hypixel 伺服器語言為英文（推薦）
 
 - 於 Hypixel 伺服器內輸入 `/lang en` 即可完成切換
 
@@ -115,16 +131,28 @@
 
 1. **數字**：下橫線的數量
 2. **字母**：會被匹配，可直接插入到數字前後
+
     - 輸入字母時無需區分大小寫
-3. **簡體中文**：會被匹配，可直接插入到數字前後
+
+3. **繁體中文**：會被匹配，可直接插入到數字前後
 4. **連字符**：會被匹配，可直接插入到數字前後
 5. **空格**：不會被匹配，需手動輸入至匹配式內
 6. **正規表示式字元**：部分可用
-7. **預設匹配**：英文+簡體中文
-    - 如輸入純數字匹配式時僅需匹配英文：前綴 `@en` 即可
-    - 如輸入純數字匹配式時僅需匹配簡體中文：前綴 `@zh` 即可
+7. **預設匹配**：英文+繁體中文
+8. **精確匹配**：如無需進行多語言匹配，可在匹配式內加入對應前綴進行精確匹配
 
-> **提示**：輸入空格、連字符或大於 7 的數字後僅會匹配到英文，輸入任意簡體中文後僅會匹配到簡體中文
+    - 匹配內容及對應前綴列表
+
+      | 匹配內容 | 對應前綴 |
+      | :----: | :----: |
+      | 簡體中文 | @zh |
+      | 繁體中文 | @cht |
+      | 日文 | @jp |
+      | 英文 | @en |
+      | Shortcut(s) | @sc |
+      | Multiword(s) | @mw |
+
+> **提示**：在預設匹配模式下，輸入空格、連字符或大於 8 的數字後僅會匹配到英文，輸入任意繁體中文後僅會匹配到繁體中文
 
 ## ⚜ 猜測方法（以 Water Bottle 為例）
 
@@ -134,21 +162,21 @@
 主題: _____ ______
 請輸入匹配式: 5 6
 此主題字數為 12 個字母
-Build Battle - 建筑大师
-Chili Pepper - 红辣椒 - Piment
-Ender Dragon - 末影龙
-Fruit Basket - 果篮 - Obstkorb
-Horse Racing - 赛马 - Zavod koni
-Horse Riding - 骑马 - Ridning
-Light Switch - 照明开关 - Lysbryter
+Build Battle - 建築大賽
+Chili Pepper - 辣椒 - Piment
+Ender Dragon - 終界龍
+Fruit Basket - 水果籃 - Obstkorb
+Horse Racing - 賽馬 - Zavod koni
+Horse Riding - 騎馬 - Ridning
+Light Switch - 電燈開關 - Lysbryter
 Magic Carpet - 魔毯
 Paint Bucket - 油漆桶 - Fargburk
-Scuba Diving - 水肺潜水 - Buceo
-Snowy Forest - 积雪森林
-Solar System - 太阳系 - Solsystem
-Swiss Cheese - 瑞士奶酪
+Scuba Diving - 水肺潛水 - Buceo
+Snowy Forest - 冰雪森林
+Solar System - 太陽系 - Solsystem
+Swiss Cheese - 瑞士起司
 Table Tennis - 乒乓球 - Bordtenni
-Train Tracks - 铁轨 - Rail - Rautatie
+Train Tracks - 鐵軌 - Rail - Rautatie
 Water Bottle - 水瓶 - Waterfle
 Water Bucket - 水桶 - Vandspand
 ```
@@ -168,7 +196,7 @@ Water Bucket - 水桶 - Vandspand
 ``` TXT
 主題: _a___ _o____
 請輸入匹配式: 1a3 1o4
-此主題字數為 12 個字母
+此主題字數為 2 個字
 Water Bottle - 水瓶 - Waterfle
 ```
 
@@ -177,31 +205,31 @@ Water Bottle - 水瓶 - Waterfle
 ``` TXT
 主題: _a___ ______
 請輸入匹配式: .a3 .*
-Candy Buckets - 糖果篮子
-Candy Cane - 糖果手杖 - Acadea
-Games Controller - 游戏手柄 - Controller
+Candy Buckets - 糖果籃
+Candy Cane - 拐杖糖 - Acadea
+Games Controller - 遊戲控制器 - Controller
 Magic Carpet - 魔毯
-Magic Hat - 魔法帽子 - Joben
-Magic Wand - 魔术棒
-Magma Cube - 岩浆怪
+Magic Hat - 魔法頭飾 - Joben
+Magic Wand - 魔杖
+Magma Cube - 岩漿立方怪
 Paint Bucket - 油漆桶 - Fargburk
-Paint Palette - 调色板 - Verfpalet
-Paper Airplane - 纸飞机 - Papirfly
-Party Hat - 派对帽子
-Santa Claus - 圣诞老人
+Paint Palette - 調色盤 - Verfpalet
+Paper Airplane - 紙飛機 - Papirfly
+Party Hat - 派對帽
+Santa Claus - 聖誕老人
 Table Cloth - 桌布 - Dug
 Table Tennis - 乒乓球 - Bordtenni
-Water Balloon - 水气球 - Gavettone
+Water Balloon - 水球 - Gavettone
 Water Bottle - 水瓶 - Waterfle
 Water Bucket - 水桶 - Vandspand
-Water Park - 水上乐园
-Water Slide - 水上滑梯 - Tobogan
+Water Park - 水上樂園
+Water Slide - 滑水道 - Tobogan
 ```
 
 ``` TXT
 主題: _a___ _o____
 請輸入匹配式: .a3 .o.*
-Games Controller - 游戏手柄 - Controller
+Games Controller - 遊戲控制器 - Controller
 Water Bottle - 水瓶 - Waterfle
 # 在此即可依據玩家建築大致輪廓進行選擇
 ```
@@ -209,11 +237,11 @@ Water Bottle - 水瓶 - Waterfle
 ``` TXT
 主題: _a___ _o___e
 請輸入匹配式: .a3 .o.*e
-此主題字數為 12 個字母
+此主題字數為 2 個字
 Water Bottle - 水瓶 - Waterfle
 ```
 
-### 3. 使用簡體中文進行猜測
+### 3. 使用繁體中文進行猜測
 
 ``` TXT
 主題: 水_
@@ -222,15 +250,15 @@ Water Bottle - 水瓶 - Waterfle
 Crystal - 水晶
 Fruit - 水果
 Jellyfish - 水母 - Kwal
-Kettle - 水壶 - Tetera
-Otter - 水獭
-Pool - 水池 - Basen
+Kettle - 水壺 - Tetera
+Otter - 水獺
 Puddle - 水坑 - Pla
+Underwater - 水下 - Pod woda
+Water Balloon - 水球 - Gavettone
 Water Bottle - 水瓶 - Waterfle
 Water Bucket - 水桶 - Vandspand
-Well - 水井
 # 在此即可依據玩家建築大致輪廓進行選擇
-# 鑒於提示時間靠後，不建議使用簡體中文猜測兩字及兩字以下主題
+# 鑒於提示時間靠後，不建議使用繁體中文猜測兩字及兩字以下主題
 ```
 
 ## ⚜ 配置修改

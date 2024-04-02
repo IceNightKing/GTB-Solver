@@ -12,9 +12,25 @@ GTB-Solver Demo Branch | <a href="https://github.com/IceNightKing/GTB-Solver/blo
 
 **[简体中文](./readme_zh.md) | [繁體中文](./readme_cht.md) | [日本語](./readme_jp.md) | English**
 
-Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.
+Quickly guess the theme of "Guess The Build" game on Hypixel server based on multi-language hints and regular expressions.
 
 ## ⚜ Update Log
+
+### 2024/04/02 - v4.0
+
+- \[Add\] Traditional Chinese input matching support
+- \[Add\] Japanese input matching support
+- \[Fix\] Fixed an issue where the character `'` could not be matched
+
+  ``` TXT
+  # The following theme(s) have now been able to be matched correctly
+  Santa's Sleigh
+  Santa's Workshop
+  ```
+
+- \[Opt\] Now the user can match Traditional Chinese by prefixing `@cht`
+- \[Opt\] Now the user can match Japanese by prefixing `@jp`
+- \[Opt\] Thesaurus update
 
 ### 2024/03/25 - v3.6
 
@@ -94,7 +110,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 - **Windows**: Run `Installation of Dependency Libraries.bat` to install the related dependency libraries
 - **macOS & Linux**: Run `Installation of Dependency Libraries.sh` to install the related dependency libraries
 
-### 3. Switch Hypixel server language to English
+### 3. Switch Hypixel server language to English (Recommend)
 
 - Type `/lang en` in the Hypixel server to switch
 
@@ -111,18 +127,27 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 
 ## ⚜ Matching Rules
 
-1. **Number**: number of underscores
-2. **Letter**: will be matched and can be inserted directly before and after the number
-    - Letters are not case sensitive when entering
-3. **Simplified Chinese**: will be matched and can be inserted directly before and after the number
-4. **Hyphen**: will be matched and can be inserted directly before and after the number
-5. **Space**: will not be matched, needs to be manually entered into the matching expression
-6. **Regular expression characters**: partially available
-7. **Default matching**: English + Simplified Chinese
-    - If you need to match English only when you enter a purely numeric matching expression: prefix `@en` can be used
-    - If you need to match Simplified Chinese only when you enter a purely numeric matching expression: prefix `@zh` can be used
+1. **Number**: Number of underscores
+2. **Letter**: Will be matched and can be inserted directly before and after the number
 
-> **Tip**: After entering spaces, hyphens or numbers greater than 7, only English will be matched. After entering any Simplified Chinese, only Simplified Chinese will be matched
+    - Letters are not case sensitive when entering
+
+3. **Hyphen**: Will be matched and can be inserted directly before and after the number
+4. **Space**: Will NOT be matched, needs to be manually entered into the matching expression
+5. **Regular Expression Characters**: Partially available
+6. **Default Matching**: English
+7. **Exact Matching**：If there is no need for multi-language matching, you can add the corresponding prefix to the matching expression for exact matching
+
+    - Matching Content and Corresponding Prefix List
+
+      | Matching Content | Corresponding Prefix |
+      | :----: | :----: |
+      | Simplified Chinese | @zh |
+      | Traditional Chinese | @cht |
+      | Japanese | @jp |
+      | English | @en |
+      | Shortcut(s) | @sc |
+      | Multiword(s) | @mw |
 
 ## ⚜ How to Guess (Taking Water Bottle as an Example)
 
@@ -131,7 +156,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on Eng
 ``` TXT
 Theme: _____ ______
 Please enter the matching expression: 5 6
-The theme is 12 characters long in English
+The theme is 12 characters long
 Build Battle
 Chili Pepper - Piment
 Ender Dragon
@@ -154,7 +179,7 @@ Water Bucket - Vandspand
 ``` TXT
 Theme: _a___ ______
 Please enter the matching expression: 1a3 6
-The theme is 12 characters long in English
+The theme is 12 characters long
 Magic Carpet
 Paint Bucket - Fargburk
 Table Tennis - Bordtenni
@@ -166,7 +191,7 @@ Water Bucket - Vandspand
 ``` TXT
 Theme: _a___ _o____
 Please enter the matching expression: 1a3 1o4
-The theme is 12 characters long in English
+The theme is 12 characters long
 Water Bottle - Waterfle
 ```
 
@@ -207,7 +232,7 @@ Water Bottle - Waterfle
 ``` TXT
 Theme: _a___ _o___e
 Please enter the matching expression: .a3 .o.*e
-The theme is 12 characters long in English
+The theme is 12 characters long
 Water Bottle - Waterfle
 ```
 
@@ -215,7 +240,7 @@ Water Bottle - Waterfle
 
 ### 1. Modify the path of the thesaurus file or replace the thesaurus file
 
-- The default path is the same folder as `GTB-Solver_main.py`. If you need to modify the path of the thesaurus file or replace the thesaurus file, please find the following code in `GTB-Solver_main.py` and replace the path in quotation marks (Chinese path is supported)
+- The default path is the same folder as `GTB-Solver_main.py`. If you need to modify the path of the thesaurus file or replace the thesaurus file, please find the following code in `GTB-Solver_main.py` and replace the path in quotation marks
 
 ``` Python
 GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"

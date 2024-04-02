@@ -1,6 +1,6 @@
 """
-GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on English or Simplified Chinese hints and regular expressions.
-Version: 3.6
+GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on multi-language hints and regular expressions.
+Version: 4.0
 Author: IceNight
 GitHub: https://github.com/IceNightKing
 """
@@ -45,16 +45,16 @@ def output_language():
         print(f'{Fore.YELLOW}{output_message("unsupported_language", lang, Moe_Mode)}{Style.RESET_ALL}')
         lang = "en"
 
-def output_message(key, lang, Moe_Mode = False, word_count = ""):
+def output_message(key, lang, Moe_Mode = False, word_count = "", e = ""):
     messages = {
         "unsupported_language": {
             "en": f'Warn: Language code "{lang}" is not yet supported, GTB-Solver will output in English'
         },
         "program_information": {
-            "zh": "欢迎使用建筑猜猜宝 v3.6 ",
-            "cht": "歡迎使用建築猜猜寶 v3.6 ",
-            "jp": "GTB-Solver v3.6 へようこそ",
-            "en": "Welcome to GTB-Solver v3.6"
+            "zh": "欢迎使用建筑猜猜宝 v4.0 ",
+            "cht": "歡迎使用建築猜猜寶 v4.0 ",
+            "jp": "GTB-Solver v4.0 へようこそ",
+            "en": "Welcome to GTB-Solver v4.0"
         },
         "program_note": {
             "zh": "温馨提示: 本程序默认重复运行, 输入 0 或按下 Ctrl+C 以退出程序",
@@ -65,13 +65,13 @@ def output_message(key, lang, Moe_Mode = False, word_count = ""):
         "thesaurus_self_check_starts": {
             "zh": "词库状态自检",
             "cht": "詞庫狀態自檢",
-            "jp": "シソーラスセルフチェック開始",
+            "jp": "シソーラス・セルフチェック開始",
             "en": "Thesaurus Self-check"
         },
         "thesaurus_self_check_completed": {
             "zh": "词库自检完成",
             "cht": "詞庫自檢完成",
-            "jp": "シソーラスセルフチェック完了",
+            "jp": "シソーラス・セルフチェック完了",
             "en": "Self-check Completed"
         },
         "error_thesaurus_file_not_found": {
@@ -87,10 +87,10 @@ def output_message(key, lang, Moe_Mode = False, word_count = ""):
             "en": 'Error: "English" column not found, please check if the the thesaurus column name is configured correctly'
         },
         "error_exception": {
-            "zh": "错误: ",
-            "cht": "錯誤: ",
-            "jp": "エラー: ",
-            "en": "Error: "
+            "zh": f'错误: {e} ',
+            "cht": f'錯誤: {e} ',
+            "jp": f'エラー: {e} ',
+            "en": f'Error: {e}'
         },
         "input_prompt": {
             "zh": "请输入匹配式: ",
@@ -108,13 +108,25 @@ def output_message(key, lang, Moe_Mode = False, word_count = ""):
             "zh": f'该主题字数为 {Fore.YELLOW}{word_count}{Fore.CYAN} 个字母',
             "cht": f'此主題字數為 {Fore.YELLOW}{word_count}{Fore.CYAN} 個字母',
             "jp": f'テーマの英語文字数は {Fore.YELLOW}{word_count}{Fore.CYAN} です',
-            "en": f'The theme is {Fore.YELLOW}{word_count}{Fore.CYAN} characters long in English'
+            "en": f'The theme is {Fore.YELLOW}{word_count}{Fore.CYAN} characters long'
         },
         "output_zh_word_count": {
             "zh": f'该主题字数为 {Fore.YELLOW}{word_count}{Fore.CYAN} 个字',
-            "cht": f'此主題字數為 {Fore.YELLOW}{word_count}{Fore.CYAN} 個字',
+            "cht": f'此主題簡體中文字數為 {Fore.YELLOW}{word_count}{Fore.CYAN} 個字',
             "jp": f'テーマの簡体字中国語文字数は {Fore.YELLOW}{word_count}{Fore.CYAN} です',
             "en": f'The theme is {Fore.YELLOW}{word_count}{Fore.CYAN} character(s) long in Simplified Chinese'
+        },
+        "output_cht_word_count": {
+            "zh": f'该主题繁体中文字数为 {Fore.YELLOW}{word_count}{Fore.CYAN} 个字',
+            "cht": f'此主題字數為 {Fore.YELLOW}{word_count}{Fore.CYAN} 個字',
+            "jp": f'テーマの繁体字中国語文字数は {Fore.YELLOW}{word_count}{Fore.CYAN} です',
+            "en": f'The theme is {Fore.YELLOW}{word_count}{Fore.CYAN} character(s) long in Traditional Chinese'
+        },
+        "output_jp_word_count": {
+            "zh": f'该主题日语字数为 {Fore.YELLOW}{word_count}{Fore.CYAN} 个字',
+            "cht": f'此主題日文字數為 {Fore.YELLOW}{word_count}{Fore.CYAN} 個字',
+            "jp": f'テーマの文字数は {Fore.YELLOW}{word_count}{Fore.CYAN} です',
+            "en": f'The theme is {Fore.YELLOW}{word_count}{Fore.CYAN} character(s) long in Japanese'
         },
         "language_switched": {
             "zh": "已将语言设置为简体中文",
@@ -151,24 +163,24 @@ def output_message(key, lang, Moe_Mode = False, word_count = ""):
     return message
 
 def pattern_from_input(user_input):
-    target_column = None
-    pattern = ""
-    num = ""
-    banned_chars = r'()'
-
     column_prefix_dic = {
         "@en": "English",
         "@zh": "简体中文",
+        "@cht": "繁體中文",
+        "@jp": "日本語",
         "@sc": "Shortcut(s)",
         "@mw": "Multiword(s)"
     }
+    target_column = None
+    num = pattern = ""
+    banned_chars = r'()'
 
     for prefix, column in column_prefix_dic.items():
         if user_input.startswith(prefix) and column in df.columns:
-            user_input = user_input[3:]
+            user_input = user_input[len(prefix):]
             user_input = r'[a-zA-Z]' if prefix in {"@sc", "@mw"} and user_input in {"1", ".", "_"} else user_input
             user_input = r'[a-zA-Z].*' if prefix in {"@sc", "@mw"} and user_input in {".*", "_*", "1.*", "1_*", "..*", "._*", "_.*", "__*"} else user_input
-            target_column = column
+            target_column = column if user_input else target_column
             break
 
     for char in user_input:
@@ -176,24 +188,24 @@ def pattern_from_input(user_input):
             num += char
         else:
             if num:
-                pattern += rf'[a-zA-Z\u4e00-\u9fa5-.]{{{num}}}'
+                pattern += rf"[a-zA-Z\u4e00-\u9fff\u3040-\u30ff\uff66-\uff9f-.'《》]{{{num}}}"
                 num = ""
             pattern += re.escape(char) if char in banned_chars else ("." if char == "_" else char)
-    pattern += rf'[a-zA-Z\u4e00-\u9fa5-.]{{{num}}}' if num else ""
+    pattern += rf"[a-zA-Z\u4e00-\u9fff\u3040-\u30ff\uff66-\uff9f-.'《》]{{{num}}}" if num else ""
     return pattern, target_column
 
 def input_thesaurus():
     global df
 
     try:
-        df = pd.read_excel(GTB_Thesaurus)
+        df = pd.read_excel(GTB_Thesaurus, keep_default_na = False).replace("", "%")
     except FileNotFoundError:
         print(f'{Fore.YELLOW}{output_message("error_thesaurus_file_not_found", lang, Moe_Mode)}{Style.RESET_ALL}')
         exit()
 
     print(f'{Fore.YELLOW}{"-" * 10} {output_message("thesaurus_self_check_starts", lang, Moe_Mode)} {"-" * 10}{Style.RESET_ALL}')
-    for column in ["English", "简体中文", "Shortcut(s)", "Multiword(s)"]:
-        print(f'{Fore.CYAN}{column} \t\t\t{Fore.GREEN}●{Style.RESET_ALL}') if column in df.columns else print(f'{Fore.CYAN}{column} \t\t\t{Fore.RED}●{Style.RESET_ALL}')
+    for column in ["English", "简体中文", "繁體中文", "日本語", "Shortcut(s)", "Multiword(s)"]:
+        print(f'{Fore.CYAN}{column}  \t\t\t{Fore.GREEN}●{Style.RESET_ALL}') if column in df.columns else print(f'{Fore.CYAN}{column}  \t\t\t{Fore.RED}●{Style.RESET_ALL}')
     print(f'{Fore.YELLOW}{"-" * 10} {output_message("thesaurus_self_check_completed", lang, Moe_Mode)} {"-" * 10}{Style.RESET_ALL}')
 
     if "English" not in df.columns:
@@ -201,9 +213,18 @@ def input_thesaurus():
         exit()
 
 def input_matching():
-    global lang, lang_switch, copy_to_clipboard
+    global lang, copy_to_clipboard
 
     while True:
+        lang_code_dic = {
+            "en": "English",
+            "zh": "简体中文",
+            "cht": "繁體中文",
+            "jp": "日本語"
+        }
+        lang_switch = matched_rows = False
+        matching_rows = None
+
         user_input = input(f'{Fore.RED}{output_message("input_prompt", lang, Moe_Mode)}{Style.RESET_ALL}').lower()
         input_pattern, target_column = pattern_from_input(user_input)
 
@@ -212,12 +233,20 @@ def input_matching():
             break
         elif user_input.startswith("/lang "):
             new_lang = user_input.split()[1]
-            if new_lang in {"zh", "cht", "jp", "en"}:
+            if new_lang in {i for i in lang_code_dic}:
                 lang = new_lang
                 lang_switch = True
 
         try:
-            matching_rows = df[df[target_column].str.lower().str.contains(f'^{input_pattern}$', na = False)] if target_column else (df[df[["English", "简体中文"]].apply(lambda x: x.str.lower().str.contains(f'^{input_pattern}$', na = False)).any(axis = 1)] if "简体中文" in df.columns else df[df["English"].str.lower().str.contains(f'^{input_pattern}$', na = False)])
+            if target_column and target_column in df.columns:
+                matching_rows = df[df[target_column].astype(str).str.lower().str.contains(f'^{input_pattern}$', na = False)]
+            else:
+                for lang_code, full_lang in lang_code_dic.items():
+                    if lang_code == lang and full_lang in df.columns and lang != "en":
+                        matching_rows = df[df[["English", full_lang]].apply(lambda x: x.astype(str).str.lower().str.contains(f'^{input_pattern}$', na = False)).any(axis = 1)]
+                        matched_rows = True
+                        break
+                matching_rows = df[df["English"].astype(str).str.lower().str.contains(f'^{input_pattern}$', na = False)] if not matched_rows else matching_rows
         except (OverflowError, re.error):
             print(f'{Fore.YELLOW}{output_message("match_failed", lang, Moe_Mode)}{Style.RESET_ALL}')
             continue
@@ -226,58 +255,87 @@ def input_matching():
             exit()
 
         if not matching_rows.empty:
-            en_word_count_list = []
-            zh_word_count_list = []
+            word_count_list = {
+                "English": [],
+                "简体中文": [],
+                "繁體中文": [],
+                "日本語": []
+            }
+            target_column_code = {v: k for k, v in lang_code_dic.items()}.get(target_column, None)
+            output_word_count = False
             color_count = 0
+            copy_to_clipboard = True if Auto_Copy else False
 
-            for _, row in matching_rows.iterrows():
-                en_word_count_list.append(len(str(row["English"])))
-                zh_word_count_list.append(len(str(row["简体中文"]))) if "简体中文" in df.columns else ""
+            def get_text_color(color_count):
+                return Fore.GREEN if color_count%2 != 0 else ""
 
-            en_word_count_list = sorted(set(en_word_count_list))
-            zh_word_count_list = sorted(set(zh_word_count_list))
-
-            if len(en_word_count_list) == 1:
-                print(f'{Fore.CYAN}{output_message("output_en_word_count", lang, Moe_Mode, en_word_count_list[0])}{Style.RESET_ALL}')
-            elif len(zh_word_count_list) == 1:
-                print(f'{Fore.CYAN}{output_message("output_zh_word_count", lang, Moe_Mode, zh_word_count_list[0])}{Style.RESET_ALL}')
-
-            for _, row in matching_rows.iterrows():
-                def get_text_color(color_count):
-                    return Fore.GREEN if color_count%2 != 0 else ""
+            def process_row(row):
+                global copy_to_clipboard
 
                 text_color = get_text_color(color_count)
-                text_row = f'{text_color}{row["English"]}{Style.RESET_ALL}'
-                text_row += f' - {text_color}{row["简体中文"]}{Style.RESET_ALL}' if lang in {"zh", "cht"} and "简体中文" in df.columns else ""
-                text_row += f' - {text_color}{row["Shortcut(s)"]}{Style.RESET_ALL}' if "Shortcut(s)" in df.columns and row["Shortcut(s)"] != "-" else ""
-                text_row += f' - {text_color}{row["Multiword(s)"]}{Style.RESET_ALL}' if "Multiword(s)" in df.columns and row["Multiword(s)"] != "-" else ""
+                text_row = f'{text_color}{row["English"]}{Style.RESET_ALL}' if row["English"] != "%" else f'{Fore.BLACK}NULL{Style.RESET_ALL}'
+
+                for lang_code, full_lang in lang_code_dic.items():
+                    if (lang_code == lang or target_column == full_lang) and full_lang in df.columns and full_lang != "English" and row[full_lang] != "%":
+                        text_row += f' - {text_color}{row[full_lang]}{Style.RESET_ALL}'
+
+                for column in ["Shortcut(s)", "Multiword(s)"]:
+                    if column in df.columns and row[column] != "-":
+                        text_row += f' - {text_color}{row[column]}{Style.RESET_ALL}'
                 print(text_row)
-                color_count += 1
 
                 if copy_to_clipboard:
-                    if "Shortcut(s)" in df.columns and row["Shortcut(s)"] != "-":
-                        pyperclip.copy(row["Shortcut(s)"].split(" & ")[0].lower())
-                    elif "Multiword(s)" in df.columns and row["Multiword(s)"] != "-":
-                        pyperclip.copy(row["Multiword(s)"].split(" & ")[0].lower())
-                    else:
-                        pyperclip.copy(row["简体中文"].lower()) if lang in {"zh", "cht"} and "简体中文" in df.columns else pyperclip.copy(row["English"].lower())
-                    copy_to_clipboard = False
+                    for column in ["Shortcut(s)", "Multiword(s)"]:
+                        if column in df.columns and row[column] != "-":
+                            pyperclip.copy(row[column].split(" & ")[0].lower())
+                            copy_to_clipboard = False
+                            break
+                    if copy_to_clipboard:
+                        for lang_code, full_lang in lang_code_dic.items():
+                            if lang_code == lang and full_lang in df.columns and row[full_lang] != "%":
+                                pyperclip.copy(row[full_lang].lower())
+                                copy_to_clipboard = False
+                                break
+                        if copy_to_clipboard and row["English"] != "%":
+                            pyperclip.copy(row["English"].lower())
+                            copy_to_clipboard = False
 
-            copy_to_clipboard = True if Auto_Copy else False
+            for _, row in matching_rows.iterrows():
+                for word_count_lang in word_count_list:
+                    if target_column in {i for i in word_count_list} and target_column != "English" and row[target_column] != "%":
+                        word_count_list[target_column].append(len(str(row[target_column])))
+                        break
+                    if word_count_lang == lang_code_dic[lang] and word_count_lang in df.columns and word_count_lang != "English" and row[word_count_lang] != "%":
+                        word_count_list[word_count_lang].append(len(str(row[word_count_lang])))
+                        break
+                word_count_list["English"].append(len(str(row["English"]))) if row["English"] != "%" else ""
+
+            for word_count_lang in word_count_list:
+                word_count_list[word_count_lang] = sorted(set(word_count_list[word_count_lang]))
+
+            for lang_code, full_lang in lang_code_dic.items():
+                if target_column in {i for i in word_count_list} and len(word_count_list[target_column]) == 1:
+                    print(f'{Fore.CYAN}{output_message(f"output_{target_column_code}_word_count", lang, Moe_Mode, word_count_list[target_column][0])}{Style.RESET_ALL}')
+                    output_word_count = True
+                    break
+                if lang_code == lang and len(word_count_list[full_lang]) == 1:
+                    print(f'{Fore.CYAN}{output_message(f"output_{lang_code}_word_count", lang, Moe_Mode, word_count_list[full_lang][0])}{Style.RESET_ALL}')
+                    output_word_count = True
+                    break
+            print(f'{Fore.CYAN}{output_message("output_en_word_count", lang, Moe_Mode, word_count_list["English"][0])}{Style.RESET_ALL}') if not output_word_count and len(word_count_list["English"]) == 1 else ""
+
+            for _, row in matching_rows.iterrows():
+                process_row(row)
+                color_count += 1
             print(f'{Fore.YELLOW}{"-" * 30}{Style.RESET_ALL}')
         else:
             if lang_switch:
                 print(f'{Fore.MAGENTA}{output_message("language_switched", lang, Moe_Mode)}{Style.RESET_ALL}')
-                lang_switch = False
             else:
                 print(f'{Fore.YELLOW}{output_message("match_failed", lang, Moe_Mode)}{Style.RESET_ALL}')
 
 def solver():
-    global lang_switch, copy_to_clipboard
-
     try:
-        lang_switch = False
-        copy_to_clipboard = True if Auto_Copy else False
         output_language()
         print(f'{Fore.MAGENTA}{output_message("program_information", lang, Moe_Mode)}{Style.RESET_ALL}')
         print(f'{Fore.CYAN}{output_message("program_note", lang, Moe_Mode)}{Style.RESET_ALL}')
@@ -287,7 +345,7 @@ def solver():
         print(f'\n{Fore.MAGENTA}{output_message("exit_program", lang, Moe_Mode)}{Style.RESET_ALL}')
         exit()
     except Exception as e:
-        print(f'{Fore.YELLOW}{output_message("error_exception", lang, Moe_Mode)}{e}{Style.RESET_ALL}')
+        print(f'{Fore.YELLOW}{output_message("error_exception", lang, Moe_Mode, e = e)}{Style.RESET_ALL}')
         exit()
 
 colorama.init(autoreset = True)

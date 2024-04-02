@@ -12,9 +12,25 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 **[简体中文](./readme_zh.md) | [繁體中文](./readme_cht.md) | 日本語 | [English](./readme.md)**
 
-英語または簡体字中国語のヒントと正規表現に基づいて、Hypixel サーバー上の「Guess The Build」ゲームのテーマを素早く推測します。
+多言語のヒントと正規表現に基づいて、Hypixel サーバー上の「Guess The Build」ゲームのテーマを素早く推測します。
 
 ## ⚜ 更新ログ
+
+### 2024/04/02 - v4.0
+
+- \[Add\] 繁体字中国語入力マッチングのサポート
+- \[Add\] 日本語入力マッチングのサポート
+- \[Fix\] 文字 `'` がマッチしない問題を修正しました
+
+  ``` TXT
+  # 以下のテーマが正しくマッチングできるようになりました
+  Santa's Sleigh - サンタのそり
+  Santa's Workshop - サンタのワークショップ
+  ```
+
+- \[Opt\] これで、ユーザーは `@cht` を接頭辞として「繁体字中国語」にマッチさせることができます
+- \[Opt\] これで、ユーザーは `@jp` を接頭辞として「日本語」にマッチさせることができます
+- \[Opt\] シソーラスの更新
 
 ### 2024/03/25 - v3.6
 
@@ -39,7 +55,7 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
   ``` TXT
   # 以下のテーマが正しくマッチングできるようになりました
-  Mrs. Claus
+  Mrs. Claus - ミセス・クロース
   ```
 
 - \[Opt\] コードの最適化
@@ -63,10 +79,10 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
   ``` TXT
   # 以下のテーマが正しくマッチングできるようになりました
-  Jack-O-Lantern
-  T-Rex
-  Trick-or-Treating
-  T-Shirt - Tricou
+  Jack-O-Lantern - ジャック・オ・ランタン
+  T-Rex - ティラノサウルス
+  Trick-or-Treating - トリック・オア・トリート
+  T-Shirt - Tシャツ - Tricou
   ```
 
 - \[Fix\] シソーラス・カラム名が正しく設定されていないことが原因で発生する可能性がある `KeyError` クラッシュを修正しました
@@ -91,10 +107,10 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 ### 2. 関連する依存ライブラリをインストールする
 
-- **Windows**: `Installation of Dependency Libraries.bat` を実行して、関連する依存ライブラリをインストールします
-- **macOS & Linux**: `Installation of Dependency Libraries.sh` を実行して、関連する依存ライブラリをインストールします
+- **Windows**：`Installation of Dependency Libraries.bat` を実行して、関連する依存ライブラリをインストールします
+- **macOS & Linux**：`Installation of Dependency Libraries.sh` を実行して、関連する依存ライブラリをインストールします
 
-### 3. Hypixel サーバーの言語を英語に切り替える
+### 3. Hypixel サーバーの言語を英語に切り替える（推奨）
 
 - Hypixel サーバーに `/lang en` と入力して切り替えます
 
@@ -102,8 +118,8 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 ### 1. メインプログラムを実行する
 
-- **Windows**: 前提条件が満たされたら、`GTB-Solver.bat` を実行します
-- **macOS & Linux**: 前提条件が満たされたら、`GTB-Solver.sh` を実行します
+- **Windows**：前提条件が満たされたら、`GTB-Solver.bat` を実行します
+- **macOS & Linux**：前提条件が満たされたら、`GTB-Solver.sh` を実行します
 
 ### 2. メインプログラムを終了する
 
@@ -111,20 +127,32 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 ## ⚜ マッチングルール
 
-1. **数字**: アンダースコアの数
-2. **アルファベット**: マッチし、数字の前後に直接挿入できます
+1. **数字**：アンダースコアの数
+2. **アルファベット**：マッチし、数字の前後に直接挿入できます
+
     - アルファベットを入力する際、大文字と小文字は区別されません
-3. **簡体字中国語**: マッチし、数字の前後に直接挿入できます
-4. **ハイフン**: マッチし、数字の前後に直接挿入できます
-5. **スペース**: マッチしません、マッチする式に手動で入力する必要があります
-6. **正規表現文字**: 部分的に使用可能
-7. **デフォルトのマッチング**: 英語と簡体字中国語
-    - 純粋に数字のマッチする式を入力したときだけ英語にマッチさせたい場合は、接頭辞 `@en` を使用することができます
-    - 純粋に数字のマッチする式を入力したときだけ簡体字中国語にマッチさせたい場合は、接頭辞 `@zh` を使用することができます
 
-> **ヒント**: スペース、ハイフン、7 以上の数字を入力すると、英語のみがマッチします。簡体字中国語を入力すると、簡体字中国語のみがマッチします
+3. **日本語**：マッチし、数字の前後に直接挿入できます
+4. **ハイフン**：マッチし、数字の前後に直接挿入できます
+5. **スペース**：マッチしません、マッチする式に手動で入力する必要があります
+6. **正規表現文字**：部分的に使用可能
+7. **デフォルトマッチング**：英語と日本語
+8. **完全マッチング**：多言語マッチングの必要がない場合は、対応する接頭辞をマッチング式に追加して完全マッチングさせることができます
 
-## ⚜ 推測方法(「Water Bottle」を例にします)
+    - マッチングコンテンツと対応する接頭辞リスト
+
+      | マッチングコンテンツ | 対応する接頭辞 |
+      | :----: | :----: |
+      | 簡体字中国語 | @zh |
+      | 繁体字中国語 | @cht |
+      | 日本語 | @jp |
+      | 英語 | @en |
+      | Shortcut(s) | @sc |
+      | Multiword(s) | @mw |
+
+> **ヒント**：デフォルトのマッチングモードでは、スペース、ハイフン、13 以上の数字を入力すると、英語のみがマッチします。日本語を入力すると、日本語のみがマッチします
+
+## ⚜ 推測方法（「Water Bottle」を例にします）
 
 ### 1. 数字とアルファベットを使って推測する
 
@@ -132,42 +160,42 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 テーマ: _____ ______
 マッチする式を入力してください: 5 6
 テーマの英語文字数は 12 です
-Build Battle
-Chili Pepper - Piment
-Ender Dragon
-Fruit Basket - Obstkorb
-Horse Racing - Zavod koni
-Horse Riding - Ridning
-Light Switch - Lysbryter
-Magic Carpet
-Paint Bucket - Fargburk
-Scuba Diving - Buceo
-Snowy Forest
-Solar System - Solsystem
-Swiss Cheese
-Table Tennis - Bordtenni
-Train Tracks - Rail - Rautatie
-Water Bottle - Waterfle
-Water Bucket - Vandspand
+Build Battle - Build Battle
+Chili Pepper - 唐辛子 - Piment
+Ender Dragon - エンダードラゴン
+Fruit Basket - フルーツバスケット - Obstkorb
+Horse Racing - 競馬 - Zavod koni
+Horse Riding - 乗馬 - Ridning
+Light Switch - 照明スイッチ - Lysbryter
+Magic Carpet - 魔法のじゅうたん
+Paint Bucket - ペンキのバケツ - Fargburk
+Scuba Diving - スキューバダイビング - Buceo
+Snowy Forest - 雪の森
+Solar System - 太陽系 - Solsystem
+Swiss Cheese - スイスチーズ
+Table Tennis - 卓球 - Bordtenni
+Train Tracks - 線路 - Rail - Rautatie
+Water Bottle - 水入り瓶 - Waterfle
+Water Bucket - 水入りバケツ - Vandspand
 ```
 
 ``` TXT
 テーマ: _a___ ______
 マッチする式を入力してください: 1a3 6
 テーマの英語文字数は 12 です
-Magic Carpet
-Paint Bucket - Fargburk
-Table Tennis - Bordtenni
-Water Bottle - Waterfle
-Water Bucket - Vandspand
+Magic Carpet - 魔法のじゅうたん
+Paint Bucket - ペンキのバケツ - Fargburk
+Table Tennis - 卓球 - Bordtenni
+Water Bottle - 水入り瓶 - Waterfle
+Water Bucket - 水入りバケツ - Vandspand
 # ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
 ```
 
 ``` TXT
 テーマ: _a___ _o____
 マッチする式を入力してください: 1a3 1o4
-テーマの英語文字数は 12 です
-Water Bottle - Waterfle
+テーマの文字数は 4 です
+Water Bottle - 水入り瓶 - Waterfle
 ```
 
 ### 2. 正規表現を使って推測する
@@ -175,53 +203,64 @@ Water Bottle - Waterfle
 ``` TXT
 テーマ: _a___ ______
 マッチする式を入力してください: .a3 .*
-Candy Buckets
-Candy Cane - Acadea
-Games Controller - Controller
-Magic Carpet
-Magic Hat - Joben
-Magic Wand
-Magma Cube
-Paint Bucket - Fargburk
-Paint Palette - Verfpalet
-Paper Airplane - Papirfly
-Party Hat
-Santa Claus
-Table Cloth - Dug
-Table Tennis - Bordtenni
-Water Balloon - Gavettone
-Water Bottle - Waterfle
-Water Bucket - Vandspand
-Water Park
-Water Slide - Tobogan
+Candy Buckets - 飴入りバケツ
+Candy Cane - キャンディケイン - Acadea
+Games Controller - ゲームコントローラー - Controller
+Magic Carpet - 魔法のじゅうたん
+Magic Hat - 魔法の帽子 - Joben
+Magic Wand - 魔法の杖
+Magma Cube - マグマキューブ
+Paint Bucket - ペンキのバケツ - Fargburk
+Paint Palette - ペイントパレット - Verfpalet
+Paper Airplane - 紙飛行機 - Papirfly
+Party Hat - パーティーハット
+Santa Claus - サンタクロース
+Table Cloth - テーブルクロス - Dug
+Table Tennis - 卓球 - Bordtenni
+Water Balloon - 水風船 - Gavettone
+Water Bottle - 水入り瓶 - Waterfle
+Water Bucket - 水入りバケツ - Vandspand
+Water Park - ウォーターパーク
+Water Slide - ウォータースライダー - Tobogan
 ```
 
 ``` TXT
 テーマ: _a___ _o____
 マッチする式を入力してください: .a3 .o.*
-Games Controller - Controller
-Water Bottle - Waterfle
+Games Controller - ゲームコントローラー - Controller
+Water Bottle - 水入り瓶 - Waterfle
 # ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
 ```
 
 ``` TXT
 テーマ: _a___ _o___e
 マッチする式を入力してください: .a3 .o.*e
-テーマの英語文字数は 12 です
-Water Bottle - Waterfle
+テーマの文字数は 4 です
+Water Bottle - 水入り瓶 - Waterfle
+```
+
+### 3. 日本語を使って推測する
+
+``` TXT
+テーマ: 水___
+マッチする式を入力してください: 水3
+テーマの文字数は 4 です
+Puddle - 水たまり - Pla
+Water Bottle - 水入り瓶 - Waterfle
+# ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
 ```
 
 ## ⚜ コンフィギュレーションの変更
 
 ### 1. シソーラス・ファイルのパスを変更するか、シソーラス・ファイルを置き換える
 
-- デフォルトのパスは `GTB-Solver_main.py` と同じフォルダです。シソーラス・ファイルのパスを変更したり、シソーラス・ファイルを置き換えたりする必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、引用符で囲まれたパスを置き換えてください(中国語のパスはサポートされています)
+- デフォルトのパスは `GTB-Solver_main.py` と同じフォルダです。シソーラス・ファイルのパスを変更したり、シソーラス・ファイルを置き換えたりする必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、引用符で囲まれたパスを置き換えてください（日本語のパスはサポートされています）
 
 ``` Python
 GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 ```
 
-- 注: シソーラス・ファイルには、少なくとも「English」カラムが必要です(大文字と小文字は厳密に区別されます)
+- 注：シソーラス・ファイルには、少なくとも「English」カラムが必要です（大文字と小文字は厳密に区別されます）
 
 ### 2. プログラム出力言語の変更
 
