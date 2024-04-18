@@ -16,6 +16,14 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 ## ⚜ 更新ログ
 
+### 2024/04/18 - v4.1
+
+- \[Add\] 単語頻度統計インデックスを追加しました
+  - 単語頻度統計インデックスは、複数のプレイヤーから提供された合計約 15,000 ラウンドのゲームデータから時間勾配で重み付けして計算された参考値です
+- \[Opt\] プログラムはデフォルトで、単語頻度統計インデックスに従って降順に出力するようになりました
+  - それでも元のルールに従って出力する必要がある場合は、シソーラス・ファイル `GTB_Thesaurus_Demo.xlsx` の「English」カラムをソートの基準として使用し、英字の昇順にソートしてください
+- \[Opt\] シソーラスの更新
+
 ### 2024/04/02 - v4.0
 
 - \[Add\] 繁体字中国語入力マッチングのサポート
@@ -24,8 +32,8 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
   ``` TXT
   # 以下のテーマが正しくマッチングできるようになりました
-  Santa's Sleigh - サンタのそり
-  Santa's Workshop - サンタのワークショップ
+  0.25 - Santa's Workshop - サンタのワークショップ
+  0.00 - Santa's Sleigh - サンタのそり
   ```
 
 - \[Opt\] これで、ユーザーは `@cht` を接頭辞として「繁体字中国語」にマッチさせることができます
@@ -55,7 +63,7 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
   ``` TXT
   # 以下のテーマが正しくマッチングできるようになりました
-  Mrs. Claus - ミセス・クロース
+  0.00 - Mrs. Claus - ミセス・クロース
   ```
 
 - \[Opt\] コードの最適化
@@ -79,10 +87,10 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
   ``` TXT
   # 以下のテーマが正しくマッチングできるようになりました
-  Jack-O-Lantern - ジャック・オ・ランタン
-  T-Rex - ティラノサウルス
-  Trick-or-Treating - トリック・オア・トリート
-  T-Shirt - Tシャツ - Tricou
+  3.00 - T-Shirt - Tシャツ - Tricou
+  1.00 - T-Rex - ティラノサウルス
+  0.00 - Jack-O-Lantern - ジャック・オ・ランタン
+  0.00 - Trick-or-Treating - トリック・オア・トリート
   ```
 
 - \[Fix\] シソーラス・カラム名が正しく設定されていないことが原因で発生する可能性がある `KeyError` クラッシュを修正しました
@@ -128,9 +136,9 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 ## ⚜ マッチングルール
 
 1. **数字**：アンダースコアの数
-2. **アルファベット**：マッチし、数字の前後に直接挿入できます
+2. **英字**：マッチし、数字の前後に直接挿入できます
 
-    - アルファベットを入力する際、大文字と小文字は区別されません
+    - 英字を入力する際、大文字と小文字は区別されません
 
 3. **日本語**：マッチし、数字の前後に直接挿入できます
 4. **ハイフン**：マッチし、数字の前後に直接挿入できます
@@ -154,40 +162,40 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 ## ⚜ 推測方法（「Water Bottle」を例にします）
 
-### 1. 数字とアルファベットを使って推測する
+### 1. 数字と英字を使って推測する
 
 ``` TXT
 テーマ: _____ ______
 マッチする式を入力してください: 5 6
-テーマの英語文字数は 12 です
-Build Battle - Build Battle
-Chili Pepper - 唐辛子 - Piment
-Ender Dragon - エンダードラゴン
-Fruit Basket - フルーツバスケット - Obstkorb
-Horse Racing - 競馬 - Zavod koni
-Horse Riding - 乗馬 - Ridning
-Light Switch - 照明スイッチ - Lysbryter
-Magic Carpet - 魔法のじゅうたん
-Paint Bucket - ペンキのバケツ - Fargburk
-Scuba Diving - スキューバダイビング - Buceo
-Snowy Forest - 雪の森
-Solar System - 太陽系 - Solsystem
-Swiss Cheese - スイスチーズ
-Table Tennis - 卓球 - Bordtenni
-Train Tracks - 線路 - Rail - Rautatie
-Water Bottle - 水入り瓶 - Waterfle
-Water Bucket - 水入りバケツ - Vandspand
+テーマの英字数は 12 です
+16.00 - Water Bucket - 水入りバケツ - Vandspand
+12.00 - Table Tennis - 卓球 - Bordtenni
+10.00 - Light Switch - 照明スイッチ - Lysbryter
+9.50 - Train Tracks - 線路 - Rail - Rautatie
+9.25 - Ender Dragon - エンダードラゴン
+8.25 - Paint Bucket - ペンキのバケツ - Fargburk
+7.75 - Horse Racing - 競馬 - Zavod koni
+7.75 - Water Bottle - 水入り瓶 - Waterfle
+7.50 - Swiss Cheese - スイスチーズ
+6.75 - Chili Pepper - 唐辛子 - Piment
+6.75 - Magic Carpet - 魔法のじゅうたん
+4.50 - Fruit Basket - フルーツバスケット - Obstkorb
+4.50 - Scuba Diving - スキューバダイビング - Buceo
+4.50 - Solar System - 太陽系 - Solsystem
+3.00 - Build Battle - Build Battle
+2.75 - Horse Riding - 乗馬 - Ridning
+0.25 - Snowy Forest - 雪の森
 ```
 
 ``` TXT
 テーマ: _a___ ______
 マッチする式を入力してください: 1a3 6
-テーマの英語文字数は 12 です
-Magic Carpet - 魔法のじゅうたん
-Paint Bucket - ペンキのバケツ - Fargburk
-Table Tennis - 卓球 - Bordtenni
-Water Bottle - 水入り瓶 - Waterfle
-Water Bucket - 水入りバケツ - Vandspand
+テーマの英字数は 12 です
+16.00 - Water Bucket - 水入りバケツ - Vandspand
+12.00 - Table Tennis - 卓球 - Bordtenni
+8.25 - Paint Bucket - ペンキのバケツ - Fargburk
+7.75 - Water Bottle - 水入り瓶 - Waterfle
+6.75 - Magic Carpet - 魔法のじゅうたん
 # ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
 ```
 
@@ -195,7 +203,7 @@ Water Bucket - 水入りバケツ - Vandspand
 テーマ: _a___ _o____
 マッチする式を入力してください: 1a3 1o4
 テーマの文字数は 4 です
-Water Bottle - 水入り瓶 - Waterfle
+7.75 - Water Bottle - 水入り瓶 - Waterfle
 ```
 
 ### 2. 正規表現を使って推測する
@@ -203,32 +211,32 @@ Water Bottle - 水入り瓶 - Waterfle
 ``` TXT
 テーマ: _a___ ______
 マッチする式を入力してください: .a3 .*
-Candy Buckets - 飴入りバケツ
-Candy Cane - キャンディケイン - Acadea
-Games Controller - ゲームコントローラー - Controller
-Magic Carpet - 魔法のじゅうたん
-Magic Hat - 魔法の帽子 - Joben
-Magic Wand - 魔法の杖
-Magma Cube - マグマキューブ
-Paint Bucket - ペンキのバケツ - Fargburk
-Paint Palette - ペイントパレット - Verfpalet
-Paper Airplane - 紙飛行機 - Papirfly
-Party Hat - パーティーハット
-Santa Claus - サンタクロース
-Table Cloth - テーブルクロス - Dug
-Table Tennis - 卓球 - Bordtenni
-Water Balloon - 水風船 - Gavettone
-Water Bottle - 水入り瓶 - Waterfle
-Water Bucket - 水入りバケツ - Vandspand
-Water Park - ウォーターパーク
-Water Slide - ウォータースライダー - Tobogan
+16.00 - Water Bucket - 水入りバケツ - Vandspand
+12.00 - Table Tennis - 卓球 - Bordtenni
+11.00 - Water Slide - ウォータースライダー - Tobogan
+9.50 - Magic Hat - 魔法の帽子 - Joben
+8.25 - Paint Bucket - ペンキのバケツ - Fargburk
+7.75 - Water Bottle - 水入り瓶 - Waterfle
+7.00 - Candy Cane - キャンディケイン - Acadea
+7.00 - Paper Airplane - 紙飛行機 - Papirfly
+6.75 - Magic Carpet - 魔法のじゅうたん
+6.50 - Party Hat - パーティーハット
+5.50 - Magma Cube - マグマキューブ
+5.25 - Water Balloon - 水風船 - Gavettone
+5.00 - Games Controller - ゲームコントローラー - Controller
+4.75 - Paint Palette - ペイントパレット - Verfpalet
+4.75 - Water Park - ウォーターパーク
+4.00 - Magic Wand - 魔法の杖
+4.00 - Table Cloth - テーブルクロス - Dug
+0.75 - Santa Claus - サンタクロース
+0.00 - Candy Buckets - 飴入りバケツ
 ```
 
 ``` TXT
 テーマ: _a___ _o____
 マッチする式を入力してください: .a3 .o.*
-Games Controller - ゲームコントローラー - Controller
-Water Bottle - 水入り瓶 - Waterfle
+7.75 - Water Bottle - 水入り瓶 - Waterfle
+5.00 - Games Controller - ゲームコントローラー - Controller
 # ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
 ```
 
@@ -236,7 +244,7 @@ Water Bottle - 水入り瓶 - Waterfle
 テーマ: _a___ _o___e
 マッチする式を入力してください: .a3 .o.*e
 テーマの文字数は 4 です
-Water Bottle - 水入り瓶 - Waterfle
+7.75 - Water Bottle - 水入り瓶 - Waterfle
 ```
 
 ### 3. 日本語を使って推測する
@@ -245,8 +253,8 @@ Water Bottle - 水入り瓶 - Waterfle
 テーマ: 水___
 マッチする式を入力してください: 水3
 テーマの文字数は 4 です
-Puddle - 水たまり - Pla
-Water Bottle - 水入り瓶 - Waterfle
+7.75 - Water Bottle - 水入り瓶 - Waterfle
+1.50 - Puddle - 水たまり - Pla
 # ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
 ```
 

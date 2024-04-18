@@ -1,6 +1,6 @@
 """
 GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on multi-language hints and regular expressions.
-Version: 4.0
+Version: 4.1
 Author: IceNight
 GitHub: https://github.com/IceNightKing
 """
@@ -51,10 +51,10 @@ def output_message(key, lang, Moe_Mode = False, word_count = "", e = ""):
             "en": f'Warn: Language code "{lang}" is not yet supported, GTB-Solver will output in English'
         },
         "program_information": {
-            "zh": "欢迎使用建筑猜猜宝 v4.0 ",
-            "cht": "歡迎使用建築猜猜寶 v4.0 ",
-            "jp": "GTB-Solver v4.0 へようこそ",
-            "en": "Welcome to GTB-Solver v4.0"
+            "zh": "欢迎使用建筑猜猜宝 v4.1 ",
+            "cht": "歡迎使用建築猜猜寶 v4.1 ",
+            "jp": "GTB-Solver v4.1 へようこそ",
+            "en": "Welcome to GTB-Solver v4.1"
         },
         "program_note": {
             "zh": "温馨提示: 本程序默认重复运行, 输入 0 或按下 Ctrl+C 以退出程序",
@@ -107,19 +107,19 @@ def output_message(key, lang, Moe_Mode = False, word_count = "", e = ""):
         "output_en_word_count": {
             "zh": f'该主题字数为 {Fore.YELLOW}{word_count}{Fore.CYAN} 个字母',
             "cht": f'此主題字數為 {Fore.YELLOW}{word_count}{Fore.CYAN} 個字母',
-            "jp": f'テーマの英語文字数は {Fore.YELLOW}{word_count}{Fore.CYAN} です',
+            "jp": f'テーマの英字数は {Fore.YELLOW}{word_count}{Fore.CYAN} です',
             "en": f'The theme is {Fore.YELLOW}{word_count}{Fore.CYAN} characters long'
         },
         "output_zh_word_count": {
             "zh": f'该主题字数为 {Fore.YELLOW}{word_count}{Fore.CYAN} 个字',
             "cht": f'此主題簡體中文字數為 {Fore.YELLOW}{word_count}{Fore.CYAN} 個字',
-            "jp": f'テーマの簡体字中国語文字数は {Fore.YELLOW}{word_count}{Fore.CYAN} です',
+            "jp": f'テーマの簡体字中国語の文字数は {Fore.YELLOW}{word_count}{Fore.CYAN} です',
             "en": f'The theme is {Fore.YELLOW}{word_count}{Fore.CYAN} character(s) long in Simplified Chinese'
         },
         "output_cht_word_count": {
             "zh": f'该主题繁体中文字数为 {Fore.YELLOW}{word_count}{Fore.CYAN} 个字',
             "cht": f'此主題字數為 {Fore.YELLOW}{word_count}{Fore.CYAN} 個字',
-            "jp": f'テーマの繁体字中国語文字数は {Fore.YELLOW}{word_count}{Fore.CYAN} です',
+            "jp": f'テーマの繁体字中国語の文字数は {Fore.YELLOW}{word_count}{Fore.CYAN} です',
             "en": f'The theme is {Fore.YELLOW}{word_count}{Fore.CYAN} character(s) long in Traditional Chinese'
         },
         "output_jp_word_count": {
@@ -266,14 +266,28 @@ def input_matching():
             color_count = 0
             copy_to_clipboard = True if Auto_Copy else False
 
+            def get_wf_color(wf_row):
+                thresholds = [(1.00, Fore.BLUE), (4.00, Fore.WHITE), (7.00, Fore.GREEN), (10.00, Fore.YELLOW), (13.00, Fore.RED)]
+                for threshold, color in thresholds:
+                    if wf_row < threshold:
+                        return color
+                return Fore.MAGENTA
+
             def get_text_color(color_count):
                 return Fore.GREEN if color_count%2 != 0 else ""
 
             def process_row(row):
                 global copy_to_clipboard
 
+                if "WF" in df.columns and row["WF"] != "%":
+                    wf_row = "{:.2f}".format(row["WF"])
+                    wf_color = get_wf_color(float(wf_row))
+                    text_row = f'{wf_color}{wf_row}{Style.RESET_ALL} - '
+                else:
+                    text_row = ""
+
                 text_color = get_text_color(color_count)
-                text_row = f'{text_color}{row["English"]}{Style.RESET_ALL}' if row["English"] != "%" else f'{Fore.BLACK}NULL{Style.RESET_ALL}'
+                text_row += f'{text_color}{row["English"]}{Style.RESET_ALL}' if row["English"] != "%" else f'{Fore.BLUE}NULL{Style.RESET_ALL}'
 
                 for lang_code, full_lang in lang_code_dic.items():
                     if (lang_code == lang or target_column == full_lang) and full_lang in df.columns and full_lang != "English" and row[full_lang] != "%":

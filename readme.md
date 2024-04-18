@@ -16,6 +16,14 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 
 ## ⚜ Update Log
 
+### 2024/04/18 - v4.1
+
+- \[Add\] Added word frequency statistical index
+  - The word frequency statistical index is weighted by time gradient and calculated from a total of approximately 15,000 rounds of game data provided by multiple players, and is for reference only
+- \[Opt\] The program now defaults to outputting in descending order according to word frequency statistical index
+  - If you still need to output according to the original rules, please use the "English" column as the sort basis in the thesaurus file `GTB_Thesaurus_Demo.xlsx`, and sort in ascending order of English letters
+- \[Opt\] Thesaurus update
+
 ### 2024/04/02 - v4.0
 
 - \[Add\] Traditional Chinese input matching support
@@ -24,8 +32,8 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 
   ``` TXT
   # The following theme(s) have now been able to be matched correctly
-  Santa's Sleigh
-  Santa's Workshop
+  0.25 - Santa's Workshop
+  0.00 - Santa's Sleigh
   ```
 
 - \[Opt\] Now the user can match Traditional Chinese by prefixing `@cht`
@@ -55,7 +63,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 
   ``` TXT
   # The following theme(s) have now been able to be matched correctly
-  Mrs. Claus
+  0.00 - Mrs. Claus
   ```
 
 - \[Opt\] Code optimization
@@ -79,10 +87,10 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 
   ``` TXT
   # The following theme(s) have now been able to be matched correctly
-  Jack-O-Lantern
-  T-Rex
-  Trick-or-Treating
-  T-Shirt - Tricou
+  3.00 - T-Shirt - Tricou
+  1.00 - T-Rex
+  0.00 - Jack-O-Lantern
+  0.00 - Trick-or-Treating
   ```
 
 - \[Fix\] Fixed `KeyError` crash that could be caused by incorrectly configured thesaurus column name
@@ -157,34 +165,34 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 Theme: _____ ______
 Please enter the matching expression: 5 6
 The theme is 12 characters long
-Build Battle
-Chili Pepper - Piment
-Ender Dragon
-Fruit Basket - Obstkorb
-Horse Racing - Zavod koni
-Horse Riding - Ridning
-Light Switch - Lysbryter
-Magic Carpet
-Paint Bucket - Fargburk
-Scuba Diving - Buceo
-Snowy Forest
-Solar System - Solsystem
-Swiss Cheese
-Table Tennis - Bordtenni
-Train Tracks - Rail - Rautatie
-Water Bottle - Waterfle
-Water Bucket - Vandspand
+16.00 - Water Bucket - Vandspand
+12.00 - Table Tennis - Bordtenni
+10.00 - Light Switch - Lysbryter
+9.50 - Train Tracks - Rail - Rautatie
+9.25 - Ender Dragon
+8.25 - Paint Bucket - Fargburk
+7.75 - Horse Racing - Zavod koni
+7.75 - Water Bottle - Waterfle
+7.50 - Swiss Cheese
+6.75 - Chili Pepper - Piment
+6.75 - Magic Carpet
+4.50 - Fruit Basket - Obstkorb
+4.50 - Scuba Diving - Buceo
+4.50 - Solar System - Solsystem
+3.00 - Build Battle
+2.75 - Horse Riding - Ridning
+0.25 - Snowy Forest
 ```
 
 ``` TXT
 Theme: _a___ ______
 Please enter the matching expression: 1a3 6
 The theme is 12 characters long
-Magic Carpet
-Paint Bucket - Fargburk
-Table Tennis - Bordtenni
-Water Bottle - Waterfle
-Water Bucket - Vandspand
+16.00 - Water Bucket - Vandspand
+12.00 - Table Tennis - Bordtenni
+8.25 - Paint Bucket - Fargburk
+7.75 - Water Bottle - Waterfle
+6.75 - Magic Carpet
 # Here you can choose according to the general outline of the player's building
 ```
 
@@ -192,7 +200,7 @@ Water Bucket - Vandspand
 Theme: _a___ _o____
 Please enter the matching expression: 1a3 1o4
 The theme is 12 characters long
-Water Bottle - Waterfle
+7.75 - Water Bottle - Waterfle
 ```
 
 ### 2. Guessing in conjunction with the use of regular expressions
@@ -200,32 +208,32 @@ Water Bottle - Waterfle
 ``` TXT
 Theme: _a___ ______
 Please enter the matching expression: .a3 .*
-Candy Buckets
-Candy Cane - Acadea
-Games Controller - Controller
-Magic Carpet
-Magic Hat - Joben
-Magic Wand
-Magma Cube
-Paint Bucket - Fargburk
-Paint Palette - Verfpalet
-Paper Airplane - Papirfly
-Party Hat
-Santa Claus
-Table Cloth - Dug
-Table Tennis - Bordtenni
-Water Balloon - Gavettone
-Water Bottle - Waterfle
-Water Bucket - Vandspand
-Water Park
-Water Slide - Tobogan
+16.00 - Water Bucket - Vandspand
+12.00 - Table Tennis - Bordtenni
+11.00 - Water Slide - Tobogan
+9.50 - Magic Hat - Joben
+8.25 - Paint Bucket - Fargburk
+7.75 - Water Bottle - Waterfle
+7.00 - Candy Cane - Acadea
+7.00 - Paper Airplane - Papirfly
+6.75 - Magic Carpet
+6.50 - Party Hat
+5.50 - Magma Cube
+5.25 - Water Balloon - Gavettone
+5.00 - Games Controller - Controller
+4.75 - Paint Palette - Verfpalet
+4.75 - Water Park
+4.00 - Magic Wand
+4.00 - Table Cloth - Dug
+0.75 - Santa Claus
+0.00 - Candy Buckets
 ```
 
 ``` TXT
 Theme: _a___ _o____
 Please enter the matching expression: .a3 .o.*
-Games Controller - Controller
-Water Bottle - Waterfle
+7.75 - Water Bottle - Waterfle
+5.00 - Games Controller - Controller
 # Here you can choose according to the general outline of the player's building
 ```
 
@@ -233,7 +241,7 @@ Water Bottle - Waterfle
 Theme: _a___ _o___e
 Please enter the matching expression: .a3 .o.*e
 The theme is 12 characters long
-Water Bottle - Waterfle
+7.75 - Water Bottle - Waterfle
 ```
 
 ## ⚜ Configuration Modification

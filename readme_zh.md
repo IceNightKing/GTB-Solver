@@ -18,6 +18,14 @@
 
 ## ⚜ 更新日志
 
+### 2024/04/18 - v4.1
+
+- \[Add\] 新增了词频统计指数
+  - 词频统计指数依时间梯度加权计算自多位玩家提供的共计约 15,000 回合的游戏数据，仅供参考
+- \[Opt\] 程序现在默认按照词频统计指数降序输出
+  - 如仍需按照原规则输出，请自行在词库文件 `GTB_Thesaurus_Demo.xlsx` 内以 English 列为排序依据，按照英语字母升序排序
+- \[Opt\] 词库更新
+
 ### 2024/04/02 - v4.0
 
 - \[Add\] 繁体中文输入匹配支持
@@ -26,8 +34,8 @@
 
   ``` TXT
   # 现在以下主题已经能够被正确匹配
-  Santa's Sleigh - 圣诞雪橇
-  Santa's Workshop - 圣诞老人工坊
+  0.25 - Santa's Workshop - 圣诞老人工坊
+  0.00 - Santa's Sleigh - 圣诞雪橇
   ```
 
 - \[Opt\] 现在用户可以通过前缀 `@cht` 匹配繁体中文
@@ -57,7 +65,7 @@
 
   ``` TXT
   # 现在以下主题已经能够被正确匹配
-  Mrs. Claus - 圣诞老奶奶
+  0.00 - Mrs. Claus - 圣诞老奶奶
   ```
 
 - \[Opt\] 代码优化
@@ -81,10 +89,10 @@
 
   ``` TXT
   # 现在以下主题已经能够被正确匹配
-  Jack-O-Lantern - 南瓜灯
-  T-Rex - 霸王龙
-  Trick-or-Treating - 不给糖就捣蛋
-  T-Shirt - T恤 - Tricou
+  3.00 - T-Shirt - T恤 - Tricou
+  1.00 - T-Rex - 霸王龙
+  0.00 - Jack-O-Lantern - 南瓜灯
+  0.00 - Trick-or-Treating - 不给糖就捣蛋
   ```
 
 - \[Fix\] 修复了词库列名配置不正确可能造成的 `KeyError` 崩溃
@@ -164,34 +172,34 @@
 主题: _____ ______
 请输入匹配式: 5 6
 该主题字数为 12 个字母
-Build Battle - 建筑大师
-Chili Pepper - 红辣椒 - Piment
-Ender Dragon - 末影龙
-Fruit Basket - 果篮 - Obstkorb
-Horse Racing - 赛马 - Zavod koni
-Horse Riding - 骑马 - Ridning
-Light Switch - 照明开关 - Lysbryter
-Magic Carpet - 魔毯
-Paint Bucket - 油漆桶 - Fargburk
-Scuba Diving - 水肺潜水 - Buceo
-Snowy Forest - 积雪森林
-Solar System - 太阳系 - Solsystem
-Swiss Cheese - 瑞士奶酪
-Table Tennis - 乒乓球 - Bordtenni
-Train Tracks - 铁轨 - Rail - Rautatie
-Water Bottle - 水瓶 - Waterfle
-Water Bucket - 水桶 - Vandspand
+16.00 - Water Bucket - 水桶 - Vandspand
+12.00 - Table Tennis - 乒乓球 - Bordtenni
+10.00 - Light Switch - 照明开关 - Lysbryter
+9.50 - Train Tracks - 铁轨 - Rail - Rautatie
+9.25 - Ender Dragon - 末影龙
+8.25 - Paint Bucket - 油漆桶 - Fargburk
+7.75 - Horse Racing - 赛马 - Zavod koni
+7.75 - Water Bottle - 水瓶 - Waterfle
+7.50 - Swiss Cheese - 瑞士奶酪
+6.75 - Chili Pepper - 红辣椒 - Piment
+6.75 - Magic Carpet - 魔毯
+4.50 - Fruit Basket - 果篮 - Obstkorb
+4.50 - Scuba Diving - 水肺潜水 - Buceo
+4.50 - Solar System - 太阳系 - Solsystem
+3.00 - Build Battle - 建筑大师
+2.75 - Horse Riding - 骑马 - Ridning
+0.25 - Snowy Forest - 积雪森林
 ```
 
 ``` TXT
 主题: _a___ ______
 请输入匹配式: 1a3 6
 该主题字数为 12 个字母
-Magic Carpet - 魔毯
-Paint Bucket - 油漆桶 - Fargburk
-Table Tennis - 乒乓球 - Bordtenni
-Water Bottle - 水瓶 - Waterfle
-Water Bucket - 水桶 - Vandspand
+16.00 - Water Bucket - 水桶 - Vandspand
+12.00 - Table Tennis - 乒乓球 - Bordtenni
+8.25 - Paint Bucket - 油漆桶 - Fargburk
+7.75 - Water Bottle - 水瓶 - Waterfle
+6.75 - Magic Carpet - 魔毯
 # 在此即可依据玩家建筑大致轮廓进行选择
 ```
 
@@ -199,7 +207,7 @@ Water Bucket - 水桶 - Vandspand
 主题: _a___ _o____
 请输入匹配式: 1a3 1o4
 该主题字数为 2 个字
-Water Bottle - 水瓶 - Waterfle
+7.75 - Water Bottle - 水瓶 - Waterfle
 ```
 
 ### 2. 结合使用正则表达式进行猜测
@@ -207,32 +215,32 @@ Water Bottle - 水瓶 - Waterfle
 ``` TXT
 主题: _a___ ______
 请输入匹配式: .a3 .*
-Candy Buckets - 糖果篮子
-Candy Cane - 糖果手杖 - Acadea
-Games Controller - 游戏手柄 - Controller
-Magic Carpet - 魔毯
-Magic Hat - 魔法帽子 - Joben
-Magic Wand - 魔术棒
-Magma Cube - 岩浆怪
-Paint Bucket - 油漆桶 - Fargburk
-Paint Palette - 调色板 - Verfpalet
-Paper Airplane - 纸飞机 - Papirfly
-Party Hat - 派对帽子
-Santa Claus - 圣诞老人
-Table Cloth - 桌布 - Dug
-Table Tennis - 乒乓球 - Bordtenni
-Water Balloon - 水气球 - Gavettone
-Water Bottle - 水瓶 - Waterfle
-Water Bucket - 水桶 - Vandspand
-Water Park - 水上乐园
-Water Slide - 水上滑梯 - Tobogan
+16.00 - Water Bucket - 水桶 - Vandspand
+12.00 - Table Tennis - 乒乓球 - Bordtenni
+11.00 - Water Slide - 水上滑梯 - Tobogan
+9.50 - Magic Hat - 魔法帽子 - Joben
+8.25 - Paint Bucket - 油漆桶 - Fargburk
+7.75 - Water Bottle - 水瓶 - Waterfle
+7.00 - Candy Cane - 糖果手杖 - Acadea
+7.00 - Paper Airplane - 纸飞机 - Papirfly
+6.75 - Magic Carpet - 魔毯
+6.50 - Party Hat - 派对帽子
+5.50 - Magma Cube - 岩浆怪
+5.25 - Water Balloon - 水气球 - Gavettone
+5.00 - Games Controller - 游戏手柄 - Controller
+4.75 - Paint Palette - 调色板 - Verfpalet
+4.75 - Water Park - 水上乐园
+4.00 - Magic Wand - 魔术棒
+4.00 - Table Cloth - 桌布 - Dug
+0.75 - Santa Claus - 圣诞老人
+0.00 - Candy Buckets - 糖果篮子
 ```
 
 ``` TXT
 主题: _a___ _o____
 请输入匹配式: .a3 .o.*
-Games Controller - 游戏手柄 - Controller
-Water Bottle - 水瓶 - Waterfle
+7.75 - Water Bottle - 水瓶 - Waterfle
+5.00 - Games Controller - 游戏手柄 - Controller
 # 在此即可依据玩家建筑大致轮廓进行选择
 ```
 
@@ -240,7 +248,7 @@ Water Bottle - 水瓶 - Waterfle
 主题: _a___ _o___e
 请输入匹配式: .a3 .o.*e
 该主题字数为 2 个字
-Water Bottle - 水瓶 - Waterfle
+7.75 - Water Bottle - 水瓶 - Waterfle
 ```
 
 ### 3. 使用简体中文进行猜测
@@ -249,16 +257,16 @@ Water Bottle - 水瓶 - Waterfle
 主题: 水_
 请输入匹配式: 水1
 该主题字数为 2 个字
-Crystal - 水晶
-Fruit - 水果
-Jellyfish - 水母 - Kwal
-Kettle - 水壶 - Tetera
-Otter - 水獭
-Pool - 水池 - Basen
-Puddle - 水坑 - Pla
-Water Bottle - 水瓶 - Waterfle
-Water Bucket - 水桶 - Vandspand
-Well - 水井
+16.00 - Water Bucket - 水桶 - Vandspand
+7.75 - Water Bottle - 水瓶 - Waterfle
+6.25 - Jellyfish - 水母 - Kwal
+4.25 - Pool - 水池 - Basen
+3.00 - Fruit - 水果
+2.25 - Crystal - 水晶
+2.00 - Well - 水井
+1.50 - Puddle - 水坑 - Pla
+1.25 - Kettle - 水壶 - Tetera
+1.00 - Otter - 水獭
 # 在此即可依据玩家建筑大致轮廓进行选择
 # 鉴于提示时间靠后，不建议使用简体中文猜测两字及两字以下主题
 ```
