@@ -19,7 +19,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 ### 2024/04/18 - v4.1
 
 - \[Add\] Added word frequency statistical index
-  - The word frequency statistical index is weighted by time gradient and calculated from a total of approximately 15,000 rounds of game data provided by multiple players, and is for reference only
+  - The word frequency statistical index is weighted by time gradient and calculated from a total of approximately 15,000 rounds of game data provided by multiple players, and it is for reference only
 - \[Opt\] The program now defaults to outputting in descending order according to word frequency statistical index
   - If you still need to output according to the original rules, please use the "English" column as the sort basis in the thesaurus file `GTB_Thesaurus_Demo.xlsx`, and sort in ascending order of English letters
 - \[Opt\] Thesaurus update
