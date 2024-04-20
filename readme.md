@@ -88,7 +88,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
   ``` TXT
   # The following theme(s) have now been able to be matched correctly
   3.00 - T-Shirt - Tricou
-  1.00 - T-Rex
+  1.75 - T-Rex
   0.00 - Jack-O-Lantern
   0.00 - Trick-or-Treating
   ```
@@ -144,7 +144,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 4. **Space**: Will NOT be matched, needs to be manually entered into the matching expression
 5. **Regular Expression Characters**: Partially available
 6. **Default Matching**: English
-7. **Exact Matching**：If there is no need for multi-language matching, you can add the corresponding prefix to the matching expression for exact matching
+7. **Exact Matching**: If there is no need for multi-language matching, you can add the corresponding prefix to the matching expression for exact matching
 
     - Matching Content and Corresponding Prefix List
 

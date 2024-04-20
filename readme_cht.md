@@ -90,7 +90,7 @@
   ``` TXT
   # 現在以下主題已經能夠被正確匹配
   3.00 - T-Shirt - T恤 - Tricou
-  1.00 - T-Rex - 暴龍
+  1.75 - T-Rex - 暴龍
   0.00 - Jack-O-Lantern - 南瓜燈
   0.00 - Trick-or-Treating - 不給糖就搗蛋
   ```

@@ -90,7 +90,7 @@
   ``` TXT
   # 现在以下主题已经能够被正确匹配
   3.00 - T-Shirt - T恤 - Tricou
-  1.00 - T-Rex - 霸王龙
+  1.75 - T-Rex - 霸王龙
   0.00 - Jack-O-Lantern - 南瓜灯
   0.00 - Trick-or-Treating - 不给糖就捣蛋
   ```

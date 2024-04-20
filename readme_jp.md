@@ -88,7 +88,7 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
   ``` TXT
   # 以下のテーマが正しくマッチングできるようになりました
   3.00 - T-Shirt - Tシャツ - Tricou
-  1.00 - T-Rex - ティラノサウルス
+  1.75 - T-Rex - ティラノサウルス
   0.00 - Jack-O-Lantern - ジャック・オ・ランタン
   0.00 - Trick-or-Treating - トリック・オア・トリート
   ```
