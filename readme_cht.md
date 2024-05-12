@@ -18,6 +18,13 @@
 
 ## ⚜ 更新日誌
 
+### 2024/05/12 - v4.2
+
+- \[Add\] 新增了日誌輔助處理模式
+- \[Add\] 新增了主題輔助記錄模式
+- \[Add\] 新增了半自動發送模式
+- \[Opt\] 詞庫更新
+
 ### 2024/04/18 - v4.1
 
 - \[Add\] 新增了詞頻統計指數
@@ -95,12 +102,12 @@
   0.00 - Trick-or-Treating - 不給糖就搗蛋
   ```
 
-- \[Fix\] 修復了詞庫欄名配置不正確可能造成的 `KeyError` 崩潰
+- \[Fix\] 修復了詞庫欄名設定不正確可能造成的 `KeyError` 崩潰
 
 ### 2024/02/04 - Demo_202402
 
 - \[Add\] 多語言 `readme` 支援
-- \[Add\] 輸出萌化模式支援
+- \[Add\] 新增了輸出萌化模式
 - \[Fix\] 修復了使用者輸入不合法可能造成的 `OverflowError` 崩潰
 - \[Fix\] 修復了使用者輸入不合法可能造成的 `re.error` 崩潰
 - \[Opt\] 程式輸出語言現在預設取決於系統語言
@@ -120,9 +127,9 @@
 - **Windows**：運行 `Installation of Dependency Libraries.bat` 安裝相關依賴程式庫
 - **macOS & Linux**：運行 `Installation of Dependency Libraries.sh` 安裝相關依賴程式庫
 
-### 3. 切換 Hypixel 伺服器語言為英文（推薦）
+### 3. 設定 Hypixel 伺服器語言為英文（推薦）
 
-- 於 Hypixel 伺服器內輸入 `/lang en` 即可完成切換
+- 於 Hypixel 伺服器內輸入 `/lang en` 即可完成設定
 
 ## ⚜ 使用方法
 
@@ -170,22 +177,22 @@
 主題: _____ ______
 請輸入匹配式: 5 6
 此主題字數為 12 個字母
-16.00 - Water Bucket - 水桶 - Vandspand
+16.75 - Water Bucket - 水桶 - Vandspand
 12.00 - Table Tennis - 乒乓球 - Bordtenni
+10.25 - Train Tracks - 鐵軌 - Rail - Rautatie
+10.00 - Ender Dragon - 終界龍
 10.00 - Light Switch - 電燈開關 - Lysbryter
-9.50 - Train Tracks - 鐵軌 - Rail - Rautatie
-9.25 - Ender Dragon - 終界龍
+8.50 - Water Bottle - 水瓶 - Waterfle
 8.25 - Paint Bucket - 油漆桶 - Fargburk
+8.25 - Swiss Cheese - 瑞士起司
 7.75 - Horse Racing - 賽馬 - Zavod koni
-7.75 - Water Bottle - 水瓶 - Waterfle
-7.50 - Swiss Cheese - 瑞士起司
 6.75 - Chili Pepper - 辣椒 - Piment
 6.75 - Magic Carpet - 魔毯
 4.50 - Fruit Basket - 水果籃 - Obstkorb
 4.50 - Scuba Diving - 水肺潛水 - Buceo
 4.50 - Solar System - 太陽系 - Solsystem
+3.50 - Horse Riding - 騎馬 - Ridning
 3.00 - Build Battle - 建築大賽
-2.75 - Horse Riding - 騎馬 - Ridning
 0.25 - Snowy Forest - 冰雪森林
 ```
 
@@ -193,10 +200,10 @@
 主題: _a___ ______
 請輸入匹配式: 1a3 6
 此主題字數為 12 個字母
-16.00 - Water Bucket - 水桶 - Vandspand
+16.75 - Water Bucket - 水桶 - Vandspand
 12.00 - Table Tennis - 乒乓球 - Bordtenni
+8.50 - Water Bottle - 水瓶 - Waterfle
 8.25 - Paint Bucket - 油漆桶 - Fargburk
-7.75 - Water Bottle - 水瓶 - Waterfle
 6.75 - Magic Carpet - 魔毯
 # 在此即可依據玩家建築大致輪廓進行選擇
 ```
@@ -205,7 +212,7 @@
 主題: _a___ _o____
 請輸入匹配式: 1a3 1o4
 此主題字數為 2 個字
-7.75 - Water Bottle - 水瓶 - Waterfle
+8.50 - Water Bottle - 水瓶 - Waterfle
 ```
 
 ### 2. 結合使用正規表示式進行猜測
@@ -213,21 +220,21 @@
 ``` TXT
 主題: _a___ ______
 請輸入匹配式: .a3 .*
-16.00 - Water Bucket - 水桶 - Vandspand
+16.75 - Water Bucket - 水桶 - Vandspand
 12.00 - Table Tennis - 乒乓球 - Bordtenni
 11.00 - Water Slide - 滑水道 - Tobogan
 9.50 - Magic Hat - 魔法頭飾 - Joben
+8.50 - Water Bottle - 水瓶 - Waterfle
 8.25 - Paint Bucket - 油漆桶 - Fargburk
-7.75 - Water Bottle - 水瓶 - Waterfle
 7.00 - Candy Cane - 拐杖糖 - Acadea
 7.00 - Paper Airplane - 紙飛機 - Papirfly
 6.75 - Magic Carpet - 魔毯
 6.50 - Party Hat - 派對帽
+6.25 - Water Park - 水上樂園
+5.75 - Games Controller - 遊戲控制器 - Controller
 5.50 - Magma Cube - 岩漿立方怪
+5.50 - Paint Palette - 調色盤 - Verfpalet
 5.25 - Water Balloon - 水球 - Gavettone
-5.00 - Games Controller - 遊戲控制器 - Controller
-4.75 - Paint Palette - 調色盤 - Verfpalet
-4.75 - Water Park - 水上樂園
 4.00 - Magic Wand - 魔杖
 4.00 - Table Cloth - 桌布 - Dug
 0.75 - Santa Claus - 聖誕老人
@@ -237,8 +244,8 @@
 ``` TXT
 主題: _a___ _o____
 請輸入匹配式: .a3 .o.*
-7.75 - Water Bottle - 水瓶 - Waterfle
-5.00 - Games Controller - 遊戲控制器 - Controller
+8.50 - Water Bottle - 水瓶 - Waterfle
+5.75 - Games Controller - 遊戲控制器 - Controller
 # 在此即可依據玩家建築大致輪廓進行選擇
 ```
 
@@ -246,7 +253,7 @@
 主題: _a___ _o___e
 請輸入匹配式: .a3 .o.*e
 此主題字數為 2 個字
-7.75 - Water Bottle - 水瓶 - Waterfle
+8.50 - Water Bottle - 水瓶 - Waterfle
 ```
 
 ### 3. 使用繁體中文進行猜測
@@ -255,16 +262,16 @@
 主題: 水_
 請輸入匹配式: 水1
 此主題字數為 2 個字
-16.00 - Water Bucket - 水桶 - Vandspand
+16.75 - Water Bucket - 水桶 - Vandspand
+8.50 - Water Bottle - 水瓶 - Waterfle
 7.75 - Underwater - 水下 - Pod woda
-7.75 - Water Bottle - 水瓶 - Waterfle
 6.25 - Jellyfish - 水母 - Kwal
 5.25 - Water Balloon - 水球 - Gavettone
 3.00 - Fruit - 水果
 2.25 - Crystal - 水晶
+1.75 - Otter - 水獺
 1.50 - Puddle - 水坑 - Pla
 1.25 - Kettle - 水壺 - Tetera
-1.00 - Otter - 水獺
 # 在此即可依據玩家建築大致輪廓進行選擇
 # 鑒於提示時間靠後，不建議使用繁體中文猜測兩字及兩字以下主題
 ```
@@ -276,7 +283,7 @@
 - 預設路徑為 `GTB-Solver_main.py` 同資料夾。如需修改詞庫檔案路徑或更換詞庫檔案，請在 `GTB-Solver_main.py` 內找到以下代碼，替換引號內的路徑即可（支援中文路徑）
 
 ``` Python
-GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
+GTB_THESAURUS = r"GTB_Thesaurus_Demo.xlsx"
 ```
 
 - 注意：詞庫檔案內應至少存在 English 欄（嚴格區分大小寫）
@@ -286,7 +293,7 @@ GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 - 預設輸出語言為系統語言，若系統語言尚未支援，則為英文。如需修改程式預設輸出語言，請在 `GTB-Solver_main.py` 內找到以下代碼，於引號內加入對應語言代碼即可。如僅需暫時性修改程式輸出語言，直接輸入對應切換指令即可
 
 ``` Python
-Multi_Lang = ""
+MULTI_LANG = ""
 ```
 
 - 語言代碼與切換指令列表
@@ -303,7 +310,7 @@ Multi_Lang = ""
 - 預設關閉。如需開啟輸出萌化模式，請在 `GTB-Solver_main.py` 內找到以下代碼，替換 `False` 為 `True` 即可
 
 ``` Python
-Moe_Mode = False
+MOE_MODE = False
 ```
 
 ### 4. 修改自動複製狀態
@@ -311,7 +318,91 @@ Moe_Mode = False
 - 預設關閉。如需自動複製首個匹配結果至剪貼簿，請在 `GTB-Solver_main.py` 內找到以下代碼，替換 `False` 為 `True` 即可
 
 ``` Python
-Auto_Copy = False
+AUTO_COPY = False
+```
+
+### 5. 修改日誌輔助處理狀態
+
+- 預設關閉。如需即時輸出遊戲相關狀態，並將遊戲內玩家猜測的主題與已經輸出的匹配結果進行對比，經篩選後重新輸出，請在 `GTB-Solver_main.py` 內找到以下代碼，替換 `False` 為 `True` 即可
+
+``` Python
+LAP_MODE = False
+```
+
+- 提示：日誌輔助處理模式支援處理伺服器語言設定為簡體中文、繁體中文、日文、英文的情況，並支援對比玩家使用簡體中文、繁體中文、日文、英文、Shortcut(s)、Multiword(s) 猜測的主題。若您的詞庫檔案版本不同，實際對比效果可能會發生改變
+
+### 6. 修改日誌檔案路徑
+
+- 預設路徑為 `C:\Minecraft\.minecraft\logs\latest.log`，僅供參考，請根據實際情況進行修改。如需修改日誌檔案路徑，請在 `GTB-Solver_main.py` 內找到以下代碼，替換引號內的路徑即可（支援中文路徑）
+
+``` Python
+LOG_FILE = r"C:\Minecraft\.minecraft\logs\latest.log"
+```
+
+### 7. 修改日誌檔案重複讀取間隔
+
+- 預設間隔為 `0.05` 秒。如需修改日誌檔案的重複讀取間隔，請在 `GTB-Solver_main.py` 內找到以下代碼，修改數值即可
+
+``` Python
+LAP_INTERVAL = 0.05
+```
+
+- 提示：建議將該間隔設定在 `0.01` ~ `0.20` 秒的範圍內。若您發現開啟日誌輔助處理模式後遊戲相關狀態更新不及時或未能成功抓取玩家猜測的主題，可適當減少重複讀取間隔
+
+### 8. 修改遊戲結束時自訂複製內容
+
+- 預設複製內容為 `Good Game`。如需修改遊戲結束時自訂複製內容，請在 `GTB-Solver_main.py` 內找到以下代碼，替換引號內的內容即可（支援中文）
+
+``` Python
+CUSTOM_CONTENT = "Good Game"
+```
+
+- 注意：自動複製模式與日誌輔助處理模式開啟時，自訂內容才會被複製。自動複製模式的開啟方法詳見 `配置修改方法 4`，日誌輔助處理模式的開啟方法詳見 `配置修改方法 5`
+
+### 9. 修改主題輔助記錄狀態
+
+- 預設關閉。如需在正確主題出現後將其記錄至輔助記錄檔案內以便後續統計處理，請在 `GTB-Solver_main.py` 內找到以下代碼，替換 `False` 為 `True` 即可
+
+``` Python
+TAR_MODE = False
+```
+
+- 注意：啟用主題輔助記錄模式需要同時開啟日誌輔助處理模式。日誌輔助處理模式的開啟方法詳見 `配置修改方法 5`
+
+### 10. 修改主題輔助記錄檔案路徑
+
+- 預設路徑為 `GTB-Solver_main.py` 同資料夾。如需修改主題輔助記錄檔案路徑，請在 `GTB-Solver_main.py` 內找到以下代碼，替換引號內的路徑即可（支援中文路徑）
+
+``` Python
+GTB_TAR_FILE = r"GTB_TAR_File.txt"
+```
+
+### 11. 修改半自動發送狀態
+
+- 預設關閉。如需在輸入匹配式後自動發送首個匹配結果至遊戲內，請在 `GTB-Solver_main.py` 內找到以下代碼，替換 `False` 為 `True` 即可
+
+``` Python
+SAS_MODE = False
+```
+
+- 注意：啟用半自動發送模式需要同時開啟自動複製模式與日誌輔助處理模式。自動複製模式的開啟方法詳見 `配置修改方法 4`，日誌輔助處理模式的開啟方法詳見 `配置修改方法 5`
+
+### 12. 修改半自動發送間隔
+
+- 預設間隔為 `2.0` 秒。如需修改兩次發送間的時間間隔，請在 `GTB-Solver_main.py` 內找到以下代碼，修改數值即可
+
+``` Python
+SAS_INTERVAL = 2.0
+```
+
+- 提示：該間隔是在減去重複猜測剩餘冷卻時間後額外的暫停時間，建議將該間隔設置在 `1.0` ~ `5.0` 秒的範圍內。此間隔設定太小可能會觸發伺服器反垃圾訊息機製而被踢出遊戲
+
+### 13. 修改遊戲視窗名稱
+
+- 預設啟動包含 `Minecraft` 字樣的第一個視窗。若您使用了非原版客戶端，請在 `GTB-Solver_main.py` 內找到以下代碼，替換引號內的內容為遊戲視窗名稱即可（支援中文）
+
+``` Python
+WINDOW_TITLE = "Minecraft"
 ```
 
 ## ⚜ 注意事項

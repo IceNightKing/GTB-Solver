@@ -16,6 +16,13 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 
 ## ⚜ Update Log
 
+### 2024/05/12 - v4.2
+
+- \[Add\] Added log assisted processing mode
+- \[Add\] Added theme auxiliary recording mode
+- \[Add\] Added semi-automatic sending mode
+- \[Opt\] Thesaurus update
+
 ### 2024/04/18 - v4.1
 
 - \[Add\] Added word frequency statistical index
@@ -98,7 +105,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 ### 2024/02/04 - Demo_202402
 
 - \[Add\] Multi-language `readme` support
-- \[Add\] Output moe mode support
+- \[Add\] Added output moe mode
 - \[Fix\] Fixed `OverflowError` crash that could be caused by illegitimate user inputs
 - \[Fix\] Fixed `re.error` crash that could be caused by illegitimate user inputs
 - \[Opt\] Program output language now depends on system language by default
@@ -107,7 +114,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 
 ## ⚜ Pre-conditions
 
-### 1. Setting up the Python runtime environment
+### 1. Set up the Python runtime environment
 
 - [Visit the official Python website to download](https://www.python.org/downloads/ "Python Source Releases")
   - It is recommended that you install Python 3.10 and above, bugs in older versions will not be fixed
@@ -118,9 +125,9 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 - **Windows**: Run `Installation of Dependency Libraries.bat` to install the related dependency libraries
 - **macOS & Linux**: Run `Installation of Dependency Libraries.sh` to install the related dependency libraries
 
-### 3. Switch Hypixel server language to English (Recommend)
+### 3. Set Hypixel server language to English (Recommend)
 
-- Type `/lang en` in the Hypixel server to switch
+- Type `/lang en` in Hypixel server to complete the setup
 
 ## ⚜ How to Use
 
@@ -165,22 +172,22 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 Theme: _____ ______
 Please enter the matching expression: 5 6
 The theme is 12 characters long
-16.00 - Water Bucket - Vandspand
+16.75 - Water Bucket - Vandspand
 12.00 - Table Tennis - Bordtenni
+10.25 - Train Tracks - Rail - Rautatie
+10.00 - Ender Dragon
 10.00 - Light Switch - Lysbryter
-9.50 - Train Tracks - Rail - Rautatie
-9.25 - Ender Dragon
+8.50 - Water Bottle - Waterfle
 8.25 - Paint Bucket - Fargburk
+8.25 - Swiss Cheese
 7.75 - Horse Racing - Zavod koni
-7.75 - Water Bottle - Waterfle
-7.50 - Swiss Cheese
 6.75 - Chili Pepper - Piment
 6.75 - Magic Carpet
 4.50 - Fruit Basket - Obstkorb
 4.50 - Scuba Diving - Buceo
 4.50 - Solar System - Solsystem
+3.50 - Horse Riding - Ridning
 3.00 - Build Battle
-2.75 - Horse Riding - Ridning
 0.25 - Snowy Forest
 ```
 
@@ -188,10 +195,10 @@ The theme is 12 characters long
 Theme: _a___ ______
 Please enter the matching expression: 1a3 6
 The theme is 12 characters long
-16.00 - Water Bucket - Vandspand
+16.75 - Water Bucket - Vandspand
 12.00 - Table Tennis - Bordtenni
+8.50 - Water Bottle - Waterfle
 8.25 - Paint Bucket - Fargburk
-7.75 - Water Bottle - Waterfle
 6.75 - Magic Carpet
 # Here you can choose according to the general outline of the player's building
 ```
@@ -200,7 +207,7 @@ The theme is 12 characters long
 Theme: _a___ _o____
 Please enter the matching expression: 1a3 1o4
 The theme is 12 characters long
-7.75 - Water Bottle - Waterfle
+8.50 - Water Bottle - Waterfle
 ```
 
 ### 2. Guessing in conjunction with the use of regular expressions
@@ -208,21 +215,21 @@ The theme is 12 characters long
 ``` TXT
 Theme: _a___ ______
 Please enter the matching expression: .a3 .*
-16.00 - Water Bucket - Vandspand
+16.75 - Water Bucket - Vandspand
 12.00 - Table Tennis - Bordtenni
 11.00 - Water Slide - Tobogan
 9.50 - Magic Hat - Joben
+8.50 - Water Bottle - Waterfle
 8.25 - Paint Bucket - Fargburk
-7.75 - Water Bottle - Waterfle
 7.00 - Candy Cane - Acadea
 7.00 - Paper Airplane - Papirfly
 6.75 - Magic Carpet
 6.50 - Party Hat
+6.25 - Water Park
+5.75 - Games Controller - Controller
 5.50 - Magma Cube
+5.50 - Paint Palette - Verfpalet
 5.25 - Water Balloon - Gavettone
-5.00 - Games Controller - Controller
-4.75 - Paint Palette - Verfpalet
-4.75 - Water Park
 4.00 - Magic Wand
 4.00 - Table Cloth - Dug
 0.75 - Santa Claus
@@ -232,8 +239,8 @@ Please enter the matching expression: .a3 .*
 ``` TXT
 Theme: _a___ _o____
 Please enter the matching expression: .a3 .o.*
-7.75 - Water Bottle - Waterfle
-5.00 - Games Controller - Controller
+8.50 - Water Bottle - Waterfle
+5.75 - Games Controller - Controller
 # Here you can choose according to the general outline of the player's building
 ```
 
@@ -241,7 +248,7 @@ Please enter the matching expression: .a3 .o.*
 Theme: _a___ _o___e
 Please enter the matching expression: .a3 .o.*e
 The theme is 12 characters long
-7.75 - Water Bottle - Waterfle
+8.50 - Water Bottle - Waterfle
 ```
 
 ## ⚜ Configuration Modification
@@ -251,7 +258,7 @@ The theme is 12 characters long
 - The default path is the same folder as `GTB-Solver_main.py`. If you need to modify the path of the thesaurus file or replace the thesaurus file, please find the following code in `GTB-Solver_main.py` and replace the path in quotation marks
 
 ``` Python
-GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
+GTB_THESAURUS = r"GTB_Thesaurus_Demo.xlsx"
 ```
 
 - Note: There should be at least an "English" column in the thesaurus file (strictly case sensitive)
@@ -261,7 +268,7 @@ GTB_Thesaurus = r"GTB_Thesaurus_Demo.xlsx"
 - The default output language is the system language, or English if the system language is not yet supported. If you need to modify the default output language of the program, please find the following code in `GTB-Solver_main.py` and add the corresponding language code in quotation marks. If you only need to temporarily modify the program output language, you can directly enter the corresponding switching command
 
 ``` Python
-Multi_Lang = ""
+MULTI_LANG = ""
 ```
 
 - Language Code and Switching Command List
@@ -275,18 +282,102 @@ Multi_Lang = ""
 
 ### 3. Modify the output moe status
 
-- The output moe mode is disabled by default. To enable the output moe mode, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+- The output moe mode is disabled by default. If you need to enable the output moe mode, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
 
 ``` Python
-Moe_Mode = False
+MOE_MODE = False
 ```
 
 ### 4. Modify the automatic copying status
 
-- The automatic copying mode is disabled by default. To automatically copy the first matching result to the clipboard, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+- The automatic copying mode is disabled by default. If you need to automatically copy the first matching result to the clipboard, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
 
 ``` Python
-Auto_Copy = False
+AUTO_COPY = False
+```
+
+### 5. Modify the log assisted processing status
+
+- The log assisted processing mode is disabled by default. If you need to output game-related status online, compare the themes guessed by players in the game with the already output matching results, and re-output them after filtering, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+
+``` Python
+LAP_MODE = False
+```
+
+- Tip: The log assisted processing mode supports processing when the server language is set to Simplified Chinese, Traditional Chinese, Japanese or English, and supports to compare the themes guessed by players using Simplified Chinese, Traditional Chinese, Japanese, English, Shortcut(s) or Multiword(s). If your thesaurus file version is different, the actual comparison effect may change
+
+### 6. Modify the path of the log file
+
+- The default path is `C:\Minecraft\.minecraft\logs\latest.log`, and it is for reference only, please modify it according to the actual situation. If you need to modify the path of the log file, please find the following code in `GTB-Solver_main.py` and replace the path in quotation marks
+
+``` Python
+LOG_FILE = r"C:\Minecraft\.minecraft\logs\latest.log"
+```
+
+### 7. Modify the repeat reading interval of the log file
+
+- The default interval is `0.05` seconds. If you need to modify the repeat reading interval of the log file, please find the following code in `GTB-Solver_main.py` and modify the value
+
+``` Python
+LAP_INTERVAL = 0.05
+```
+
+- Tip: It is recommended to set the interval in the range of `0.01` ~ `0.20` seconds. If you find that the game-related status is not updated in time or fail to capture the themes guessed by players after enabling the log assisted processing mode, you can reduce the repeat reading interval appropriately
+
+### 8. Modify the custom copy content at the end of the game
+
+- The default copy content is `Good Game`. If you need to modify the custom copy content at the end of the game, please find the following code in `GTB-Solver_main.py` and replace the content in the quotation marks
+
+``` Python
+CUSTOM_CONTENT = "Good Game"
+```
+
+- Note: Custom content will only be copied when automatic copying mode and log assisted processing mode are enabled. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 5`
+
+### 9. Modify the theme auxiliary recording status
+
+- The theme auxiliary recording mode is disabled by default. If you need to record the correct theme to the auxiliary recording file for subsequent statistical processing, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+
+``` Python
+TAR_MODE = False
+```
+
+- Note: Enabling theme auxiliary recording mode requires enabling log assisted processing mode at the same time. For details on how to enable log assisted processing mode, see `Configuration Modification Method 5`
+
+### 10. Modify the path of the theme auxiliary recording file
+
+- The default path is the same folder as `GTB-Solver_main.py`. If you need to modify the path of the theme auxiliary recording file, please find the following code in `GTB-Solver_main.py` and replace the path in quotation marks
+
+``` Python
+GTB_TAR_FILE = r"GTB_TAR_File.txt"
+```
+
+### 11. Modify the semi-automatic sending status
+
+- The semi-automatic sending mode is disabled by default. If you need to automatically send the first matching result to the game after entering the matching expression, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+
+``` Python
+SAS_MODE = False
+```
+
+- Note: Enabling semi-automatic sending mode requires enabling automatic copying mode and log assisted processing mode at the same time. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 5`
+
+### 12. Modify the semi-automatic sending interval
+
+- The default interval is `2.0` seconds. If you need to modify the interval between sends, please find the following code in `GTB-Solver_main.py` and modify the value
+
+``` Python
+SAS_INTERVAL = 2.0
+```
+
+- Tip: This interval is the additional pause time after subtracting the remaining cooldown time of the repeat guess, it is recommended to set the interval in the range of `1.0` ~ `5.0` second(s). Setting the interval too short may trigger the server's anti-spam mechanism and result in being kicked out of the game
+
+### 13. Modify the game window title
+
+- The semi-automatic sending mode activates the first window containing the word `Minecraft` by default. If you are using a non-original client, please find the following code in `GTB-Solver_main.py` and replace the content in quotation marks with the game window title
+
+``` Python
+WINDOW_TITLE = "Minecraft"
 ```
 
 ## ⚜ Important Notes
