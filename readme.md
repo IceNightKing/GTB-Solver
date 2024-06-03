@@ -16,6 +16,12 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 
 ## ⚜ Update Log
 
+### 2024/06/03 - v4.3
+
+- \[Add\] Added program self-check
+- \[Opt\] Optimized the output style of log assisted processing mode
+- \[Opt\] Code optimization
+
 ### 2024/05/12 - v4.2
 
 - \[Add\] Added log assisted processing mode
@@ -164,7 +170,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
       | Shortcut(s) | @sc |
       | Multiword(s) | @mw |
 
-## ⚜ How to Guess (Taking Water Bottle as an Example)
+## ⚜ How to Guess (Take Water Bottle as an Example)
 
 ### 1. Use numbers + letters to guess
 
@@ -261,7 +267,7 @@ The theme is 12 characters long
 GTB_THESAURUS = r"GTB_Thesaurus_Demo.xlsx"
 ```
 
-- Note: There should be at least an "English" column in the thesaurus file (strictly case sensitive)
+- **Note**: There should be at least an "English" column in the thesaurus file (strictly case sensitive)
 
 ### 2. Modify the program output language
 
@@ -280,7 +286,7 @@ MULTI_LANG = ""
   | Japanese | jp | /lang jp |
   | English | en | /lang en |
 
-### 3. Modify the output moe status
+### 3. Modify the output moe mode status
 
 - The output moe mode is disabled by default. If you need to enable the output moe mode, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
 
@@ -288,23 +294,57 @@ MULTI_LANG = ""
 MOE_MODE = False
 ```
 
-### 4. Modify the automatic copying status
+### 4. Modify the automatic copying mode status
 
-- The automatic copying mode is disabled by default. If you need to automatically copy the first matching result to the clipboard, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+- The automatic copying mode is disabled by default. If you need to automatically copy the first matching entry to the clipboard, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
 
 ``` Python
 AUTO_COPY = False
 ```
 
-### 5. Modify the log assisted processing status
+### 5. Modify the log assisted processing mode status
 
-- The log assisted processing mode is disabled by default. If you need to output game-related status online, compare the themes guessed by players in the game with the already output matching results, and re-output them after filtering, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+- The log assisted processing mode is disabled by default. If you need to output game-related status online, compare the themes guessed by players in the game with the already output matching entries, and re-output them after filtering, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
 
 ``` Python
 LAP_MODE = False
 ```
 
-- Tip: The log assisted processing mode supports processing when the server language is set to Simplified Chinese, Traditional Chinese, Japanese or English, and supports to compare the themes guessed by players using Simplified Chinese, Traditional Chinese, Japanese, English, Shortcut(s) or Multiword(s). If your thesaurus file version is different, the actual comparison effect may change
+- Example of Output Style (Among them, `3` is the current round, `10` is the total rounds, `NoticeYou` is the name of the builder of the current round, and `12` is the number of characters in the current round theme including spaces)
+
+  ``` TXT
+  [3/10] NoticeYou(12)
+  ```
+
+- Example of Comparative Guessing (Take Shopping Bag as an Example)
+
+  ``` TXT
+  Theme: ________ ___
+  [3/10] NoticeYou(12)
+  Please enter the matching expression: 8 3
+  The theme is 12 characters long
+  8.25 - Shopping Bag - Handlepose
+  7.25 - Sleeping Bag - Sovepose
+  4.00 - Baseball Bat
+  ```
+
+  ``` TXT
+  [3/10] NoticeYou(12)
+  NoticeSC: sovepose
+  Detects that the player guessed theme(s) Sleeping Bag but did not guess correctly, and the filtered matching entries will be output accordingly
+  8.25 - Shopping Bag - Handlepose
+  4.00 - Baseball Bat
+  ```
+
+  ``` TXT
+  [3/10] NoticeYou(12)
+  NoticeZH: 棒球棍
+  Detects that the player guessed theme(s) Sleeping Bag, Baseball Bat but did not guess correctly, and the filtered matching entries will be output accordingly
+  8.25 - Shopping Bag - Handlepose
+  # Here you can guess the correct theme directly
+  ```
+
+- **Tip**: The log assisted processing mode supports processing when the server language is set to Simplified Chinese, Traditional Chinese, Japanese or English, and supports to compare the themes guessed by players using Simplified Chinese, Traditional Chinese, Japanese, English, Shortcut(s) or Multiword(s). If your thesaurus file version is different, the actual comparison effect may change
 
 ### 6. Modify the path of the log file
 
@@ -322,7 +362,7 @@ LOG_FILE = r"C:\Minecraft\.minecraft\logs\latest.log"
 LAP_INTERVAL = 0.05
 ```
 
-- Tip: It is recommended to set the interval in the range of `0.01` ~ `0.20` seconds. If you find that the game-related status is not updated in time or fail to capture the themes guessed by players after enabling the log assisted processing mode, you can reduce the repeat reading interval appropriately
+- **Tip**: It is recommended to set the interval in the range of `0.01` ~ `0.20` seconds. If you find that the game-related status is not updated in time or fail to capture the themes guessed by players after enabling the log assisted processing mode, you can reduce the repeat reading interval appropriately
 
 ### 8. Modify the custom copy content at the end of the game
 
@@ -332,9 +372,9 @@ LAP_INTERVAL = 0.05
 CUSTOM_CONTENT = "Good Game"
 ```
 
-- Note: Custom content will only be copied when automatic copying mode and log assisted processing mode are enabled. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 5`
+- **Note**: Custom content will only be copied when automatic copying mode and log assisted processing mode are enabled. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 5`
 
-### 9. Modify the theme auxiliary recording status
+### 9. Modify the theme auxiliary recording mode status
 
 - The theme auxiliary recording mode is disabled by default. If you need to record the correct theme to the auxiliary recording file for subsequent statistical processing, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
 
@@ -342,7 +382,7 @@ CUSTOM_CONTENT = "Good Game"
 TAR_MODE = False
 ```
 
-- Note: Enabling theme auxiliary recording mode requires enabling log assisted processing mode at the same time. For details on how to enable log assisted processing mode, see `Configuration Modification Method 5`
+- **Note**: Enabling theme auxiliary recording mode requires enabling log assisted processing mode at the same time. For details on how to enable log assisted processing mode, see `Configuration Modification Method 5`
 
 ### 10. Modify the path of the theme auxiliary recording file
 
@@ -352,15 +392,15 @@ TAR_MODE = False
 GTB_TAR_FILE = r"GTB_TAR_File.txt"
 ```
 
-### 11. Modify the semi-automatic sending status
+### 11. Modify the semi-automatic sending mode status
 
-- The semi-automatic sending mode is disabled by default. If you need to automatically send the first matching result to the game after entering the matching expression, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+- The semi-automatic sending mode is disabled by default. If you need to automatically send the first matching entry to the game after entering the matching expression, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
 
 ``` Python
 SAS_MODE = False
 ```
 
-- Note: Enabling semi-automatic sending mode requires enabling automatic copying mode and log assisted processing mode at the same time. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 5`
+- **Note**: Enabling semi-automatic sending mode requires enabling automatic copying mode and log assisted processing mode at the same time. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 5`
 
 ### 12. Modify the semi-automatic sending interval
 
@@ -370,7 +410,7 @@ SAS_MODE = False
 SAS_INTERVAL = 2.0
 ```
 
-- Tip: This interval is the additional pause time after subtracting the remaining cooldown time of the repeat guess, it is recommended to set the interval in the range of `1.0` ~ `5.0` second(s). Setting the interval too short may trigger the server's anti-spam mechanism and result in being kicked out of the game
+- **Tip**: This interval is the additional pause time after subtracting the remaining cooldown time of the repeat guess, it is recommended to set the interval in the range of `1.0` ~ `5.0` second(s). Setting the interval too short may trigger the server's anti-spam mechanism and result in being kicked out of the game
 
 ### 13. Modify the game window title
 

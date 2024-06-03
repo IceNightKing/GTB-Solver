@@ -1,6 +1,6 @@
 """
 GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on multi-language hints and regular expressions.
-Version: 4.2
+Version: 4.3
 Author: IceNight
 GitHub: https://github.com/IceNightKing
 """
@@ -71,16 +71,16 @@ def output_language():
         print(f'{Fore.YELLOW}{output_message("unsupported_language", lang, moe)}{Style.RESET_ALL}')
         lang = "en"
 
-def output_message(key, lang, moe = False, word_chars = "", e = "", theme_chars = "", output_del_elem = "", correct_theme = "", LAP_guess_cnt = ""):
+def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_elem=None, correct_theme=None, LAP_guess_cnt=None):
     messages = {
         "unsupported_language": {
             "en": f'Warn: Language code "{lang}" is not yet supported, GTB-Solver will output in English'
         },
         "program_info": {
-            "zh": "欢迎使用建筑猜猜宝 v4.2 ",
-            "cht": "歡迎使用建築猜猜寶 v4.2 ",
-            "jp": "GTB-Solver v4.2 へようこそ",
-            "en": "Welcome to GTB-Solver v4.2"
+            "zh": "欢迎使用建筑猜猜宝 v4.3 ",
+            "cht": "歡迎使用建築猜猜寶 v4.3 ",
+            "jp": "GTB-Solver v4.3 へようこそ",
+            "en": "Welcome to GTB-Solver v4.3"
         },
         "program_note": {
             "zh": "温馨提示：建筑猜猜宝默认重复运行，输入 0 或按下 Ctrl+C 以退出程序",
@@ -99,6 +99,48 @@ def output_message(key, lang, moe = False, word_chars = "", e = "", theme_chars 
             "cht": "詞庫自檢完成",
             "jp": "シソーラス・セルフチェック完了",
             "en": "Self-check Completed"
+        },
+        "program_self_check_starts": {
+            "zh": "程序状态自检",
+            "cht": "程式狀態自檢",
+            "jp": "プログラム・セルフチェック開始",
+            "en": "GTBSolver Self-check"
+        },
+        "program_self_check_completed": {
+            "zh": "程序自检完成",
+            "cht": "程式自檢完成",
+            "jp": "プログラム・セルフチェック完了",
+            "en": "Self-check Completed"
+        },
+        "program_MOE_STD_name": {
+            "zh": "输出萌化模式    \t\t",
+            "cht": "輸出萌化模式    \t\t",
+            "jp": "出力萌えモード  \t\t\t\t",
+            "en": "Output Moe Mode \t\t\t"
+        },
+        "program_AC_STD_name": {
+            "zh": "自动复制模式    \t\t",
+            "cht": "自動複製模式    \t\t",
+            "jp": "自動コピーモード\t\t\t\t",
+            "en": "Automatic Copying Mode  \t\t"
+        },
+        "program_LAP_STD_name": {
+            "zh": "日志辅助处理模式\t\t",
+            "cht": "日誌輔助處理模式\t\t",
+            "jp": "ログアシスト処理モード\t\t\t\t",
+            "en": "Log Assisted Processing Mode\t\t"
+        },
+        "program_TAR_STD_name": {
+            "zh": "主题辅助记录模式\t\t",
+            "cht": "主題輔助記錄模式\t\t",
+            "jp": "テーマ補助記録モード\t\t\t\t",
+            "en": "Theme Auxiliary Recording Mode\t\t"
+        },
+        "program_SAS_STD_name": {
+            "zh": "半自动发送模式  \t\t",
+            "cht": "半自動發送模式  \t\t",
+            "jp": "半自動送信モード\t\t\t\t",
+            "en": "Semi-automatic Sending Mode\t\t"
         },
         "error_thesaurus_file_not_found": {
             "zh": "错误：未找到词库文件，请检查文件路径是否设置正确",
@@ -208,18 +250,6 @@ def output_message(key, lang, moe = False, word_chars = "", e = "", theme_chars 
             "jp": "マッチに失敗しました、現在のシソーラスに一致するものが見つかりませんでした",
             "en": "Match failed, no matching entry found in the current thesaurus"
         },
-        "output_LAP_game_round": {
-            "zh": "游戏回合：",
-            "cht": "遊戲回合：",
-            "jp": "ゲームラウンド：",
-            "en": "Game Round: "
-        },
-        "output_LAP_builder_name": {
-            "zh": "建筑师：",
-            "cht": "建築師：",
-            "jp": "建築家：",
-            "en": "Builder: "
-        },
         "output_LAP_builder_left": {
             "zh": "本回合的建筑师离开了游戏！跳过",
             "cht": "當前回合的建築師離開了遊戲！跳過",
@@ -237,12 +267,6 @@ def output_message(key, lang, moe = False, word_chars = "", e = "", theme_chars 
             "cht": "當前回合的建築師沒有放置任何方塊！跳過",
             "jp": "このラウンドの建築家がブロックを設置していません。スキップ中",
             "en": "The builder of this round hasn't placed any blocks! Skipping"
-        },
-        "output_LAP_theme_chars": {
-            "zh": f'本回合主题字数为 {Fore.YELLOW}{theme_chars}{Fore.CYAN} 个字',
-            "cht": f'當前回合主題字數為 {Fore.YELLOW}{theme_chars}{Fore.CYAN} 個字',
-            "jp": f'このラウンドのテーマの文字数は {Fore.YELLOW}{theme_chars}{Fore.CYAN} です',
-            "en": f'The theme of this round is {Fore.YELLOW}{theme_chars}{Fore.CYAN} characters long'
         },
         "output_LAP_guess_info": {
             "zh": f'检测到有玩家猜测了主题 {Fore.YELLOW}{output_del_elem}{Fore.RED} 但未猜对，即将据此输出筛选后的匹配条目',
@@ -373,7 +397,7 @@ def input_thesaurus():
         print(f'{Fore.YELLOW}{output_message("error_thesaurus_file_not_found", lang, moe)}{Style.RESET_ALL}')
         exit()
     else:
-        df = pd.read_excel(GTB_THESAURUS, keep_default_na = False).replace("", "%")
+        df = pd.read_excel(GTB_THESAURUS, keep_default_na=False).replace("", "%")
 
     print(f'{Fore.YELLOW}{"-" * 10} {output_message("thesaurus_self_check_starts", lang, moe)} {"-" * 10}{Style.RESET_ALL}')
     for column in ["English", "简体中文", "繁體中文", "日本語", "Shortcut(s)", "Multiword(s)"]:
@@ -384,9 +408,41 @@ def input_thesaurus():
         print(f'{Fore.YELLOW}{output_message("error_thesaurus_column_not_found", lang, moe)}{Style.RESET_ALL}')
         exit()
 
+def program_self_check():
+    MOE_color = Fore.GREEN if MOE_MODE else Fore.RED
+    AC_color = Fore.GREEN if AUTO_COPY else Fore.RED
+    LAP_color = Fore.GREEN if LAP_MODE and os.path.exists(LOG_FILE) else (Fore.YELLOW if LAP_MODE else Fore.RED)
+    TAR_color = Fore.GREEN if TAR_MODE and LAP_MODE else (Fore.YELLOW if TAR_MODE else Fore.RED)
+    SAS_color = Fore.GREEN if SAS_MODE and AUTO_COPY and LAP_MODE else (Fore.YELLOW if SAS_MODE else Fore.RED)
+    mode_color_dic = {
+            "MOE": MOE_color,
+            "AC": AC_color,
+            "LAP": LAP_color,
+            "TAR": TAR_color,
+            "SAS": SAS_color
+        }
+
+    print(f'{Fore.MAGENTA}{"-" * 10} {output_message("program_self_check_starts", lang, moe)} {"-" * 10}{Style.RESET_ALL}')
+    for mode, mode_color in mode_color_dic.items():
+        print(f'{Fore.CYAN}{output_message(f"program_{mode}_STD_name", lang, moe=False)}{mode_color}●{Style.RESET_ALL}')
+    print(f'{Fore.MAGENTA}{"-" * 10} {output_message("program_self_check_completed", lang, moe)} {"-" * 10}{Style.RESET_ALL}')
+
+    if LAP_MODE:
+        LAP_thread = threading.Thread(target=LAP_main)
+        LAP_thread.daemon = True
+        LAP_thread.start()
+    if TAR_MODE and not LAP_MODE:
+        print(f'{Fore.YELLOW}{output_message("error_TAR_disabled_LAP", lang, moe)}{Style.RESET_ALL}')
+    if SAS_MODE:
+        if not AUTO_COPY:
+            print(f'{Fore.YELLOW}{output_message("error_SAS_disabled_autocopy", lang, moe)}{Style.RESET_ALL}')
+        if not LAP_MODE:
+            print(f'{Fore.YELLOW}{output_message("error_SAS_disabled_LAP", lang, moe)}{Style.RESET_ALL}')
+
 def input_matching():
     global lang_code_dic, LAP_match_lst_dic
     global lang, copy_to_clipboard
+    global retry_flag, LAP_retry_flag
 
     while True:
         lang_code_dic = {
@@ -399,7 +455,7 @@ def input_matching():
         lang_switch = matched_rows = False
         copy_to_clipboard = AUTO_COPY
 
-        user_input = input(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}').lower()
+        user_input = input(f'\r\x1b[K{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}').lower()
         input_pattern, target_column = pattern_from_input(user_input)
 
         if user_input == "0":
@@ -413,14 +469,14 @@ def input_matching():
 
         try:
             if target_column and target_column in df.columns:
-                matching_rows = df[df[target_column].astype(str).str.lower().str.contains(f'^{input_pattern}$', na = False)]
+                matching_rows = df[df[target_column].astype(str).str.lower().str.contains(f'^{input_pattern}$', na=False)]
             else:
                 for lang_code, full_lang in lang_code_dic.items():
                     if lang_code == lang and full_lang in df.columns and lang != "en":
-                        matching_rows = df[df[["English", full_lang]].apply(lambda x: x.astype(str).str.lower().str.contains(f'^{input_pattern}$', na = False)).any(axis = 1)]
+                        matching_rows = df[df[["English", full_lang]].apply(lambda x: x.astype(str).str.lower().str.contains(f'^{input_pattern}$', na=False)).any(axis=1)]
                         matched_rows = True
                         break
-                matching_rows = df[df["English"].astype(str).str.lower().str.contains(f'^{input_pattern}$', na = False)] if not matched_rows else matching_rows
+                matching_rows = df[df["English"].astype(str).str.lower().str.contains(f'^{input_pattern}$', na=False)] if not matched_rows else matching_rows
         except (OverflowError, re.error):
             print(f'{Fore.YELLOW}{output_message("match_failed", lang, moe)}{Style.RESET_ALL}')
             continue
@@ -456,7 +512,7 @@ def input_matching():
                 return Fore.MAGENTA
 
             def process_row(row):
-                global copy_to_clipboard, retry_flag
+                global copy_to_clipboard
 
                 if "WF" in df.columns:
                     if row["WF"] != "%":
@@ -466,7 +522,9 @@ def input_matching():
                         text_row = f'{wf_color}{wf_row}{Style.RESET_ALL} - '
                     else:
                         LAP_match_lst_dic["WF"].append(row["WF"])
+                        text_row = ""
                 else:
+                    LAP_match_lst_dic["WF"].append("%")
                     text_row = ""
 
                 text_color = Fore.GREEN if color_cnt%2 != 0 else ""
@@ -483,19 +541,22 @@ def input_matching():
                         LAP_match_lst_dic[full_lang].append(row[full_lang])
                         if (lang_code == lang or target_column == full_lang) and row[full_lang] != "%":
                             text_row += f' - {text_color}{row[full_lang]}{Style.RESET_ALL}'
+                    elif full_lang not in df.columns:
+                        LAP_match_lst_dic[full_lang].append("%")
 
                 for column in ["Shortcut(s)", "Multiword(s)"]:
                     if column in df.columns:
                         LAP_match_lst_dic[column].append(row[column])
-                        if row[column] != "-":
+                        if row[column] not in {"%", "-"}:
                             text_row += f' - {text_color}{row[column]}{Style.RESET_ALL}'
+                    else:
+                        LAP_match_lst_dic[column].append("-")
 
-                retry_flag = True
                 print(text_row)
 
                 if copy_to_clipboard:
                     for column in ["Shortcut(s)", "Multiword(s)"]:
-                        if column in df.columns and row[column] != "-":
+                        if column in df.columns and row[column] not in {"%", "-"}:
                             pyperclip.copy(row[column].split(" & ")[0].lower())
                             copy_to_clipboard = False
                             break
@@ -536,6 +597,7 @@ def input_matching():
             for _, row in matching_rows.iterrows():
                 process_row(row)
                 color_cnt += 1
+            retry_flag = LAP_retry_flag = True
             print(f'{Fore.YELLOW}{"-" * 30}{Style.RESET_ALL}')
 
         else:
@@ -546,7 +608,7 @@ def input_matching():
 
 def LAP_main():
     global LAP_match_lst_dic
-    global retry_flag, cooldown_time_flag, SAS_flag
+    global retry_flag, LAP_retry_flag, cooldown_time_flag, SAS_flag
     global current_cooldown_time
 
     LAP_match_lst_dic = {
@@ -562,10 +624,16 @@ def LAP_main():
     current_player_guess_lst = []
     del_elem_lst = []
     current_game_round = current_builder_name = current_theme_chars = current_player_guess = current_correct_theme = ""
-    retry_flag = builder_left_flag = builder_AFK_flag = builder_unplaced_flag = correct_guess_flag = game_over_flag = False
+    game_round = total_round = builder_name = theme_chars = f"{Fore.BLUE}NA"
+    retry_flag = LAP_retry_flag = builder_left_flag = builder_AFK_flag = builder_unplaced_flag = correct_guess_flag = game_over_flag = False
     cooldown_time_flag = SAS_flag = False
     current_cooldown_time = 0.0
     LAP_guess_cnt = 0
+
+    def LAP_game_info():
+        game_round_color = Fore.YELLOW if game_round != total_round else Fore.RED
+        print(f'\r\x1b[K{Fore.CYAN}[{game_round_color}{game_round}{Fore.CYAN}/{Fore.YELLOW}{total_round}{Fore.CYAN}] {Fore.YELLOW}{builder_name}{Fore.CYAN}({Fore.GREEN}{theme_chars}{Fore.CYAN}){Style.RESET_ALL}')
+        print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end="")
 
     try:
         while True:
@@ -573,12 +641,12 @@ def LAP_main():
                 print(f'{Fore.YELLOW}{output_message("error_log_file_not_found", lang, moe)}{Style.RESET_ALL}')
                 break
             else:
-                with open(LOG_FILE, "r", encoding = "GB18030") as latest_log:
-                    log_last_lines = deque(latest_log, maxlen = 2)
+                with open(LOG_FILE, "r", encoding="GB18030") as latest_log:
+                    log_last_lines = deque(latest_log, maxlen=2)
                     log_prev_line = log_last_lines[0]
                     log_last_line = log_last_lines[1]
 
-                    COMMON_FORMAT_PREFIX = r'\[\d{2}:\d{2}:\d{2}\] \[Render thread/INFO\]: \[System\] \[CHAT\] '
+                    COMMON_FORMAT_PREFIX = r'\[(?:[01]\d|2[0-3]):(?:[0-5]\d):(?:[0-5]\d)\] \[Render thread/INFO\]: \[System\] \[CHAT\] '
 
                     search_game_round = re.search(
                         rf'{COMMON_FORMAT_PREFIX}(?:Round: |回合：|ラウンド：)(.*)/(.*)',
@@ -625,6 +693,10 @@ def LAP_main():
                         log_last_line
                     )
 
+                    if LAP_retry_flag:
+                        LAP_game_info()
+                        LAP_retry_flag = False
+
                     if search_game_round:
                         game_round = search_game_round.group(1)
                         total_round = search_game_round.group(2)
@@ -639,43 +711,43 @@ def LAP_main():
                                 "Shortcut(s)": [],
                                 "Multiword(s)": []
                             }
+                            current_theme_chars = ""
                             player_guess_lst = []
                             current_player_guess_lst = []
                             del_elem_lst = []
-                            retry_flag = builder_left_flag = builder_AFK_flag = builder_unplaced_flag = correct_guess_flag = game_over_flag = False
+                            retry_flag = LAP_retry_flag = builder_left_flag = builder_AFK_flag = builder_unplaced_flag = correct_guess_flag = game_over_flag = False
                             SAS_flag = False
                             LAP_guess_cnt = 0 if game_round == 1 else LAP_guess_cnt
-                            print(f'\r\x1b[K{Fore.CYAN}{output_message("output_LAP_game_round", lang, moe = False)}{Fore.YELLOW}{game_round}{Fore.CYAN}/{Fore.YELLOW}{total_round}{Style.RESET_ALL}')
-                            print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "")
+                            LAP_game_info()
 
                     if search_builder_name:
+                        current_theme_chars = ""
+                        game_round = total_round = builder_name = theme_chars = f"{Fore.BLUE}NA"
                         builder_name = search_builder_name.group(1)
                         if current_builder_name != builder_name:
                             current_builder_name = builder_name
-                            print(f'\r\x1b[K{Fore.CYAN}{output_message("output_LAP_builder_name", lang, moe = False)}{Fore.YELLOW}{builder_name}{Style.RESET_ALL}')
-                            print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "")
+                            LAP_game_info()
 
                     if search_builder_left and not builder_left_flag:
                         builder_left_flag = True
                         print(f'\r\x1b[K{Fore.MAGENTA}{output_message("output_LAP_builder_left", lang, moe)}{Style.RESET_ALL}')
-                        print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "")
+                        LAP_game_info()
 
                     if search_builder_AFK and not builder_AFK_flag:
                         builder_AFK_flag = True
                         print(f'\r\x1b[K{Fore.MAGENTA}{output_message("output_LAP_builder_AFK", lang, moe)}{Style.RESET_ALL}')
-                        print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "")
+                        LAP_game_info()
 
                     if search_builder_unplaced and not builder_unplaced_flag:
                         builder_unplaced_flag = True
                         print(f'\r\x1b[K{Fore.MAGENTA}{output_message("output_LAP_builder_unplaced", lang, moe)}{Style.RESET_ALL}')
-                        print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "")
+                        LAP_game_info()
 
                     if search_theme_chars:
                         theme_chars = search_theme_chars.group(1)
                         if current_theme_chars != theme_chars:
                             current_theme_chars = theme_chars
-                            print(f'\r\x1b[K{Fore.CYAN}{output_message("output_LAP_theme_chars", lang, moe, theme_chars = theme_chars)}{Style.RESET_ALL}')
-                            print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "")
+                            LAP_game_info()
 
                     if search_player_guess and not correct_guess_flag:
                         player_guess = search_player_guess.group(1).replace(" ", "").lower()
@@ -694,27 +766,32 @@ def LAP_main():
                                     for key, value in LAP_match_lst_dic.items():
                                         if key != "WF":
                                             normalized_value = [elem.split(" & ")[0].replace(" ", "").lower() for elem in value]
-                                            if player_answer in normalized_value:
-                                                index = normalized_value.index(player_answer)
-                                                if index not in indices_to_remove:
+                                            for index, val in enumerate(normalized_value):
+                                                if player_answer == val and index not in indices_to_remove:
                                                     indices_to_remove.append(index)
 
                                 if indices_to_remove:
-                                    for index in sorted(indices_to_remove, reverse = True):
+                                    for index in sorted(indices_to_remove, reverse=True):
                                         for key in LAP_match_lst_dic.keys():
                                             if index < len(LAP_match_lst_dic[key]):
                                                 for lang_code, full_lang in lang_code_dic.items():
-                                                    if lang_code == lang and key == full_lang and full_lang in df.columns:
-                                                        del_elem_lst.append(LAP_match_lst_dic[full_lang][index])
-                                                        del_elem_lst_seen = set()
-                                                        del_elem_lst_dedup = []
-                                                        for i in del_elem_lst:
-                                                            if i not in del_elem_lst_seen:
-                                                                del_elem_lst_seen.add(i)
-                                                                del_elem_lst_dedup.append(i)
-                                                        del_elem_lst = del_elem_lst_dedup
-                                                        break
-                                                del LAP_match_lst_dic[key][index]
+                                                    if lang_code == lang and key == full_lang:
+                                                        if LAP_match_lst_dic[full_lang][index] not in {"%", "-"}:
+                                                            del_elem_lst.append(LAP_match_lst_dic[full_lang][index])
+                                                        elif index < len(LAP_match_lst_dic["English"]):
+                                                            del_elem_lst.append(LAP_match_lst_dic["English"][index])
+
+                                    del_elem_lst_seen = set()
+                                    del_elem_lst_dedup = []
+
+                                    for i in del_elem_lst:
+                                        if i not in del_elem_lst_seen:
+                                            del_elem_lst_seen.add(i)
+                                            del_elem_lst_dedup.append(i)
+                                    del_elem_lst = del_elem_lst_dedup
+
+                                    for key in LAP_match_lst_dic.keys():
+                                        LAP_match_lst_dic[key] = [elem for i, elem in enumerate(LAP_match_lst_dic[key]) if i not in indices_to_remove]
 
                                     separator_dic = {
                                         "zh": "、",
@@ -723,15 +800,14 @@ def LAP_main():
                                         "en": ", "
                                     }
                                     output_del_elem = separator_dic.get(lang, ", ").join(del_elem_lst)
-                                    print(f'\r\x1b[K{Fore.RED}{output_message("output_LAP_guess_info", lang, moe, output_del_elem = output_del_elem)}{Style.RESET_ALL}')
-                                    print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "") if not LAP_match_lst_dic["English"] else ""
+                                    print(f'\r\x1b[K{Fore.RED}{output_message("output_LAP_guess_info", lang, moe, output_del_elem=output_del_elem)}{Style.RESET_ALL}')
 
                                     for i in range(len(LAP_match_lst_dic["English"])):
                                         elem_color = Fore.GREEN if elem_color_cnt%2 != 0 else ""
 
                                         for lang_code, full_lang in lang_code_dic.items():
                                             if lang_code == lang and full_lang != "English":
-                                                elements_row = ' - '.join(
+                                                elements_row = " - ".join(
                                                     f'{elem_color}{LAP_match_lst_dic[key][i]}{Style.RESET_ALL}'
                                                     for key in ["WF", "English", full_lang, "Shortcut(s)", "Multiword(s)"]
                                                     if key in df.columns and LAP_match_lst_dic[key][i] not in {"%", "-"}
@@ -744,7 +820,7 @@ def LAP_main():
                                                 elem_matched = True
                                                 break
                                         if not elem_matched:
-                                            elements_row = ' - '.join(
+                                            elements_row = " - ".join(
                                                 f'{elem_color}{LAP_match_lst_dic[key][i]}{Style.RESET_ALL}'
                                                 for key in ["WF", "English", "Shortcut(s)", "Multiword(s)"]
                                                 if key in df.columns and LAP_match_lst_dic[key][i] not in {"%", "-"}
@@ -761,14 +837,16 @@ def LAP_main():
                                     if LAP_match_lst_dic["English"]:
                                         SAS_flag = True
                                         LAP_guess_cnt += 1
-                                        print(f'{Fore.YELLOW}{"-" * 30}{Style.RESET_ALL}')
-                                        print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "")
+                                    else:
+                                        print(f'{Fore.YELLOW}{output_message("match_failed", lang, moe)}{Style.RESET_ALL}')
+                                    print(f'{Fore.YELLOW}{"-" * 30}{Style.RESET_ALL}')
+                                    LAP_game_info()
 
                     if search_correct_guess and not correct_guess_flag:
                         correct_guess_flag = True
                         SAS_flag = False
                         print(f'\r\x1b[K{Fore.GREEN}{output_message("output_LAP_correct_guess", lang, moe)}{Style.RESET_ALL}')
-                        print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "")
+                        LAP_game_info()
 
                     if search_correct_theme:
                         correct_theme = search_correct_theme.group(1)
@@ -777,19 +855,19 @@ def LAP_main():
                             correct_guess_flag = True
                             SAS_flag = False
 
-                            print(f'\r\x1b[K{Fore.CYAN}{output_message("output_LAP_correct_theme", lang, moe, correct_theme = correct_theme)}{Style.RESET_ALL}')
+                            print(f'\r\x1b[K{Fore.CYAN}{output_message("output_LAP_correct_theme", lang, moe, correct_theme=correct_theme)}{Style.RESET_ALL}')
                             if TAR_MODE:
                                 try:
                                     if not os.path.exists(GTB_TAR_FILE):
-                                        with open(GTB_TAR_FILE, "w", encoding = "GB18030") as TAR_file:
+                                        with open(GTB_TAR_FILE, "w", encoding="GB18030") as TAR_file:
                                             TAR_file.write(f'{correct_theme}\n')
                                     else:
-                                        with open(GTB_TAR_FILE, "a", encoding = "GB18030") as TAR_file:
+                                        with open(GTB_TAR_FILE, "a", encoding="GB18030") as TAR_file:
                                             TAR_file.write(f'{correct_theme}\n')
-                                    print(f'{Fore.GREEN}{output_message("output_TAR_theme_added", lang, moe, correct_theme = correct_theme)}{Style.RESET_ALL}')
+                                    print(f'{Fore.GREEN}{output_message("output_TAR_theme_added", lang, moe, correct_theme=correct_theme)}{Style.RESET_ALL}')
                                 except UnicodeDecodeError:
                                     print(f'{Fore.YELLOW}{output_message("error_TAR_file_decoding_failed", lang, moe)}{Style.RESET_ALL}')
-                            print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "")
+                            LAP_game_info()
 
                     if search_game_over and not game_over_flag:
                         game_over_flag = True
@@ -797,8 +875,8 @@ def LAP_main():
                         pyperclip.copy(CUSTOM_CONTENT)
                         SAS_flag = True
 
-                        print(f'\r\x1b[K{Fore.MAGENTA}{output_message("output_LAP_game_over", lang, moe, LAP_guess_cnt = LAP_guess_cnt)}{Style.RESET_ALL}')
-                        print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "")
+                        print(f'\r\x1b[K{Fore.MAGENTA}{output_message("output_LAP_game_over", lang, moe, LAP_guess_cnt=LAP_guess_cnt)}{Style.RESET_ALL}')
+                        print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end="")
 
                     if search_cooldown_time and not cooldown_time_flag:
                         cooldown_time_flag = True
@@ -823,63 +901,40 @@ def SAS_main():
         current_cooldown_time = current_SAS_time - 3 if not current_cooldown_time else current_cooldown_time
         SAS_sleep_time = current_SAS_time - current_cooldown_time
 
-        if cooldown_time_flag and SAS_sleep_time < 3:
-            time.sleep(3 - SAS_sleep_time)
-
-        cooldown_time_flag = SAS_flag = False
+        time.sleep(3 - SAS_sleep_time) if cooldown_time_flag and SAS_sleep_time < 3 else ""
         time.sleep(SAS_INTERVAL)
 
         MC_windows[0].activate()
         pyautogui.press("t")
         pyautogui.hotkey("ctrl", "a")
-        pyautogui.press("backspace")
+        pyautogui.press("delete")
         pyautogui.hotkey("ctrl", "v")
         pyautogui.press("enter")
-
         print(f'\r\x1b[K{Fore.GREEN}{output_message("output_SAS_content_sent", lang, moe)}{Style.RESET_ALL}')
-        print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "")
-
     else:
-        cooldown_time_flag = SAS_flag = False
         print(f'\r\x1b[K{Fore.YELLOW}{output_message("error_SAS_window_not_found", lang, moe)}{Style.RESET_ALL}')
-        print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end = "")
+
+    cooldown_time_flag = SAS_flag = False
+    print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end="")
 
 def solver():
     global moe
 
-    moe = MOE_MODE
+    moe = MOE_MODE if MOE_MODE else False
 
     try:
         output_language()
         input_thesaurus()
-
-        if LAP_MODE:
-            LAP_thread = threading.Thread(target = LAP_main)
-            LAP_thread.daemon = True
-            LAP_thread.start()
-
-        if TAR_MODE:
-            if not LAP_MODE:
-                print(f'{Fore.YELLOW}{output_message("error_TAR_disabled_LAP", lang, moe)}{Style.RESET_ALL}')
-
-        if SAS_MODE:
-            if not AUTO_COPY:
-                print(f'{Fore.YELLOW}{output_message("error_SAS_disabled_autocopy", lang, moe)}{Style.RESET_ALL}')
-            if not LAP_MODE:
-                print(f'{Fore.YELLOW}{output_message("error_SAS_disabled_LAP", lang, moe)}{Style.RESET_ALL}')
-
-        time.sleep(0.2)
+        program_self_check()
         input_matching()
-
     except KeyboardInterrupt:
         print(f'\r\x1b[K{Fore.MAGENTA}{output_message("exit_program", lang, moe)}{Style.RESET_ALL}')
         exit()
-
     except Exception as e:
-        print(f'\r\x1b[K{Fore.YELLOW}{output_message("error_exception", lang, moe, e = e)}{Style.RESET_ALL}')
+        print(f'\r\x1b[K{Fore.YELLOW}{output_message("error_exception", lang, moe, e=e)}{Style.RESET_ALL}')
         exit()
 
 if __name__ == "__main__":
-    colorama.init(autoreset = True)
+    colorama.init(autoreset=True)
     solver()
     colorama.deinit()
