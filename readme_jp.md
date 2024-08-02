@@ -12,9 +12,32 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 **[简体中文](./readme_zh.md) | [繁體中文](./readme_cht.md) | 日本語 | [English](./readme.md)**
 
+**[한국어](./readme_uni.md) | [Русский](./readme_uni.md) | [Deutsch](./readme_uni.md) | [Français](./readme_uni.md) | [Español](./readme_uni.md) | [Português](./readme_uni.md) | [Italiano](./readme_uni.md)**
+
 多言語のヒントと正規表現に基づいて、Hypixel サーバー上の「Guess The Build」ゲームのテーマを素早く推測します。
 
 ## ⚜ 更新ログ
+
+### 2024/08/02 - v5.0
+
+- \[Add\] ランダムコピーモードを追加しました
+- \[Add\] 韓国語入力マッチングのサポート
+- \[Add\] ロシア語入力マッチングのサポート
+- \[Add\] ドイツ語入力マッチングのサポート
+- \[Add\] フランス語入力マッチングのサポート
+- \[Add\] スペイン語入力マッチングのサポート
+- \[Add\] ポルトガル語入力マッチングのサポート
+- \[Add\] イタリア語入力マッチングのサポート
+- \[Opt\] これで、ユーザーは `@kor` を接頭辞として「韓国語」にマッチさせることができます
+- \[Opt\] これで、ユーザーは `@ru` を接頭辞として「ロシア語」にマッチさせることができます
+- \[Opt\] これで、ユーザーは `@de` を接頭辞として「ドイツ語」にマッチさせることができます
+- \[Opt\] これで、ユーザーは `@fra` を接頭辞として「フランス語」にマッチさせることができます
+- \[Opt\] これで、ユーザーは `@spa` を接頭辞として「スペイン語」にマッチさせることができます
+- \[Opt\] これで、ユーザーは `@pt` を接頭辞として「ポルトガル語」にマッチさせることができます
+- \[Opt\] これで、ユーザーは `@it` を接頭辞として「イタリア語」にマッチさせることができます
+- \[Opt\] ログアシスト処理モードでは、簡体字中国語・繁体字中国語・日本語・韓国語・ロシア語・ドイツ語・フランス語・スペイン語・ポルトガル語・イタリア語・英語での処理がサポートされます
+- \[Opt\] ログアシスト処理モードでは、簡体字中国語・繁体字中国語・日本語・韓国語・ロシア語・ドイツ語・フランス語・スペイン語・ポルトガル語・イタリア語・英語・Shortcut(s)・Multiword(s) での比較がサポートされます
+- \[Opt\] シソーラスの更新
 
 ### 2024/06/03 - v4.3
 
@@ -100,7 +123,7 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
   ``` TXT
   # 以下のテーマが正しくマッチングできるようになりました
-  3.00 - T-Shirt - Tシャツ - Tricou
+  3.75 - T-Shirt - Tシャツ - Tricou
   1.75 - T-Rex - ティラノサウルス
   0.00 - Jack-O-Lantern - ジャック・オ・ランタン
   0.00 - Trick-or-Treating - トリック・オア・トリート
@@ -155,7 +178,7 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 
 3. **日本語**：マッチし、数字の前後に直接挿入できます
 4. **ハイフン**：マッチし、数字の前後に直接挿入できます
-5. **スペース**：マッチしません、マッチする式に手動で入力する必要があります
+5. **スペース**：マッチ**しません**、マッチする式に手動で入力する必要があります
 6. **正規表現文字**：部分的に使用可能
 7. **デフォルトマッチング**：英語と日本語
 8. **完全マッチング**：多言語マッチングの必要がない場合は、対応する接頭辞をマッチする式に追加して完全マッチングさせることができます
@@ -167,6 +190,13 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
       | 簡体字中国語 | @zh |
       | 繁体字中国語 | @cht |
       | 日本語 | @jp |
+      | 韓国語 | @kor |
+      | ロシア語 | @ru |
+      | ドイツ語 | @de |
+      | フランス語 | @fra |
+      | スペイン語 | @spa |
+      | ポルトガル語 | @pt |
+      | イタリア語 | @it |
       | 英語 | @en |
       | Shortcut(s) | @sc |
       | Multiword(s) | @mw |
@@ -181,22 +211,22 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 テーマ：_____ ______
 マッチする式を入力してください：5 6
 テーマの英字数は 12 です
-16.75 - Water Bucket - 水入りバケツ - Vandspand
-12.00 - Table Tennis - 卓球 - Bordtenni
+19.75 - Water Bucket - 水入りバケツ - Vandspand
+13.50 - Table Tennis - 卓球 - Bordtenni
+11.50 - Ender Dragon - エンダードラゴン
 10.25 - Train Tracks - 線路 - Rail - Rautatie
-10.00 - Ender Dragon - エンダードラゴン
 10.00 - Light Switch - 照明スイッチ - Lysbryter
-8.50 - Water Bottle - 水入り瓶 - Waterfle
-8.25 - Paint Bucket - ペンキのバケツ - Fargburk
-8.25 - Swiss Cheese - スイスチーズ
-7.75 - Horse Racing - 競馬 - Zavod koni
+10.00 - Water Bottle - 水入り瓶 - Waterfle
+9.00 - Paint Bucket - ペンキのバケツ - Fargburk
+9.00 - Swiss Cheese - スイスチーズ
+8.50 - Horse Racing - 競馬 - Zavod koni
 6.75 - Chili Pepper - 唐辛子 - Piment
 6.75 - Magic Carpet - 魔法のじゅうたん
-4.50 - Fruit Basket - フルーツバスケット - Obstkorb
-4.50 - Scuba Diving - スキューバダイビング - Buceo
-4.50 - Solar System - 太陽系 - Solsystem
+6.00 - Scuba Diving - スキューバダイビング - Buceo
+5.25 - Fruit Basket - フルーツバスケット - Obstkorb
+5.25 - Solar System - 太陽系 - Solsystem
+3.75 - Build Battle - Build Battle
 3.50 - Horse Riding - 乗馬 - Ridning
-3.00 - Build Battle - Build Battle
 0.25 - Snowy Forest - 雪の森
 ```
 
@@ -204,10 +234,10 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 テーマ：_a___ ______
 マッチする式を入力してください：1a3 6
 テーマの英字数は 12 です
-16.75 - Water Bucket - 水入りバケツ - Vandspand
-12.00 - Table Tennis - 卓球 - Bordtenni
-8.50 - Water Bottle - 水入り瓶 - Waterfle
-8.25 - Paint Bucket - ペンキのバケツ - Fargburk
+19.75 - Water Bucket - 水入りバケツ - Vandspand
+13.50 - Table Tennis - 卓球 - Bordtenni
+10.00 - Water Bottle - 水入り瓶 - Waterfle
+9.00 - Paint Bucket - ペンキのバケツ - Fargburk
 6.75 - Magic Carpet - 魔法のじゅうたん
 # ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
 ```
@@ -216,7 +246,7 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 テーマ：_a___ _o____
 マッチする式を入力してください：1a3 1o4
 テーマの文字数は 4 です
-8.50 - Water Bottle - 水入り瓶 - Waterfle
+10.00 - Water Bottle - 水入り瓶 - Waterfle
 ```
 
 ### 2. 正規表現を使って推測する
@@ -224,23 +254,23 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 ``` TXT
 テーマ：_a___ ______
 マッチする式を入力してください：.a3 .*
-16.75 - Water Bucket - 水入りバケツ - Vandspand
-12.00 - Table Tennis - 卓球 - Bordtenni
-11.00 - Water Slide - ウォータースライダー - Tobogan
-9.50 - Magic Hat - 魔法の帽子 - Joben
-8.50 - Water Bottle - 水入り瓶 - Waterfle
-8.25 - Paint Bucket - ペンキのバケツ - Fargburk
+19.75 - Water Bucket - 水入りバケツ - Vandspand
+13.50 - Table Tennis - 卓球 - Bordtenni
+11.75 - Water Slide - ウォータースライダー - Tobogan
+10.25 - Magic Hat - 魔法の帽子 - Joben
+10.00 - Water Bottle - 水入り瓶 - Waterfle
+9.25 - Paper Airplane - 紙飛行機 - Papirfly
+9.00 - Paint Bucket - ペンキのバケツ - Fargburk
+8.00 - Games Controller - ゲームコントローラー - Controller
+7.25 - Party Hat - パーティーハット
 7.00 - Candy Cane - キャンディケイン - Acadea
-7.00 - Paper Airplane - 紙飛行機 - Papirfly
 6.75 - Magic Carpet - 魔法のじゅうたん
-6.50 - Party Hat - パーティーハット
+6.75 - Water Balloon - 水風船 - Gavettone
 6.25 - Water Park - ウォーターパーク
-5.75 - Games Controller - ゲームコントローラー - Controller
 5.50 - Magma Cube - マグマキューブ
 5.50 - Paint Palette - ペイントパレット - Verfpalet
-5.25 - Water Balloon - 水風船 - Gavettone
-4.00 - Magic Wand - 魔法の杖
-4.00 - Table Cloth - テーブルクロス - Dug
+5.50 - Table Cloth - テーブルクロス - Dug
+4.75 - Magic Wand - 魔法の杖
 0.75 - Santa Claus - サンタクロース
 0.00 - Candy Buckets - 飴入りバケツ
 ```
@@ -248,8 +278,8 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 ``` TXT
 テーマ：_a___ _o____
 マッチする式を入力してください：.a3 .o.*
-8.50 - Water Bottle - 水入り瓶 - Waterfle
-5.75 - Games Controller - ゲームコントローラー - Controller
+10.00 - Water Bottle - 水入り瓶 - Waterfle
+8.00 - Games Controller - ゲームコントローラー - Controller
 # ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
 ```
 
@@ -257,7 +287,7 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 テーマ：_a___ _o___e
 マッチする式を入力してください：.a3 .o.*e
 テーマの文字数は 4 です
-8.50 - Water Bottle - 水入り瓶 - Waterfle
+10.00 - Water Bottle - 水入り瓶 - Waterfle
 ```
 
 ### 3. 日本語を使って推測する
@@ -266,7 +296,7 @@ GTB-Solver Demo ブランチ | <a href="https://github.com/IceNightKing/GTB-Solv
 テーマ：水___
 マッチする式を入力してください：水3
 テーマの文字数は 4 です
-8.50 - Water Bottle - 水入り瓶 - Waterfle
+10.00 - Water Bottle - 水入り瓶 - Waterfle
 1.50 - Puddle - 水たまり - Pla
 # ここでは、プレイヤーの建物の大まかな輪郭に基づいて選択できます
 ```
@@ -298,6 +328,13 @@ MULTI_LANG = ""
   | 簡体字中国語 | zh | /lang zh |
   | 繁体字中国語 | cht | /lang cht |
   | 日本語 | jp | /lang jp |
+  | 韓国語 | kor | /lang kor |
+  | ロシア語 | ru | /lang ru |
+  | ドイツ語 | de | /lang de |
+  | フランス語 | fra | /lang fra |
+  | スペイン語 | spa | /lang spa |
+  | ポルトガル語 | pt | /lang pt |
+  | イタリア語 | it | /lang it |
   | 英語 | en | /lang en |
 
 ### 3. 出力萌えモードステータスを変更する
@@ -316,7 +353,17 @@ MOE_MODE = False
 AUTO_COPY = False
 ```
 
-### 5. ログアシスト処理モードステータスを変更する
+### 5. ランダムコピーモードステータスを変更する
+
+- ランダムコピーモードはデフォルトでは無効になっています。自動コピー中に、最初にマッチしたエントリの簡体字中国語・繁体字中国語・日本語・韓国語・ロシア語・ドイツ語・フランス語・スペイン語・ポルトガル語・イタリア語の表現の 1 つをランダムにクリップボードにコピーする必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、`False` を `True` に置き換えてください
+
+``` Python
+RAC_MODE = False
+```
+
+- **注**：ランダムコピーモードを有効にするには、自動コピーモードを同時に有効にする必要があります。自動コピーモードを有効にする方法の詳細については、`コンフィギュレーション変更方法 4` を参照してください
+
+### 6. ログアシスト処理モードステータスを変更する
 
 - ログアシスト処理モードはデフォルトでは無効になっています。ゲーム関連のステータスをオンラインに出力し、ゲーム内のプレイヤーが推測したテーマと既に出力されているマッチするエントリを比較し、フィルタリングした後に再出力する必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、`False` を `True` に置き換えてください
 
@@ -337,30 +384,30 @@ LAP_MODE = False
   [3/10] NoticeYou(12)
   マッチする式を入力してください：8 3
   テーマの英字数は 12 です
-  8.25 - Shopping Bag - ショッピングバッグ - Handlepose
+  9.00 - Shopping Bag - ショッピングバッグ - Handlepose
   7.25 - Sleeping Bag - 寝袋 - Sovepose
-  4.00 - Baseball Bat - 野球バット
+  4.75 - Baseball Bat - 野球バット
   ```
 
   ``` TXT
   [3/10] NoticeYou(12)
   NoticeSC: sovepose
   プレイヤーがテーマ 寝袋 を推測したが正しく推測しなかったことを検出し、それに応じてフィルタリングされたマッチするエントリが出力されます
-  8.25 - Shopping Bag - ショッピングバッグ - Handlepose
-  4.00 - Baseball Bat - 野球バット
+  9.00 - Shopping Bag - ショッピングバッグ - Handlepose
+  4.75 - Baseball Bat - 野球バット
   ```
 
   ``` TXT
   [3/10] NoticeYou(12)
   NoticeZH: 棒球棍
   プレイヤーがテーマ 寝袋・野球バット を推測したが正しく推測しなかったことを検出し、それに応じてフィルタリングされたマッチするエントリが出力されます
-  8.25 - Shopping Bag - ショッピングバッグ - Handlepose
+  9.00 - Shopping Bag - ショッピングバッグ - Handlepose
   # ここでは、正しいテーマを直接推測できます
   ```
 
-- **ヒント**：ログアシスト処理モードは、サーバーの言語が簡体字中国語・繁体字中国語・日本語・英語に設定されている場合の処理をサポートし、簡体字中国語・繁体字中国語・日本語・英語・Shortcut(s)・Multiword(s) を使用してプレーヤーが推測したテーマの比較をサポートします。シソーラス・ファイルのバージョンが異なる場合、実際の比較効果が変わる可能性があります
+- **ヒント**：ログアシスト処理モードは、サーバーの言語が簡体字中国語・繁体字中国語・日本語・韓国語・ロシア語・ドイツ語・フランス語・スペイン語・ポルトガル語・イタリア語・英語に設定されている場合の処理をサポートし、簡体字中国語・繁体字中国語・日本語・韓国語・ロシア語・ドイツ語・フランス語・スペイン語・ポルトガル語・イタリア語・英語・Shortcut(s)・Multiword(s) を使用してプレーヤーが推測したテーマの比較をサポートします。シソーラス・ファイルのバージョンが異なる場合、実際の比較効果が変わる可能性があります
 
-### 6. ログファイルのパスを変更する
+### 7. ログファイルのパスを変更する
 
 - デフォルトのパスは `C:\Minecraft\.minecraft\logs\latest.log` ですが、これは参照用ですので、実際の状況に応じて変更してください。ログファイルのパスを変更する必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、引用符で囲まれたパスを置き換えてください（日本語のパスはサポートされています）
 
@@ -368,7 +415,7 @@ LAP_MODE = False
 LOG_FILE = r"C:\Minecraft\.minecraft\logs\latest.log"
 ```
 
-### 7. ログファイルの繰り返し読み取り間隔を変更する
+### 8. ログファイルの繰り返し読み取り間隔を変更する
 
 - デフォルトの間隔は `0.05` 秒です。ログファイルの繰り返し読み取り間隔を変更する必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、値を変更してください
 
@@ -378,7 +425,7 @@ LAP_INTERVAL = 0.05
 
 - **ヒント**：間隔は `0.01` ~ `0.20` 秒の範囲で設定することをお勧めします。ログアシスト処理モードを有効にした後、ゲーム関連のステータスの更新が間に合わなかったり、プレイヤーが推測したテーマを捕捉できなかったりする場合は、繰り返し読み取り間隔を適切に短縮できます
 
-### 8. ゲーム終了時にカスタムコピーコンテンツを変更する
+### 9. ゲーム終了時にカスタムコピーコンテンツを変更する
 
 - デフォルトのコピーコンテンツは `Good Game` です。ゲーム終了時にカスタムコピーコンテンツを変更する必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、引用符で囲まれたコンテンツを置き換えてください（日本語はサポートされています）
 
@@ -386,9 +433,9 @@ LAP_INTERVAL = 0.05
 CUSTOM_CONTENT = "Good Game"
 ```
 
-- **注**：カスタムコンテンツは、自動コピーモードとログアシスト処理モードが有効になっている場合にのみコピーされます。自動コピーモードを有効にする方法については `コンフィギュレーション変更方法 4` を、ログアシスト処理モードを有効にする方法については `コンフィギュレーション変更方法 5` を参照してください
+- **注**：カスタムコンテンツは、自動コピーモードとログアシスト処理モードが有効になっている場合にのみコピーされます。自動コピーモードを有効にする方法については `コンフィギュレーション変更方法 4` を、ログアシスト処理モードを有効にする方法については `コンフィギュレーション変更方法 6` を参照してください
 
-### 9. テーマ補助記録モードステータスを変更する
+### 10. テーマ補助記録モードステータスを変更する
 
 - テーマ補助記録モードはデフォルトでは無効になっています。後続の統計処理のために補助記録ファイルに正しいテーマを記録する必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、`False` を `True` に置き換えてください
 
@@ -396,9 +443,9 @@ CUSTOM_CONTENT = "Good Game"
 TAR_MODE = False
 ```
 
-- **注**：テーマ補助記録モードを有効にするには、ログアシスト処理モードを同時に有効にする必要があります。ログアシスト処理モードを有効にする方法の詳細については、`コンフィギュレーション変更方法 5` を参照してください
+- **注**：テーマ補助記録モードを有効にするには、ログアシスト処理モードを同時に有効にする必要があります。ログアシスト処理モードを有効にする方法の詳細については、`コンフィギュレーション変更方法 6` を参照してください
 
-### 10. テーマ補助記録ファイルのパスを変更する
+### 11. テーマ補助記録ファイルのパスを変更する
 
 - デフォルトのパスは `GTB-Solver_main.py` と同じフォルダです。テーマ補助記録ファイルのパスを変更する必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、引用符で囲まれたパスを置き換えてください（日本語のパスはサポートされています）
 
@@ -406,7 +453,7 @@ TAR_MODE = False
 GTB_TAR_FILE = r"GTB_TAR_File.txt"
 ```
 
-### 11. 半自動送信モードステータスを変更する
+### 12. 半自動送信モードステータスを変更する
 
 - 半自動送信モードはデフォルトでは無効になっています。マッチする式を入力した後、最初にマッチしたエントリをゲームに自動的に送信する必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、`False` を `True` に置き換えてください
 
@@ -414,9 +461,9 @@ GTB_TAR_FILE = r"GTB_TAR_File.txt"
 SAS_MODE = False
 ```
 
-- **注**：半自動送信モードを有効にするには、自動コピーモードとログアシスト処理モードを同時に有効にする必要があります。自動コピーモードを有効にする方法については `コンフィギュレーション変更方法 4` を、ログアシスト処理モードを有効にする方法については `コンフィギュレーション変更方法 5` を参照してください
+- **注**：半自動送信モードを有効にするには、自動コピーモードとログアシスト処理モードを同時に有効にする必要があります。自動コピーモードを有効にする方法については `コンフィギュレーション変更方法 4` を、ログアシスト処理モードを有効にする方法については `コンフィギュレーション変更方法 6` を参照してください
 
-### 12. 半自動送信間隔を変更する
+### 13. 半自動送信間隔を変更する
 
 - デフォルトの間隔は `2.0` 秒です。送信間隔を変更する必要がある場合は、`GTB-Solver_main.py` で次のコードを見つけて、値を変更してください
 
@@ -426,7 +473,7 @@ SAS_INTERVAL = 2.0
 
 - **ヒント**：この間隔は、繰り返し推測の残りのクールダウン時間を差し引いた追加の一時停止時間です。間隔は `1.0` ~ `5.0` 秒の範囲で設定することをお勧めします。間隔の設定が短すぎると、サーバーのスパム対策メカニズムがトリガーされ、ゲームから追い出される可能性があります
 
-### 13. ゲームウィンドウのタイトルを変更する
+### 14. ゲームウィンドウのタイトルを変更する
 
 - 半自動送信モードでは、デフォルトで `Minecraft` という単語を含む最初のウィンドウがアクティブになります。オリジナル以外のクライアントを使用している場合は、`GTB-Solver_main.py` で次のコードを見つけて、引用符で囲まれたコンテンツをゲームウィンドウのタイトルに置き換えてください（日本語はサポートされています）
 
@@ -436,5 +483,5 @@ WINDOW_TITLE = "Minecraft"
 
 ## ⚜ 重要な注意事項
 
-- このプロジェクトは Demo 専用で、提供されたシソーラス・ファイル `GTB_Thesaurus_Demo.xlsx` には 100 組のサンプル単語といくつかの「Shortcut(s) & Multiword(s)」が含まれています。元のベースで補足し続けることも、前述の構成変更方法に従ってシソーラス・ファイルを置き換えることもできます
+- このプロジェクトは Demo 専用で、提供されたシソーラス・ファイル `GTB_Thesaurus_Demo.xlsx` には 100 組のサンプル単語といくつかの「Shortcut(s) & Multiword(s)」が含まれています。元のベースで補足し続けることも、前述のコンフィギュレーション変更方法に従ってシソーラス・ファイルを置き換えることもできます
 - GTB-Solver を悪用すると、ゲームで不当な優位性が得られます。限られた範囲内で合理的に使用してください。プログラムの悪用による BAN について、作者は一切責任を負いません

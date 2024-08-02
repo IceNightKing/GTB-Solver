@@ -12,11 +12,34 @@
 
 **简体中文 | [繁體中文](./readme_cht.md) | [日本語](./readme_jp.md) | [English](./readme.md)**
 
+**[한국어](./readme_uni.md) | [Русский](./readme_uni.md) | [Deutsch](./readme_uni.md) | [Français](./readme_uni.md) | [Español](./readme_uni.md) | [Português](./readme_uni.md) | [Italiano](./readme_uni.md)**
+
 依据多语言提示及正则表达式快速猜测 Hypixel 服务器《建筑猜猜乐》小游戏中的建筑主题。
 
 > **淦翻红牌ldx，一人盲猜虐全场！**
 
 ## ⚜ 更新日志
+
+### 2024/08/02 - v5.0
+
+- \[Add\] 新增了随机复制模式
+- \[Add\] 韩语输入匹配支持
+- \[Add\] 俄语输入匹配支持
+- \[Add\] 德语输入匹配支持
+- \[Add\] 法语输入匹配支持
+- \[Add\] 西班牙语输入匹配支持
+- \[Add\] 葡萄牙语输入匹配支持
+- \[Add\] 意大利语输入匹配支持
+- \[Opt\] 现在用户可以通过前缀 `@kor` 匹配韩语
+- \[Opt\] 现在用户可以通过前缀 `@ru` 匹配俄语
+- \[Opt\] 现在用户可以通过前缀 `@de` 匹配德语
+- \[Opt\] 现在用户可以通过前缀 `@fra` 匹配法语
+- \[Opt\] 现在用户可以通过前缀 `@spa` 匹配西班牙语
+- \[Opt\] 现在用户可以通过前缀 `@pt` 匹配葡萄牙语
+- \[Opt\] 现在用户可以通过前缀 `@it` 匹配意大利语
+- \[Opt\] 日志辅助处理模式支持处理范围扩充至简体中文、繁体中文、日语、韩语、俄语、德语、法语、西班牙语、葡萄牙语、意大利语、英语
+- \[Opt\] 日志辅助处理模式支持对比范围扩充至简体中文、繁体中文、日语、韩语、俄语、德语、法语、西班牙语、葡萄牙语、意大利语、英语、Shortcut(s)、Multiword(s)
+- \[Opt\] 词库更新
 
 ### 2024/06/03 - v4.3
 
@@ -102,7 +125,7 @@
 
   ``` TXT
   # 现在以下主题已经能够被正确匹配
-  3.00 - T-Shirt - T恤 - Tricou
+  3.75 - T-Shirt - T恤 - Tricou
   1.75 - T-Rex - 霸王龙
   0.00 - Jack-O-Lantern - 南瓜灯
   0.00 - Trick-or-Treating - 不给糖就捣蛋
@@ -159,7 +182,7 @@
 
 3. **简体中文**：会被匹配，可直接插入到数字前后
 4. **连字符**：会被匹配，可直接插入到数字前后
-5. **空格**：不会被匹配，需手动输入至匹配式内
+5. **空格**：**不会**被匹配，需手动输入至匹配式内
 6. **正则表达式字符**：部分可用
 7. **默认匹配**：英语+简体中文
 8. **精确匹配**：如无需进行多语言匹配，可在匹配式内加入对应前缀进行精确匹配
@@ -171,6 +194,13 @@
       | 简体中文 | @zh |
       | 繁体中文 | @cht |
       | 日语 | @jp |
+      | 韩语 | @kor |
+      | 俄语 | @ru |
+      | 德语 | @de |
+      | 法语 | @fra |
+      | 西班牙语 | @spa |
+      | 葡萄牙语 | @pt |
+      | 意大利语 | @it |
       | 英语 | @en |
       | Shortcut(s) | @sc |
       | Multiword(s) | @mw |
@@ -185,22 +215,22 @@
 主题：_____ ______
 请输入匹配式：5 6
 该主题字数为 12 个字母
-16.75 - Water Bucket - 水桶 - Vandspand
-12.00 - Table Tennis - 乒乓球 - Bordtenni
+19.75 - Water Bucket - 水桶 - Vandspand
+13.50 - Table Tennis - 乒乓球 - Bordtenni
+11.50 - Ender Dragon - 末影龙
 10.25 - Train Tracks - 铁轨 - Rail - Rautatie
-10.00 - Ender Dragon - 末影龙
 10.00 - Light Switch - 照明开关 - Lysbryter
-8.50 - Water Bottle - 水瓶 - Waterfle
-8.25 - Paint Bucket - 油漆桶 - Fargburk
-8.25 - Swiss Cheese - 瑞士奶酪
-7.75 - Horse Racing - 赛马 - Zavod koni
+10.00 - Water Bottle - 水瓶 - Waterfle
+9.00 - Paint Bucket - 油漆桶 - Fargburk
+9.00 - Swiss Cheese - 瑞士奶酪
+8.50 - Horse Racing - 赛马 - Zavod koni
 6.75 - Chili Pepper - 红辣椒 - Piment
 6.75 - Magic Carpet - 魔毯
-4.50 - Fruit Basket - 果篮 - Obstkorb
-4.50 - Scuba Diving - 水肺潜水 - Buceo
-4.50 - Solar System - 太阳系 - Solsystem
+6.00 - Scuba Diving - 水肺潜水 - Buceo
+5.25 - Fruit Basket - 果篮 - Obstkorb
+5.25 - Solar System - 太阳系 - Solsystem
+3.75 - Build Battle - 建筑大师
 3.50 - Horse Riding - 骑马 - Ridning
-3.00 - Build Battle - 建筑大师
 0.25 - Snowy Forest - 积雪森林
 ```
 
@@ -208,10 +238,10 @@
 主题：_a___ ______
 请输入匹配式：1a3 6
 该主题字数为 12 个字母
-16.75 - Water Bucket - 水桶 - Vandspand
-12.00 - Table Tennis - 乒乓球 - Bordtenni
-8.50 - Water Bottle - 水瓶 - Waterfle
-8.25 - Paint Bucket - 油漆桶 - Fargburk
+19.75 - Water Bucket - 水桶 - Vandspand
+13.50 - Table Tennis - 乒乓球 - Bordtenni
+10.00 - Water Bottle - 水瓶 - Waterfle
+9.00 - Paint Bucket - 油漆桶 - Fargburk
 6.75 - Magic Carpet - 魔毯
 # 在此即可依据玩家建筑大致轮廓进行选择
 ```
@@ -220,7 +250,7 @@
 主题：_a___ _o____
 请输入匹配式：1a3 1o4
 该主题字数为 2 个字
-8.50 - Water Bottle - 水瓶 - Waterfle
+10.00 - Water Bottle - 水瓶 - Waterfle
 ```
 
 ### 2. 结合使用正则表达式进行猜测
@@ -228,23 +258,23 @@
 ``` TXT
 主题：_a___ ______
 请输入匹配式：.a3 .*
-16.75 - Water Bucket - 水桶 - Vandspand
-12.00 - Table Tennis - 乒乓球 - Bordtenni
-11.00 - Water Slide - 水上滑梯 - Tobogan
-9.50 - Magic Hat - 魔法帽子 - Joben
-8.50 - Water Bottle - 水瓶 - Waterfle
-8.25 - Paint Bucket - 油漆桶 - Fargburk
+19.75 - Water Bucket - 水桶 - Vandspand
+13.50 - Table Tennis - 乒乓球 - Bordtenni
+11.75 - Water Slide - 水上滑梯 - Tobogan
+10.25 - Magic Hat - 魔法帽子 - Joben
+10.00 - Water Bottle - 水瓶 - Waterfle
+9.25 - Paper Airplane - 纸飞机 - Papirfly
+9.00 - Paint Bucket - 油漆桶 - Fargburk
+8.00 - Games Controller - 游戏手柄 - Controller
+7.25 - Party Hat - 派对帽子
 7.00 - Candy Cane - 糖果手杖 - Acadea
-7.00 - Paper Airplane - 纸飞机 - Papirfly
 6.75 - Magic Carpet - 魔毯
-6.50 - Party Hat - 派对帽子
+6.75 - Water Balloon - 水气球 - Gavettone
 6.25 - Water Park - 水上乐园
-5.75 - Games Controller - 游戏手柄 - Controller
 5.50 - Magma Cube - 岩浆怪
 5.50 - Paint Palette - 调色板 - Verfpalet
-5.25 - Water Balloon - 水气球 - Gavettone
-4.00 - Magic Wand - 魔术棒
-4.00 - Table Cloth - 桌布 - Dug
+5.50 - Table Cloth - 桌布 - Dug
+4.75 - Magic Wand - 魔术棒
 0.75 - Santa Claus - 圣诞老人
 0.00 - Candy Buckets - 糖果篮子
 ```
@@ -252,8 +282,8 @@
 ``` TXT
 主题：_a___ _o____
 请输入匹配式：.a3 .o.*
-8.50 - Water Bottle - 水瓶 - Waterfle
-5.75 - Games Controller - 游戏手柄 - Controller
+10.00 - Water Bottle - 水瓶 - Waterfle
+8.00 - Games Controller - 游戏手柄 - Controller
 # 在此即可依据玩家建筑大致轮廓进行选择
 ```
 
@@ -261,7 +291,7 @@
 主题：_a___ _o___e
 请输入匹配式：.a3 .o.*e
 该主题字数为 2 个字
-8.50 - Water Bottle - 水瓶 - Waterfle
+10.00 - Water Bottle - 水瓶 - Waterfle
 ```
 
 ### 3. 使用简体中文进行猜测
@@ -270,11 +300,11 @@
 主题：水_
 请输入匹配式：水1
 该主题字数为 2 个字
-16.75 - Water Bucket - 水桶 - Vandspand
-8.50 - Water Bottle - 水瓶 - Waterfle
-6.25 - Jellyfish - 水母 - Kwal
+19.75 - Water Bucket - 水桶 - Vandspand
+10.00 - Water Bottle - 水瓶 - Waterfle
+8.50 - Jellyfish - 水母 - Kwal
 4.25 - Pool - 水池 - Basen
-3.00 - Fruit - 水果
+3.75 - Fruit - 水果
 2.25 - Crystal - 水晶
 2.00 - Well - 水井
 1.75 - Otter - 水獭
@@ -311,6 +341,13 @@ MULTI_LANG = ""
   | 简体中文 | zh | /lang zh |
   | 繁体中文 | cht | /lang cht |
   | 日语 | jp | /lang jp |
+  | 韩语 | kor | /lang kor |
+  | 俄语 | ru | /lang ru |
+  | 德语 | de | /lang de |
+  | 法语 | fra | /lang fra |
+  | 西班牙语 | spa | /lang spa |
+  | 葡萄牙语 | pt | /lang pt |
+  | 意大利语 | it | /lang it |
   | 英语 | en | /lang en |
 
 ### 3. 修改输出萌化模式状态
@@ -329,7 +366,17 @@ MOE_MODE = False
 AUTO_COPY = False
 ```
 
-### 5. 修改日志辅助处理模式状态
+### 5. 修改随机复制模式状态
+
+- 默认关闭。如需在自动复制时随机复制首个匹配条目的简体中文、繁体中文、日语、韩语、俄语、德语、法语、西班牙语、葡萄牙语、意大利语表述之一至剪贴板，请在 `GTB-Solver_main.py` 内找到以下代码，替换 `False` 为 `True` 即可
+
+``` Python
+RAC_MODE = False
+```
+
+- **注意**：启用随机复制模式需要一并开启自动复制模式。自动复制模式的开启方法详见 `配置修改方法 4`
+
+### 6. 修改日志辅助处理模式状态
 
 - 默认关闭。如需实时输出游戏相关状态，并将游戏内玩家猜测的主题与已经输出的匹配条目进行对比，经筛选后重新输出，请在 `GTB-Solver_main.py` 内找到以下代码，替换 `False` 为 `True` 即可
 
@@ -350,30 +397,30 @@ LAP_MODE = False
   [3/10] NoticeYou(12)
   请输入匹配式：8 3
   该主题字数为 12 个字母
-  8.25 - Shopping Bag - 购物袋 - Handlepose
+  9.00 - Shopping Bag - 购物袋 - Handlepose
   7.25 - Sleeping Bag - 睡袋 - Sovepose
-  4.00 - Baseball Bat - 棒球棍
+  4.75 - Baseball Bat - 棒球棍
   ```
 
   ``` TXT
   [3/10] NoticeYou(12)
   NoticeSC: sovepose
   检测到有玩家猜测了主题 睡袋 但未猜对，即将据此输出筛选后的匹配条目
-  8.25 - Shopping Bag - 购物袋 - Handlepose
-  4.00 - Baseball Bat - 棒球棍
+  9.00 - Shopping Bag - 购物袋 - Handlepose
+  4.75 - Baseball Bat - 棒球棍
   ```
 
   ``` TXT
   [3/10] NoticeYou(12)
   NoticeJP: 野球バット
   检测到有玩家猜测了主题 睡袋、棒球棍 但未猜对，即将据此输出筛选后的匹配条目
-  8.25 - Shopping Bag - 购物袋 - Handlepose
+  9.00 - Shopping Bag - 购物袋 - Handlepose
   # 在此即可直接盲猜出正确主题
   ```
 
-- **提示**：日志辅助处理模式支持处理服务器语言设置为简体中文、繁体中文、日语、英语的情况，并支持对比玩家使用简体中文、繁体中文、日语、英语、Shortcut(s)、Multiword(s) 猜测的主题。若您的词库文件版本不同，实际对比效果可能会发生改变
+- **提示**：日志辅助处理模式支持处理服务器语言设置为简体中文、繁体中文、日语、韩语、俄语、德语、法语、西班牙语、葡萄牙语、意大利语、英语的情况，并支持对比玩家使用简体中文、繁体中文、日语、韩语、俄语、德语、法语、西班牙语、葡萄牙语、意大利语、英语、Shortcut(s)、Multiword(s) 猜测的主题。若您的词库文件版本不同，实际对比效果可能会发生改变
 
-### 6. 修改日志文件路径
+### 7. 修改日志文件路径
 
 - 默认路径为 `C:\Minecraft\.minecraft\logs\latest.log`，仅供参考，请根据实际情况进行修改。如需修改日志文件路径，请在 `GTB-Solver_main.py` 内找到以下代码，替换引号内的路径即可（支持中文路径）
 
@@ -381,7 +428,7 @@ LAP_MODE = False
 LOG_FILE = r"C:\Minecraft\.minecraft\logs\latest.log"
 ```
 
-### 7. 修改日志文件重复读取间隔
+### 8. 修改日志文件重复读取间隔
 
 - 默认间隔为 `0.05` 秒。如需修改日志文件的重复读取间隔，请在 `GTB-Solver_main.py` 内找到以下代码，修改数值即可
 
@@ -391,7 +438,7 @@ LAP_INTERVAL = 0.05
 
 - **提示**：建议将该间隔设置在 `0.01` ~ `0.20` 秒的范围内。若您发现开启日志辅助处理模式后游戏相关状态更新不及时或未能成功抓取玩家猜测的主题，可适当减小重复读取间隔
 
-### 8. 修改游戏结束时自定义复制内容
+### 9. 修改游戏结束时自定义复制内容
 
 - 默认复制内容为 `Good Game`。如需修改游戏结束时自定义复制内容，请在 `GTB-Solver_main.py` 内找到以下代码，替换引号内的内容即可（支持中文）
 
@@ -399,9 +446,9 @@ LAP_INTERVAL = 0.05
 CUSTOM_CONTENT = "Good Game"
 ```
 
-- **注意**：自动复制模式与日志辅助处理模式开启时，自定义内容才会被复制。自动复制模式的开启方法详见 `配置修改方法 4`，日志辅助处理模式的开启方法详见 `配置修改方法 5`
+- **注意**：自动复制模式与日志辅助处理模式开启时，自定义内容才会被复制。自动复制模式的开启方法详见 `配置修改方法 4`，日志辅助处理模式的开启方法详见 `配置修改方法 6`
 
-### 9. 修改主题辅助记录模式状态
+### 10. 修改主题辅助记录模式状态
 
 - 默认关闭。如需在正确主题出现后将其记录至辅助记录文件内以便后续统计处理，请在 `GTB-Solver_main.py` 内找到以下代码，替换 `False` 为 `True` 即可
 
@@ -409,9 +456,9 @@ CUSTOM_CONTENT = "Good Game"
 TAR_MODE = False
 ```
 
-- **注意**：启用主题辅助记录模式需要一并开启日志辅助处理模式。日志辅助处理模式的开启方法详见 `配置修改方法 5`
+- **注意**：启用主题辅助记录模式需要一并开启日志辅助处理模式。日志辅助处理模式的开启方法详见 `配置修改方法 6`
 
-### 10. 修改主题辅助记录文件路径
+### 11. 修改主题辅助记录文件路径
 
 - 默认路径为 `GTB-Solver_main.py` 同文件夹。如需修改主题辅助记录文件路径，请在 `GTB-Solver_main.py` 内找到以下代码，替换引号内的路径即可（支持中文路径）
 
@@ -419,7 +466,7 @@ TAR_MODE = False
 GTB_TAR_FILE = r"GTB_TAR_File.txt"
 ```
 
-### 11. 修改半自动发送模式状态
+### 12. 修改半自动发送模式状态
 
 - 默认关闭。如需在输入匹配式后自动发送首个匹配条目至游戏内，请在 `GTB-Solver_main.py` 内找到以下代码，替换 `False` 为 `True` 即可
 
@@ -427,9 +474,9 @@ GTB_TAR_FILE = r"GTB_TAR_File.txt"
 SAS_MODE = False
 ```
 
-- **注意**：启用半自动发送模式需要一并开启自动复制模式与日志辅助处理模式。自动复制模式的开启方法详见 `配置修改方法 4`，日志辅助处理模式的开启方法详见 `配置修改方法 5`
+- **注意**：启用半自动发送模式需要一并开启自动复制模式与日志辅助处理模式。自动复制模式的开启方法详见 `配置修改方法 4`，日志辅助处理模式的开启方法详见 `配置修改方法 6`
 
-### 12. 修改半自动发送间隔
+### 13. 修改半自动发送间隔
 
 - 默认间隔为 `2.0` 秒。如需修改两次发送间的时间间隔，请在 `GTB-Solver_main.py` 内找到以下代码，修改数值即可
 
@@ -439,7 +486,7 @@ SAS_INTERVAL = 2.0
 
 - **提示**：该间隔是在减去重复猜测剩余冷却时间后额外的暂停时间，建议将该间隔设置在 `1.0` ~ `5.0` 秒的范围内。该间隔设置过小可能会触发服务器反垃圾信息机制而被踢出游戏
 
-### 13. 修改游戏窗口名称
+### 14. 修改游戏窗口名称
 
 - 默认激活包含 `Minecraft` 字样的第一个窗口。若您使用了非原版客户端，请在 `GTB-Solver_main.py` 内找到以下代码，替换引号内的内容为游戏窗口名称即可（支持中文）
 

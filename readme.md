@@ -12,9 +12,32 @@ GTB-Solver Demo Branch | <a href="https://github.com/IceNightKing/GTB-Solver/blo
 
 **[简体中文](./readme_zh.md) | [繁體中文](./readme_cht.md) | [日本語](./readme_jp.md) | English**
 
+**[한국어](./readme_uni.md) | [Русский](./readme_uni.md) | [Deutsch](./readme_uni.md) | [Français](./readme_uni.md) | [Español](./readme_uni.md) | [Português](./readme_uni.md) | [Italiano](./readme_uni.md)**
+
 Quickly guess the theme of "Guess The Build" game on Hypixel server based on multi-language hints and regular expressions.
 
 ## ⚜ Update Log
+
+### 2024/08/02 - v5.0
+
+- \[Add\] Added random copying mode
+- \[Add\] Korean input matching support
+- \[Add\] Russian input matching support
+- \[Add\] German input matching support
+- \[Add\] French input matching support
+- \[Add\] Spanish input matching support
+- \[Add\] Portuguese input matching support
+- \[Add\] Italian input matching support
+- \[Opt\] Now the user can match Korean by prefixing `@kor`
+- \[Opt\] Now the user can match Russian by prefixing `@ru`
+- \[Opt\] Now the user can match German by prefixing `@de`
+- \[Opt\] Now the user can match French by prefixing `@fra`
+- \[Opt\] Now the user can match Spanish by prefixing `@spa`
+- \[Opt\] Now the user can match Portuguese by prefixing `@pt`
+- \[Opt\] Now the user can match Italian by prefixing `@it`
+- \[Opt\] The log assisted processing mode supports processing in Simplified Chinese, Traditional Chinese, Japanese, Korean, Russian, German, French, Spanish, Portuguese, Italian and English
+- \[Opt\] The log assisted processing mode supports comparing in Simplified Chinese, Traditional Chinese, Japanese, Korean, Russian, German, French, Spanish, Portuguese, Italian, English, Shortcut(s) and Multiword(s)
+- \[Opt\] Code optimization
 
 ### 2024/06/03 - v4.3
 
@@ -100,7 +123,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 
   ``` TXT
   # The following theme(s) have now been able to be matched correctly
-  3.00 - T-Shirt - Tricou
+  3.75 - T-Shirt - Tricou
   1.75 - T-Rex
   0.00 - Jack-O-Lantern
   0.00 - Trick-or-Treating
@@ -139,8 +162,8 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 
 ### 1. Run the main program
 
-- **Windows**: Once the preconditions are met, run `GTB-Solver.bat`
-- **macOS & Linux**: Once the preconditions are met, run `GTB-Solver.sh`
+- **Windows**: Once the pre-conditions are met, run `GTB-Solver.bat`
+- **macOS & Linux**: Once the pre-conditions are met, run `GTB-Solver.sh`
 
 ### 2. Exit the main program
 
@@ -154,7 +177,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
     - Letters are not case sensitive when entering
 
 3. **Hyphen**: Will be matched and can be inserted directly before and after the number
-4. **Space**: Will NOT be matched, needs to be manually entered into the matching expression
+4. **Space**: Will **NOT** be matched, needs to be manually entered into the matching expression
 5. **Regular Expression Characters**: Partially available
 6. **Default Matching**: English
 7. **Exact Matching**: If there is no need for multi-language matching, you can add the corresponding prefix to the matching expression for exact matching
@@ -166,6 +189,13 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
       | Simplified Chinese | @zh |
       | Traditional Chinese | @cht |
       | Japanese | @jp |
+      | Korean | @kor |
+      | Russian | @ru |
+      | German | @de |
+      | French | @fra |
+      | Spanish | @spa |
+      | Portuguese | @pt |
+      | Italian | @it |
       | English | @en |
       | Shortcut(s) | @sc |
       | Multiword(s) | @mw |
@@ -178,22 +208,22 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 Theme: _____ ______
 Please enter the matching expression: 5 6
 The theme is 12 characters long
-16.75 - Water Bucket - Vandspand
-12.00 - Table Tennis - Bordtenni
+19.75 - Water Bucket - Vandspand
+13.50 - Table Tennis - Bordtenni
+11.50 - Ender Dragon
 10.25 - Train Tracks - Rail - Rautatie
-10.00 - Ender Dragon
 10.00 - Light Switch - Lysbryter
-8.50 - Water Bottle - Waterfle
-8.25 - Paint Bucket - Fargburk
-8.25 - Swiss Cheese
-7.75 - Horse Racing - Zavod koni
+10.00 - Water Bottle - Waterfle
+9.00 - Paint Bucket - Fargburk
+9.00 - Swiss Cheese
+8.50 - Horse Racing - Zavod koni
 6.75 - Chili Pepper - Piment
 6.75 - Magic Carpet
-4.50 - Fruit Basket - Obstkorb
-4.50 - Scuba Diving - Buceo
-4.50 - Solar System - Solsystem
+6.00 - Scuba Diving - Buceo
+5.25 - Fruit Basket - Obstkorb
+5.25 - Solar System - Solsystem
+3.75 - Build Battle
 3.50 - Horse Riding - Ridning
-3.00 - Build Battle
 0.25 - Snowy Forest
 ```
 
@@ -201,10 +231,10 @@ The theme is 12 characters long
 Theme: _a___ ______
 Please enter the matching expression: 1a3 6
 The theme is 12 characters long
-16.75 - Water Bucket - Vandspand
-12.00 - Table Tennis - Bordtenni
-8.50 - Water Bottle - Waterfle
-8.25 - Paint Bucket - Fargburk
+19.75 - Water Bucket - Vandspand
+13.50 - Table Tennis - Bordtenni
+10.00 - Water Bottle - Waterfle
+9.00 - Paint Bucket - Fargburk
 6.75 - Magic Carpet
 # Here you can choose according to the general outline of the player's building
 ```
@@ -213,7 +243,7 @@ The theme is 12 characters long
 Theme: _a___ _o____
 Please enter the matching expression: 1a3 1o4
 The theme is 12 characters long
-8.50 - Water Bottle - Waterfle
+10.00 - Water Bottle - Waterfle
 ```
 
 ### 2. Guessing in conjunction with the use of regular expressions
@@ -221,23 +251,23 @@ The theme is 12 characters long
 ``` TXT
 Theme: _a___ ______
 Please enter the matching expression: .a3 .*
-16.75 - Water Bucket - Vandspand
-12.00 - Table Tennis - Bordtenni
-11.00 - Water Slide - Tobogan
-9.50 - Magic Hat - Joben
-8.50 - Water Bottle - Waterfle
-8.25 - Paint Bucket - Fargburk
+19.75 - Water Bucket - Vandspand
+13.50 - Table Tennis - Bordtenni
+11.75 - Water Slide - Tobogan
+10.25 - Magic Hat - Joben
+10.00 - Water Bottle - Waterfle
+9.25 - Paper Airplane - Papirfly
+9.00 - Paint Bucket - Fargburk
+8.00 - Games Controller - Controller
+7.25 - Party Hat
 7.00 - Candy Cane - Acadea
-7.00 - Paper Airplane - Papirfly
 6.75 - Magic Carpet
-6.50 - Party Hat
+6.75 - Water Balloon - Gavettone
 6.25 - Water Park
-5.75 - Games Controller - Controller
 5.50 - Magma Cube
 5.50 - Paint Palette - Verfpalet
-5.25 - Water Balloon - Gavettone
-4.00 - Magic Wand
-4.00 - Table Cloth - Dug
+5.50 - Table Cloth - Dug
+4.75 - Magic Wand
 0.75 - Santa Claus
 0.00 - Candy Buckets
 ```
@@ -245,8 +275,8 @@ Please enter the matching expression: .a3 .*
 ``` TXT
 Theme: _a___ _o____
 Please enter the matching expression: .a3 .o.*
-8.50 - Water Bottle - Waterfle
-5.75 - Games Controller - Controller
+10.00 - Water Bottle - Waterfle
+8.00 - Games Controller - Controller
 # Here you can choose according to the general outline of the player's building
 ```
 
@@ -254,7 +284,7 @@ Please enter the matching expression: .a3 .o.*
 Theme: _a___ _o___e
 Please enter the matching expression: .a3 .o.*e
 The theme is 12 characters long
-8.50 - Water Bottle - Waterfle
+10.00 - Water Bottle - Waterfle
 ```
 
 ## ⚜ Configuration Modification
@@ -284,6 +314,13 @@ MULTI_LANG = ""
   | Simplified Chinese | zh | /lang zh |
   | Traditional Chinese | cht | /lang cht |
   | Japanese | jp | /lang jp |
+  | Korean | kor | /lang kor |
+  | Russian | ru | /lang ru |
+  | German | de | /lang de |
+  | French | fra | /lang fra |
+  | Spanish | spa | /lang spa |
+  | Portuguese | pt | /lang pt |
+  | Italian | it | /lang it |
   | English | en | /lang en |
 
 ### 3. Modify the output moe mode status
@@ -302,7 +339,17 @@ MOE_MODE = False
 AUTO_COPY = False
 ```
 
-### 5. Modify the log assisted processing mode status
+### 5. Modify the random copying mode status
+
+- The random copying mode is disabled by default. If you need to randomly copy one of the expressions in Simplified Chinese, Traditional Chinese, Japanese, Korean, Russian, German, French, Spanish, Portuguese or Italian of the first matching entry to the clipboard during automatic copying, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+
+``` Python
+RAC_MODE = False
+```
+
+- **Note**: Enabling random copying mode requires enabling automatic copying mode at the same time. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`
+
+### 6. Modify the log assisted processing mode status
 
 - The log assisted processing mode is disabled by default. If you need to output game-related status online, compare the themes guessed by players in the game with the already output matching entries, and re-output them after filtering, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
 
@@ -323,30 +370,30 @@ LAP_MODE = False
   [3/10] NoticeYou(12)
   Please enter the matching expression: 8 3
   The theme is 12 characters long
-  8.25 - Shopping Bag - Handlepose
+  9.00 - Shopping Bag - Handlepose
   7.25 - Sleeping Bag - Sovepose
-  4.00 - Baseball Bat
+  4.75 - Baseball Bat
   ```
 
   ``` TXT
   [3/10] NoticeYou(12)
   NoticeSC: sovepose
   Detects that the player guessed theme(s) Sleeping Bag but did not guess correctly, and the filtered matching entries will be output accordingly
-  8.25 - Shopping Bag - Handlepose
-  4.00 - Baseball Bat
+  9.00 - Shopping Bag - Handlepose
+  4.75 - Baseball Bat
   ```
 
   ``` TXT
   [3/10] NoticeYou(12)
   NoticeZH: 棒球棍
   Detects that the player guessed theme(s) Sleeping Bag, Baseball Bat but did not guess correctly, and the filtered matching entries will be output accordingly
-  8.25 - Shopping Bag - Handlepose
+  9.00 - Shopping Bag - Handlepose
   # Here you can guess the correct theme directly
   ```
 
-- **Tip**: The log assisted processing mode supports processing when the server language is set to Simplified Chinese, Traditional Chinese, Japanese or English, and supports to compare the themes guessed by players using Simplified Chinese, Traditional Chinese, Japanese, English, Shortcut(s) or Multiword(s). If your thesaurus file version is different, the actual comparison effect may change
+- **Tip**: The log assisted processing mode supports processing when the server language is set to Simplified Chinese, Traditional Chinese, Japanese, Korean, Russian, German, French, Spanish, Portuguese, Italian or English, and supports to compare the themes guessed by players using Simplified Chinese, Traditional Chinese, Japanese, Korean, Russian, German, French, Spanish, Portuguese, Italian, English, Shortcut(s) or Multiword(s). If your thesaurus file version is different, the actual comparison effect may change
 
-### 6. Modify the path of the log file
+### 7. Modify the path of the log file
 
 - The default path is `C:\Minecraft\.minecraft\logs\latest.log`, and it is for reference only, please modify it according to the actual situation. If you need to modify the path of the log file, please find the following code in `GTB-Solver_main.py` and replace the path in quotation marks
 
@@ -354,7 +401,7 @@ LAP_MODE = False
 LOG_FILE = r"C:\Minecraft\.minecraft\logs\latest.log"
 ```
 
-### 7. Modify the repeat reading interval of the log file
+### 8. Modify the repeat reading interval of the log file
 
 - The default interval is `0.05` seconds. If you need to modify the repeat reading interval of the log file, please find the following code in `GTB-Solver_main.py` and modify the value
 
@@ -364,7 +411,7 @@ LAP_INTERVAL = 0.05
 
 - **Tip**: It is recommended to set the interval in the range of `0.01` ~ `0.20` seconds. If you find that the game-related status is not updated in time or fail to capture the themes guessed by players after enabling the log assisted processing mode, you can reduce the repeat reading interval appropriately
 
-### 8. Modify the custom copy content at the end of the game
+### 9. Modify the custom copy content at the end of the game
 
 - The default copy content is `Good Game`. If you need to modify the custom copy content at the end of the game, please find the following code in `GTB-Solver_main.py` and replace the content in the quotation marks
 
@@ -372,9 +419,9 @@ LAP_INTERVAL = 0.05
 CUSTOM_CONTENT = "Good Game"
 ```
 
-- **Note**: Custom content will only be copied when automatic copying mode and log assisted processing mode are enabled. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 5`
+- **Note**: Custom content will only be copied when automatic copying mode and log assisted processing mode are enabled. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 6`
 
-### 9. Modify the theme auxiliary recording mode status
+### 10. Modify the theme auxiliary recording mode status
 
 - The theme auxiliary recording mode is disabled by default. If you need to record the correct theme to the auxiliary recording file for subsequent statistical processing, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
 
@@ -382,9 +429,9 @@ CUSTOM_CONTENT = "Good Game"
 TAR_MODE = False
 ```
 
-- **Note**: Enabling theme auxiliary recording mode requires enabling log assisted processing mode at the same time. For details on how to enable log assisted processing mode, see `Configuration Modification Method 5`
+- **Note**: Enabling theme auxiliary recording mode requires enabling log assisted processing mode at the same time. For details on how to enable log assisted processing mode, see `Configuration Modification Method 6`
 
-### 10. Modify the path of the theme auxiliary recording file
+### 11. Modify the path of the theme auxiliary recording file
 
 - The default path is the same folder as `GTB-Solver_main.py`. If you need to modify the path of the theme auxiliary recording file, please find the following code in `GTB-Solver_main.py` and replace the path in quotation marks
 
@@ -392,7 +439,7 @@ TAR_MODE = False
 GTB_TAR_FILE = r"GTB_TAR_File.txt"
 ```
 
-### 11. Modify the semi-automatic sending mode status
+### 12. Modify the semi-automatic sending mode status
 
 - The semi-automatic sending mode is disabled by default. If you need to automatically send the first matching entry to the game after entering the matching expression, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
 
@@ -400,9 +447,9 @@ GTB_TAR_FILE = r"GTB_TAR_File.txt"
 SAS_MODE = False
 ```
 
-- **Note**: Enabling semi-automatic sending mode requires enabling automatic copying mode and log assisted processing mode at the same time. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 5`
+- **Note**: Enabling semi-automatic sending mode requires enabling automatic copying mode and log assisted processing mode at the same time. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 6`
 
-### 12. Modify the semi-automatic sending interval
+### 13. Modify the semi-automatic sending interval
 
 - The default interval is `2.0` seconds. If you need to modify the interval between sends, please find the following code in `GTB-Solver_main.py` and modify the value
 
@@ -412,7 +459,7 @@ SAS_INTERVAL = 2.0
 
 - **Tip**: This interval is the additional pause time after subtracting the remaining cooldown time of the repeat guess, it is recommended to set the interval in the range of `1.0` ~ `5.0` second(s). Setting the interval too short may trigger the server's anti-spam mechanism and result in being kicked out of the game
 
-### 13. Modify the game window title
+### 14. Modify the game window title
 
 - The semi-automatic sending mode activates the first window containing the word `Minecraft` by default. If you are using a non-original client, please find the following code in `GTB-Solver_main.py` and replace the content in quotation marks with the game window title
 
@@ -422,5 +469,5 @@ WINDOW_TITLE = "Minecraft"
 
 ## ⚜ Important Notes
 
-- This project is for Demo ONLY, the provided thesaurus file `GTB_Thesaurus_Demo.xlsx` contains 100 pairs of sample words and a few Shortcut(s) & Multiword(s), you can continue to supplement it on the original basis or replace the thesaurus file according to the aforementioned configuration modification method
-- Abuse of GTB-Solver will give you an unfair advantage in the game! Please use it reasonably within a limited scope. The author is NOT responsible for the BAN caused by the abuse of the program
+- This project is for Demo **ONLY**, the provided thesaurus file `GTB_Thesaurus_Demo.xlsx` contains 100 pairs of sample words and a few Shortcut(s) & Multiword(s), you can continue to supplement it on the original basis or replace the thesaurus file according to the aforementioned configuration modification method
+- Abuse of GTB-Solver will give you an unfair advantage in the game! Please use it reasonably within a limited scope. The author is **NOT** responsible for the BAN caused by the abuse of the program
