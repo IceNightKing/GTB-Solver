@@ -257,7 +257,7 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "de": "Fehler: Thesaurus-Datei nicht gefunden. Bitte überprüfen Sie, ob der Dateipfad richtig konfiguriert ist",
             "fra": "Erreur: Fichier thésaurus non trouvé, veuillez vérifier si le chemin du fichier est correctement configuré",
             "spa": "Error: No se encontró el archivo de tesauro, verifique si la ruta del archivo está configurada correctamente",
-            "pt": "Erro: Arquivo do dicionário de sinônimos não encontrado, verifique se o caminho do arquivo está configurado corretamente",
+            "pt": "Erro: Arquivo do thesaurus não encontrado, verifique se o caminho do arquivo está configurado corretamente",
             "it": "Errore: File del thesaurus non trovato, verificare che il percorso del file sia configurato correttamente",
             "en": "Error: Thesaurus file not found, please check if the file path is configured correctly"
         },
@@ -269,8 +269,8 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "ru": 'Ошибка: Колонка «English» не найдена, проверьте, правильно ли настроено имя колонки тезауруса',
             "de": 'Fehler: Spalte „English“ nicht gefunden. Bitte überprüfen Sie, ob der Thesaurus-Spaltenname richtig konfiguriert ist',
             "fra": 'Erreur: Colonne «English» non trouvée, veuillez vérifier si le nom de la colonne du thésaurus est correctement configuré',
-            "spa": 'Error: No se encontró la columna "English", verifique si el nombre de la columna del diccionario de sinónimos está configurado correctamente',
-            "pt": 'Erro: Coluna "English" não encontrada, verifique se o nome da coluna do dicionário de sinônimos está configurado corretamente',
+            "spa": 'Error: No se encontró la columna "English", verifique si el nombre de la columna del tesauro está configurado correctamente',
+            "pt": 'Erro: Coluna "English" não encontrada, verifique se o nome da coluna do thesaurus está configurado corretamente',
             "it": 'Errore: Colonna "English" non trovata, controllare che il nome della colonna del thesaurus sia configurato correttamente',
             "en": 'Error: "English" column not found, please check if the the thesaurus column name is configured correctly'
         },
@@ -582,7 +582,7 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "de": "Übereinstimmung fehlgeschlagen, kein passender Eintrag im aktuellen Thesaurus gefunden",
             "fra": "La correspondance a échoué, aucune entrée correspondante n'a été trouvée dans le thésaurus actuel",
             "spa": "Coincidencia fallida, no se encontró ninguna entrada coincidente en el tesauro actual",
-            "pt": "Falha na correspondência, nenhuma entrada correspondente foi encontrada no dicionário de sinônimos atual",
+            "pt": "Falha na correspondência, nenhuma entrada correspondente foi encontrada no thesaurus atual",
             "it": "Corrispondenza fallita, nessuna voce corrispondente trovata nel thesaurus corrente",
             "en": "Match failed, no matching entry found in the current thesaurus"
         },
