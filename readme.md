@@ -37,7 +37,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 - \[Opt\] Now the user can match Italian by prefixing `@it`
 - \[Opt\] The log assisted processing mode supports processing in Simplified Chinese, Traditional Chinese, Japanese, Korean, Russian, German, French, Spanish, Portuguese, Italian and English
 - \[Opt\] The log assisted processing mode supports comparing in Simplified Chinese, Traditional Chinese, Japanese, Korean, Russian, German, French, Spanish, Portuguese, Italian, English, Shortcut(s) and Multiword(s)
-- \[Opt\] Code optimization
+- \[Opt\] Thesaurus update
 
 ### 2024/06/03 - v4.3
 
@@ -470,4 +470,4 @@ WINDOW_TITLE = "Minecraft"
 ## ⚜ Important Notes
 
 - This project is for Demo **ONLY**, the provided thesaurus file `GTB_Thesaurus_Demo.xlsx` contains 100 pairs of sample words and a few Shortcut(s) & Multiword(s), you can continue to supplement it on the original basis or replace the thesaurus file according to the aforementioned configuration modification method
-- Abuse of GTB-Solver will give you an unfair advantage in the game! Please use it reasonably within a limited scope. The author is **NOT** responsible for the BAN caused by the abuse of the program
+- Abuse of GTB-Solver will give you an unfair advantage in the game! Please use it reasonably within a limited scope. The developer is **NOT** responsible for the BAN caused by abuse of the program

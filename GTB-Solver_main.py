@@ -1,7 +1,7 @@
 """
 GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on multi-language hints and regular expressions.
 Version: 5.0
-Author: IceNight
+Developer: IceNight
 GitHub: https://github.com/IceNightKing
 """
 

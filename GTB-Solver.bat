@@ -1,6 +1,6 @@
 @echo off
 
-title Guess The Build Solver - Powered by IceNight
+title Guess The Build Solver - Developed by IceNight
 python "GTB-Solver_main.py"
 
 pause
