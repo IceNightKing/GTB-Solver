@@ -807,13 +807,13 @@ def pattern_from_input(user_input):
     }
     target_column = None
     num = pattern = ""
-    banned_chars = r'()'
+    banned_chars = r'()?'
 
     for prefix, column in column_prefix_dic.items():
         if user_input.startswith(prefix) and column in df.columns:
             user_input = user_input[len(prefix):]
             user_input = r'[a-zA-Z]' if prefix in {"@sc", "@mw"} and user_input in {"1", ".", "_"} else user_input
-            user_input = r'[a-zA-Z].*' if prefix in {"@sc", "@mw"} and user_input in {".*", "_*", "1.*", "1_*", "..*", "._*", "_.*", "__*"} else user_input
+            user_input = r'[a-zA-Z].*' if prefix in {"@sc", "@mw"} and user_input in {".*", "_*", ".+", "_+", "1.*", "1_*", "..*", "._*", "_.*", "__*"} else user_input
             target_column = column if user_input else target_column
             break
 
