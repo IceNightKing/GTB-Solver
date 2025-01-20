@@ -10,15 +10,24 @@
 
 ## ⚜ 功能簡介
 
-**[简体中文](./readme_zh.md) | 繁體中文 | [日本語](./readme_jp.md) | [English](./readme.md)**
-
-**[한국어](./readme_uni.md) | [Русский](./readme_uni.md) | [Deutsch](./readme_uni.md) | [Français](./readme_uni.md) | [Español](./readme_uni.md) | [Português](./readme_uni.md) | [Italiano](./readme_uni.md)**
+**[简体中文](./readme_zh.md "简体中文(zh)") | 繁體中文 | [日本語](./readme_jp.md "日本語(jp)") | [한국어](./readme_uni.md#한국어 "한국어(kor)") | [Русский](./readme_uni.md#русский "Русский(ru)") | [Deutsch](./readme_uni.md#deutsch "Deutsch(de)") | [Français](./readme_uni.md#français "Français(fra)") | [Español](./readme_uni.md#español "Español(spa)") | [Português](./readme_uni.md#português "Português(pt)") | [Italiano](./readme_uni.md#italiano "Italiano(it)") | [English](./readme.md "English(en)")**
 
 依據多語言提示及正規表示式快速猜測 Hypixel 伺服器《你蓋我猜》小遊戲中的建築主題。
 
-> **淦翻紅牌ldx，一人盲猜虐全場！**
+> **建築猜的快又好，全靠建築猜猜寶！**
 
-## ⚜ 更新日誌
+<details>
+  <summary>查看更新日誌</summary>
+
+### 2025/01/20 - v5.1
+
+- \[Add\] 新增了玩家預警控制模式
+- \[Add\] 新增了玩家預警控制增強模式
+- \[Fix\] 修復了使用者設定 `MULTI_LANG = "zh"` 後造成的 `NameError` 崩潰
+- \[Opt\] 適配了 Hypixel 伺服器《建築大賽》遊戲模式新增加的聊天稱號
+- \[Opt\] 現在程式會將匹配式對應字數與日誌輔助處理模式抓取到的當前回合主題字數進行對比，並在二者不相等時發出通知
+- \[Opt\] 優化了程式輸出語言的部分翻譯
+- \[Opt\] 詞庫更新
 
 ### 2024/08/02 - v5.0
 
@@ -57,9 +66,15 @@
 ### 2024/04/18 - v4.1
 
 - \[Add\] 新增了詞頻統計指數
-  - 詞頻統計指數依時間梯度加權計算自多位玩家提供的總計約 15,000 回合的遊戲數據，僅供參考
+
+> [!NOTE]
+> 詞頻統計指數依時間梯度加權計算自多位玩家提供的總計約 15,000 回合的遊戲數據，僅供參考
+
 - \[Opt\] 程式現在預設依照詞頻統計指數降序輸出
-  - 如仍需依照原規則輸出，請自行在詞庫檔案 `GTB_Thesaurus_Demo.xlsx` 內以 English 欄為排序依據，依照英語字母升序排序
+
+> [!TIP]
+> 如仍需依照原規則輸出，請自行在詞庫檔案 `GTB_Thesaurus_Demo.xlsx` 內以 English 欄為排序依據，依照英語字母升序排序
+
 - \[Opt\] 詞庫更新
 
 ### 2024/04/02 - v4.0
@@ -70,6 +85,7 @@
 
   ``` TXT
   # 現在以下主題已經能夠被正確匹配
+  5.00 - Farmer's Market - 菜市場
   0.25 - Santa's Workshop - 聖誕老人工作坊
   0.00 - Santa's Sleigh - 聖誕老人的雪橇
   ```
@@ -125,7 +141,8 @@
 
   ``` TXT
   # 現在以下主題已經能夠被正確匹配
-  3.75 - T-Shirt - T恤 - Tricou
+  5.00 - Sci-fi - 科幻
+  4.50 - T-Shirt - T恤 - Tricou
   1.75 - T-Rex - 暴龍
   0.00 - Jack-O-Lantern - 南瓜燈
   0.00 - Trick-or-Treating - 不給糖就搗蛋
@@ -142,6 +159,16 @@
 - \[Opt\] 程式輸出語言現在預設取決於系統語言
 - \[Opt\] 詞庫更新
 - \[Opt\] 代碼重構
+
+</details>
+
+## ⚜ 創新點
+
+🔹 支援使用正規表示式進行猜測  
+🔹 適配多語言詞庫，支援使用多語言進行猜測  
+🔹 支援對比遊戲內玩家已經猜測的主題，避免重複猜測  
+🔹 預設依照詞頻統計指數降序輸出，提高猜測正確率  
+🔹 支援規避勝場排名靠前玩家  
 
 ## ⚜ 前置條件
 
@@ -176,7 +203,8 @@
 1. **數字**：下橫線的數量
 2. **字母**：會被匹配，可直接插入到數字前後
 
-    - 輸入字母時無需區分大小寫
+> [!TIP]
+> 輸入字母時無需區分大小寫
 
 3. **繁體中文**：會被匹配，可直接插入到數字前後
 4. **連字符**：會被匹配，可直接插入到數字前後
@@ -203,7 +231,8 @@
       | Shortcut(s) | @sc |
       | Multiword(s) | @mw |
 
-> **提示**：在預設匹配模式下，輸入空格、連字符或大於 8 的數字後僅會匹配到英語，輸入任意繁體中文後僅會匹配到繁體中文
+> [!TIP]
+> 在預設匹配模式下，輸入空格、連字符或大於 10 的數字後僅會匹配到英語，輸入任意繁體中文後僅會匹配到繁體中文
 
 ## ⚜ 猜測方法（以 Water Bottle 為例）
 
@@ -212,34 +241,34 @@
 ``` TXT
 主題：_____ ______
 請輸入匹配式：5 6
-此主題字數為 12 個字母
-19.75 - Water Bucket - 水桶 - Vandspand
-13.50 - Table Tennis - 乒乓球 - Bordtenni
-11.50 - Ender Dragon - 終界龍
+此主題英語字數為 12 個字母
+20.50 - Water Bucket - 水桶 - Vandspand
+14.25 - Table Tennis - 乒乓球 - Bordtenni
+12.25 - Ender Dragon - 終界龍
+10.75 - Light Switch - 電燈開關 - Lysbryter
+10.75 - Water Bottle - 水瓶 - Waterfle
 10.25 - Train Tracks - 鐵軌 - Rail - Rautatie
-10.00 - Light Switch - 電燈開關 - Lysbryter
-10.00 - Water Bottle - 水瓶 - Waterfle
-9.00 - Paint Bucket - 油漆桶 - Fargburk
+9.75 - Paint Bucket - 油漆桶 - Fargburk
+9.25 - Horse Racing - 賽馬 - Zavod koni
 9.00 - Swiss Cheese - 瑞士起司
-8.50 - Horse Racing - 賽馬 - Zavod koni
-6.75 - Chili Pepper - 辣椒 - Piment
 6.75 - Magic Carpet - 魔毯
 6.00 - Scuba Diving - 水肺潛水 - Buceo
 5.25 - Fruit Basket - 水果籃 - Obstkorb
 5.25 - Solar System - 太陽系 - Solsystem
-3.75 - Build Battle - 建築大賽
-3.50 - Horse Riding - 騎馬 - Ridning
-0.25 - Snowy Forest - 冰雪森林
+5.00 - Greek Temple - 希臘神廟
+5.00 - Solar Panels - 太陽光電板
+4.50 - Build Battle - 建築大賽
+0.25 - Snowy Forest - 雪林
 ```
 
 ``` TXT
 主題：_a___ ______
 請輸入匹配式：1a3 6
-此主題字數為 12 個字母
-19.75 - Water Bucket - 水桶 - Vandspand
-13.50 - Table Tennis - 乒乓球 - Bordtenni
-10.00 - Water Bottle - 水瓶 - Waterfle
-9.00 - Paint Bucket - 油漆桶 - Fargburk
+此主題英語字數為 12 個字母
+20.50 - Water Bucket - 水桶 - Vandspand
+14.25 - Table Tennis - 乒乓球 - Bordtenni
+10.75 - Water Bottle - 水瓶 - Waterfle
+9.75 - Paint Bucket - 油漆桶 - Fargburk
 6.75 - Magic Carpet - 魔毯
 # 在此即可依據玩家建築大致輪廓進行選擇
 ```
@@ -248,7 +277,7 @@
 主題：_a___ _o____
 請輸入匹配式：1a3 1o4
 此主題字數為 2 個字
-10.00 - Water Bottle - 水瓶 - Waterfle
+10.75 - Water Bottle - 水瓶 - Waterfle
 ```
 
 ### 2. 結合使用正規表示式進行猜測
@@ -256,22 +285,22 @@
 ``` TXT
 主題：_a___ ______
 請輸入匹配式：.a3 .*
-19.75 - Water Bucket - 水桶 - Vandspand
-13.50 - Table Tennis - 乒乓球 - Bordtenni
-11.75 - Water Slide - 滑水道 - Tobogan
-10.25 - Magic Hat - 魔法帽子 - Joben
-10.00 - Water Bottle - 水瓶 - Waterfle
+20.50 - Water Bucket - 水桶 - Vandspand
+14.25 - Table Tennis - 乒乓球 - Bordtenni
+12.50 - Water Slide - 滑水道 - Tobogan
+10.75 - Water Bottle - 水瓶 - Waterfle
+10.25 - Magic Hat - 魔術帽 - Joben
+9.75 - Paint Bucket - 油漆桶 - Fargburk
 9.25 - Paper Airplane - 紙飛機 - Papirfly
-9.00 - Paint Bucket - 油漆桶 - Fargburk
 8.00 - Games Controller - 遊戲控制器 - Controller
+7.75 - Candy Cane - 拐杖糖 - Acadea
+7.75 - Paint Palette - 調色盤 - Verfpalet
 7.25 - Party Hat - 派對帽
-7.00 - Candy Cane - 拐杖糖 - Acadea
 6.75 - Magic Carpet - 魔毯
 6.75 - Water Balloon - 水球 - Gavettone
+6.25 - Magma Cube - 岩漿立方怪
+6.25 - Table Cloth - 桌布 - Dug
 6.25 - Water Park - 水上樂園
-5.50 - Magma Cube - 岩漿立方怪
-5.50 - Paint Palette - 調色盤 - Verfpalet
-5.50 - Table Cloth - 桌布 - Dug
 4.75 - Magic Wand - 魔杖
 0.75 - Santa Claus - 聖誕老人
 0.00 - Candy Buckets - 糖果籃
@@ -280,7 +309,7 @@
 ``` TXT
 主題：_a___ _o____
 請輸入匹配式：.a3 .o.*
-10.00 - Water Bottle - 水瓶 - Waterfle
+10.75 - Water Bottle - 水瓶 - Waterfle
 8.00 - Games Controller - 遊戲控制器 - Controller
 # 在此即可依據玩家建築大致輪廓進行選擇
 ```
@@ -289,7 +318,7 @@
 主題：_a___ _o___e
 請輸入匹配式：.a3 .o.*e
 此主題字數為 2 個字
-10.00 - Water Bottle - 水瓶 - Waterfle
+10.75 - Water Bottle - 水瓶 - Waterfle
 ```
 
 ### 3. 使用繁體中文進行猜測
@@ -298,16 +327,16 @@
 主題：水_
 請輸入匹配式：水1
 此主題字數為 2 個字
-19.75 - Water Bucket - 水桶 - Vandspand
-10.00 - Water Bottle - 水瓶 - Waterfle
+20.50 - Water Bucket - 水桶 - Vandspand
+10.75 - Water Bottle - 水瓶 - Waterfle
+9.25 - Underwater - 水下 - Pod woda
 8.50 - Jellyfish - 水母 - Kwal
-8.50 - Underwater - 水下 - Pod woda
 6.75 - Water Balloon - 水球 - Gavettone
-3.75 - Fruit - 水果
+4.50 - Fruit - 水果
 2.25 - Crystal - 水晶
+2.25 - Puddle - 水坑 - Pla
+2.00 - Kettle - 水壺 - Tetera
 1.75 - Otter - 水獺
-1.50 - Puddle - 水坑 - Pla
-1.25 - Kettle - 水壺 - Tetera
 # 在此即可依據玩家建築大致輪廓進行選擇
 # 鑒於提示時間靠後，不建議使用繁體中文猜測兩字及兩字以下主題
 ```
@@ -322,7 +351,8 @@
 GTB_THESAURUS = r"GTB_Thesaurus_Demo.xlsx"
 ```
 
-- **注意**：詞庫檔案內應至少存在 English 欄（嚴格區分大小寫）
+> [!WARNING]
+> 詞庫檔案內應至少存在 English 欄（嚴格區分大小寫）
 
 ### 2. 修改程式輸出語言
 
@@ -372,7 +402,8 @@ AUTO_COPY = False
 RAC_MODE = False
 ```
 
-- **注意**：啟用隨機複製模式需要同時開啟自動複製模式。自動複製模式的開啟方法詳見 `配置修改方法 4`
+> [!NOTE]
+> 啟用隨機複製模式需要同時開啟自動複製模式。自動複製模式的開啟方法詳見 `配置修改方法 4`
 
 ### 6. 修改日誌輔助處理模式狀態
 
@@ -382,41 +413,44 @@ RAC_MODE = False
 LAP_MODE = False
 ```
 
-- 輸出樣式範例（其中，`3` 為當前回合數，`10` 為總回合數，`NoticeYou` 為當前回合建築師名稱，`12` 為包含空格的當前回合主題字數）
+- 輸出樣式範例（其中，`3` 為當前回合數，`10` 為總回合數，`NoticeYou` 為當前回合建築師名稱，`13` 為包含空格的當前回合主題字數）
 
   ``` TXT
-  [3/10] NoticeYou(12)
+  [3/10] NoticeYou(13)
   ```
 
-- 對比猜測範例（以 Shopping Bag 為例）
+- 對比猜測範例（以 Conveyor Belt 為例）
 
   ``` TXT
   主題：________ ___
-  [3/10] NoticeYou(12)
-  請輸入匹配式：8 3
-  此主題字數為 12 個字母
-  9.00 - Shopping Bag - 購物袋 - Handlepose
-  7.25 - Sleeping Bag - 睡袋 - Sovepose
-  4.75 - Baseball Bat - 棒球棍
+  [3/10] NoticeYou(13)
+  請輸入匹配式：8 4
+  此主題英語字數為 13 個字母
+  13.00 - Swimming Pool - 游泳池 - Basen
+  7.50 - Wrecking Ball - 鐵球 - Sloopkogel
+  4.50 - Conveyor Belt - 輸送帶 - Forderband
+  0.00 - Presents Pile - 禮物堆
   ```
 
   ``` TXT
-  [3/10] NoticeYou(12)
-  NoticeSC: sovepose
-  偵測到有玩家猜測了主題 睡袋 但未猜對，即將據此輸出篩選後的匹配條目
-  9.00 - Shopping Bag - 購物袋 - Handlepose
-  4.75 - Baseball Bat - 棒球棍
+  [3/10] NoticeYou(13)
+  NoticeMW: basen
+  偵測到有玩家猜測了主題 游泳池 但未猜對，即將據此輸出篩選後的匹配條目
+  7.50 - Wrecking Ball - 鐵球 - Sloopkogel
+  4.50 - Conveyor Belt - 輸送帶 - Forderband
+  0.00 - Presents Pile - 禮物堆
   ```
 
   ``` TXT
-  [3/10] NoticeYou(12)
-  NoticeJP: 野球バット
-  偵測到有玩家猜測了主題 睡袋、棒球棍 但未猜對，即將據此輸出篩選後的匹配條目
-  9.00 - Shopping Bag - 購物袋 - Handlepose
-  # 在此即可直接盲猜出正確主題
+  [3/10] NoticeYou(13)
+  NoticeRU: шар для сноса зданий
+  偵測到有玩家猜測了主題 游泳池、鐵球 但未猜對，即將據此輸出篩選後的匹配條目
+  4.50 - Conveyor Belt - 輸送帶 - Forderband
+  0.00 - Presents Pile - 禮物堆
   ```
 
-- **提示**：日誌輔助處理模式支援處理伺服器語言設定為簡體中文、繁體中文、日語、韓語、俄語、德語、法語、西班牙語、葡萄牙語、義大利語、英語的情況，並支援對比玩家使用簡體中文、繁體中文、日語、韓語、俄語、德語、法語、西班牙語、葡萄牙語、義大利語、英語、Shortcut(s)、Multiword(s) 猜測的主題。若您的詞庫檔案版本不同，實際對比效果可能會發生改變
+> [!TIP]
+> 日誌輔助處理模式支援處理伺服器語言設定為簡體中文、繁體中文、日語、韓語、俄語、德語、法語、西班牙語、葡萄牙語、義大利語、英語的情況，並支援對比玩家使用簡體中文、繁體中文、日語、韓語、俄語、德語、法語、西班牙語、葡萄牙語、義大利語、英語、Shortcut(s)、Multiword(s) 猜測的主題。若您的詞庫檔案版本不同，實際對比效果可能會發生改變
 
 ### 7. 修改日誌檔案路徑
 
@@ -434,7 +468,8 @@ LOG_FILE = r"C:\Minecraft\.minecraft\logs\latest.log"
 LAP_INTERVAL = 0.05
 ```
 
-- **提示**：建議將該間隔設定在 `0.01` ~ `0.20` 秒的範圍內。若您發現開啟日誌輔助處理模式後遊戲相關狀態更新不及時或未能成功抓取玩家猜測的主題，可適當減少重複讀取間隔
+> [!TIP]
+> 建議將該間隔設定在 `0.01` ~ `0.20` 秒的範圍內。若您發現開啟日誌輔助處理模式後遊戲相關狀態更新不及時或未能成功抓取玩家猜測的主題，可適當減少重複讀取間隔
 
 ### 9. 修改遊戲結束時自訂複製內容
 
@@ -444,7 +479,8 @@ LAP_INTERVAL = 0.05
 CUSTOM_CONTENT = "Good Game"
 ```
 
-- **注意**：自動複製模式與日誌輔助處理模式開啟時，自訂內容才會被複製。自動複製模式的開啟方法詳見 `配置修改方法 4`，日誌輔助處理模式的開啟方法詳見 `配置修改方法 6`
+> [!NOTE]
+> 自動複製模式與日誌輔助處理模式開啟時，自訂內容才會被複製。自動複製模式的開啟方法詳見 `配置修改方法 4`，日誌輔助處理模式的開啟方法詳見 `配置修改方法 6`
 
 ### 10. 修改主題輔助記錄模式狀態
 
@@ -454,7 +490,8 @@ CUSTOM_CONTENT = "Good Game"
 TAR_MODE = False
 ```
 
-- **注意**：啟用主題輔助記錄模式需要同時開啟日誌輔助處理模式。日誌輔助處理模式的開啟方法詳見 `配置修改方法 6`
+> [!NOTE]
+> 啟用主題輔助記錄模式需要同時開啟日誌輔助處理模式。日誌輔助處理模式的開啟方法詳見 `配置修改方法 6`
 
 ### 11. 修改主題輔助記錄檔案路徑
 
@@ -472,7 +509,8 @@ GTB_TAR_FILE = r"GTB_TAR_File.txt"
 SAS_MODE = False
 ```
 
-- **注意**：啟用半自動發送模式需要同時開啟自動複製模式與日誌輔助處理模式。自動複製模式的開啟方法詳見 `配置修改方法 4`，日誌輔助處理模式的開啟方法詳見 `配置修改方法 6`
+> [!NOTE]
+> 啟用半自動發送模式需要同時開啟自動複製模式與日誌輔助處理模式。自動複製模式的開啟方法詳見 `配置修改方法 4`，日誌輔助處理模式的開啟方法詳見 `配置修改方法 6`
 
 ### 13. 修改半自動發送間隔
 
@@ -482,7 +520,8 @@ SAS_MODE = False
 SAS_INTERVAL = 2.0
 ```
 
-- **提示**：該間隔是在減去重複猜測剩餘冷卻時間後額外的暫停時間，建議將該間隔設置在 `1.0` ~ `5.0` 秒的範圍內。此間隔設定太小可能會觸發伺服器反垃圾訊息機製而被踢出遊戲
+> [!TIP]
+> 該間隔是在減去重複猜測剩餘冷卻時間後額外的暫停時間，建議將該間隔設置在 `1.0` ~ `5.0` 秒的範圍內。此間隔設定太小可能會觸發伺服器反垃圾訊息機製而被踢出遊戲
 
 ### 14. 修改遊戲視窗名稱
 
@@ -492,7 +531,74 @@ SAS_INTERVAL = 2.0
 WINDOW_TITLE = "Minecraft"
 ```
 
+### 15. 修改玩家預警控制模式狀態
+
+- 預設關閉。如需即時預警等待房間的後續進入玩家，並在玩家預警控制列表內的玩家進入等待房間後發出通知，請在 `GTB-Solver_main.py` 內找到以下代碼，替換 `False` 為 `True` 即可
+
+``` Python
+PWC_MODE = False
+```
+
+> [!TIP]
+> 此模式無法預警以匿名模式進行遊戲的玩家
+
+> [!NOTE]
+> 啟用玩家預警控制模式需要同時開啟日誌輔助處理模式。日誌輔助處理模式的開啟方法詳見 `配置修改方法 6`
+
+### 16. 修改玩家預警控制增強模式狀態
+
+- 預設關閉。如需在玩家預警控制列表內的玩家進入等待房間後自動返回遊戲大廳，請在 `GTB-Solver_main.py` 內找到以下代碼，替換 `False` 為 `True` 即可
+
+``` Python
+PWCE_MODE = False
+```
+
+> [!NOTE]
+> 啟用玩家預警控制增強模式需要同時開啟玩家預警控制模式與半自動發送模式。玩家預警控制模式的開啟方法詳見 `配置修改方法 15`，半自動發送模式的開啟方法詳見 `配置修改方法 12`
+
+### 17. 修改玩家預警控制離線列表檔案路徑
+
+- 預設路徑為 `GTB-Solver_main.py` 同資料夾。如需修改玩家預警控制離線列表檔案路徑，請在 `GTB-Solver_main.py` 內找到以下代碼，替換引號內的路徑即可（支援中文路徑）
+
+``` Python
+PWC_OFFLINE_LIST = r"GTB_PWC_Offline_List.json"
+```
+
+### 18. 修改玩家預警控制模式閾值
+
+- 預設加入《你蓋我猜》總勝場排名前 `500` 位的玩家至玩家預警控制列表內。如需修改玩家預警控制模式閾值，請在 `GTB-Solver_main.py` 內找到以下代碼，修改數值即可
+
+``` Python
+PWC_THRESHOLD = 500
+```
+
+> [!TIP]
+> 此閾值目前可設定在 `1` ~ `1000` 位的範圍內
+
+### 19. 修改玩家預警控制模式黑名單
+
+- 預設為空。如需額外加入玩家至玩家預警控制列表內，請在 `GTB-Solver_main.py` 內找到以下代碼，在列表內新增玩家名即可
+
+``` Python
+PWC_BLACKLIST = []
+```
+
+### 20. 修改玩家預警控制模式白名單
+
+- 預設為空。如需刪除玩家預警控制列表內可能出現的玩家，請在 `GTB-Solver_main.py` 內找到以下代碼，在列表內新增玩家名即可
+
+``` Python
+PWC_WHITELIST = []
+```
+
 ## ⚜ 注意事項
 
-- 本項目僅作 Demo 演示之用，所提供的詞庫檔案 `GTB_Thesaurus_Demo.xlsx` 內含 100 對範例詞彙及少量 Shortcut(s) & Multiword(s)，您可在原有基礎上繼續補充使用或依據前述配置修改方法更換詞庫檔案
-- 濫用建築猜猜寶會為您帶來不公平的遊戲優勢！請在有限範圍內合理使用，開發者對因濫用本程序而導致的封鎖問題概不負責
+> [!IMPORTANT]
+> 本項目僅作 Demo 演示之用，所提供的詞庫檔案 `GTB_Thesaurus_Demo.xlsx` 內含 100 對範例詞彙及少量 Shortcut(s) & Multiword(s)，您可在原有基礎上繼續補充使用或依據前述配置修改方法更換詞庫檔案
+
+> [!CAUTION]
+> 濫用建築猜猜寶會為您帶來不公平的遊戲優勢！請在有限範圍內合理使用，開發者對因濫用本程序而導致的封鎖問題概不負責
+
+---
+
+<p align="center">Made with Love ❤️</p>

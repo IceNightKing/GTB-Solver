@@ -10,13 +10,22 @@ GTB-Solver Demo Branch | <a href="https://github.com/IceNightKing/GTB-Solver/blo
 
 ## ⚜ Function Introduction
 
-**[简体中文](./readme_zh.md) | [繁體中文](./readme_cht.md) | [日本語](./readme_jp.md) | English**
-
-**[한국어](./readme_uni.md) | [Русский](./readme_uni.md) | [Deutsch](./readme_uni.md) | [Français](./readme_uni.md) | [Español](./readme_uni.md) | [Português](./readme_uni.md) | [Italiano](./readme_uni.md)**
+**[简体中文](./readme_zh.md "简体中文(zh)") | [繁體中文](./readme_cht.md "繁體中文(cht)") | [日本語](./readme_jp.md "日本語(jp)") | [한국어](./readme_uni.md#한국어 "한국어(kor)") | [Русский](./readme_uni.md#русский "Русский(ru)") | [Deutsch](./readme_uni.md#deutsch "Deutsch(de)") | [Français](./readme_uni.md#français "Français(fra)") | [Español](./readme_uni.md#español "Español(spa)") | [Português](./readme_uni.md#português "Português(pt)") | [Italiano](./readme_uni.md#italiano "Italiano(it)") | English**
 
 Quickly guess the theme of "Guess The Build" game on Hypixel server based on multi-language hints and regular expressions.
 
-## ⚜ Update Log
+<details>
+  <summary>View Update Log</summary>
+
+### 2025/01/20 - v5.1
+
+- \[Add\] Added player warning control mode
+- \[Add\] Added player warning control enhanced mode
+- \[Fix\] Fixed `NameError` crash caused by user setting `MULTI_LANG = "zh"`
+- \[Opt\] Adapted the newly added chat titles for "Build Battle" game mode on Hypixel server
+- \[Opt\] The program now compares the number of characters corresponding to the matching expression with the number of characters in the current round theme captured by log assisted processing mode, and sends a notification if the two are not equal
+- \[Opt\] Optimized some translations of program output languages
+- \[Opt\] Thesaurus update
 
 ### 2024/08/02 - v5.0
 
@@ -55,9 +64,15 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 ### 2024/04/18 - v4.1
 
 - \[Add\] Added word frequency statistical index
-  - The word frequency statistical index is weighted by time gradient and calculated from a total of approximately 15,000 rounds of game data provided by multiple players, and it is for reference only
+
+> [!NOTE]
+> The word frequency statistical index is weighted by time gradient and calculated from a total of approximately 15,000 rounds of game data provided by multiple players, and it is for reference only
+
 - \[Opt\] The program now defaults to outputting in descending order according to word frequency statistical index
-  - If you still need to output according to the original rules, please use the "English" column as the sort basis in the thesaurus file `GTB_Thesaurus_Demo.xlsx`, and sort in ascending order of English letters
+
+> [!TIP]
+> If you still need to output according to the original rules, please use the "English" column as the sort basis in the thesaurus file `GTB_Thesaurus_Demo.xlsx`, and sort in ascending order of English letters
+
 - \[Opt\] Thesaurus update
 
 ### 2024/04/02 - v4.0
@@ -68,6 +83,7 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 
   ``` TXT
   # The following theme(s) have now been able to be matched correctly
+  5.00 - Farmer's Market
   0.25 - Santa's Workshop
   0.00 - Santa's Sleigh
   ```
@@ -123,7 +139,8 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 
   ``` TXT
   # The following theme(s) have now been able to be matched correctly
-  3.75 - T-Shirt - Tricou
+  5.00 - Sci-fi
+  4.50 - T-Shirt - Tricou
   1.75 - T-Rex
   0.00 - Jack-O-Lantern
   0.00 - Trick-or-Treating
@@ -140,6 +157,16 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 - \[Opt\] Program output language now depends on system language by default
 - \[Opt\] Thesaurus update
 - \[Opt\] Code refactoring
+
+</details>
+
+## ⚜ Innovation Points
+
+🔹 Supports guessing using regular expressions  
+🔹 Adapts multilingual thesaurus and supports guessing using multiple languages  
+🔹 Supports comparing themes that have already been guessed by in-game players to avoid repeated guesses  
+🔹 The default output is in descending order according to word frequency statistical index, which improves the guessing correct rate  
+🔹 Supports avoiding players at the top of the wins leaderboard  
 
 ## ⚜ Pre-conditions
 
@@ -174,7 +201,8 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 1. **Number**: Number of underscores
 2. **Letter**: Will be matched and can be inserted directly before and after the number
 
-    - Letters are not case sensitive when entering
+> [!TIP]
+> Letters are not case sensitive when entering
 
 3. **Hyphen**: Will be matched and can be inserted directly before and after the number
 4. **Space**: Will **NOT** be matched, needs to be manually entered into the matching expression
@@ -208,22 +236,22 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 Theme: _____ ______
 Please enter the matching expression: 5 6
 The theme is 12 characters long
-19.75 - Water Bucket - Vandspand
-13.50 - Table Tennis - Bordtenni
-11.50 - Ender Dragon
+20.50 - Water Bucket - Vandspand
+14.25 - Table Tennis - Bordtenni
+12.25 - Ender Dragon
+10.75 - Light Switch - Lysbryter
+10.75 - Water Bottle - Waterfle
 10.25 - Train Tracks - Rail - Rautatie
-10.00 - Light Switch - Lysbryter
-10.00 - Water Bottle - Waterfle
-9.00 - Paint Bucket - Fargburk
+9.75 - Paint Bucket - Fargburk
+9.25 - Horse Racing - Zavod koni
 9.00 - Swiss Cheese
-8.50 - Horse Racing - Zavod koni
-6.75 - Chili Pepper - Piment
 6.75 - Magic Carpet
 6.00 - Scuba Diving - Buceo
 5.25 - Fruit Basket - Obstkorb
 5.25 - Solar System - Solsystem
-3.75 - Build Battle
-3.50 - Horse Riding - Ridning
+5.00 - Greek Temple
+5.00 - Solar Panels
+4.50 - Build Battle
 0.25 - Snowy Forest
 ```
 
@@ -231,10 +259,10 @@ The theme is 12 characters long
 Theme: _a___ ______
 Please enter the matching expression: 1a3 6
 The theme is 12 characters long
-19.75 - Water Bucket - Vandspand
-13.50 - Table Tennis - Bordtenni
-10.00 - Water Bottle - Waterfle
-9.00 - Paint Bucket - Fargburk
+20.50 - Water Bucket - Vandspand
+14.25 - Table Tennis - Bordtenni
+10.75 - Water Bottle - Waterfle
+9.75 - Paint Bucket - Fargburk
 6.75 - Magic Carpet
 # Here you can choose according to the general outline of the player's building
 ```
@@ -243,7 +271,7 @@ The theme is 12 characters long
 Theme: _a___ _o____
 Please enter the matching expression: 1a3 1o4
 The theme is 12 characters long
-10.00 - Water Bottle - Waterfle
+10.75 - Water Bottle - Waterfle
 ```
 
 ### 2. Guessing in conjunction with the use of regular expressions
@@ -251,22 +279,22 @@ The theme is 12 characters long
 ``` TXT
 Theme: _a___ ______
 Please enter the matching expression: .a3 .*
-19.75 - Water Bucket - Vandspand
-13.50 - Table Tennis - Bordtenni
-11.75 - Water Slide - Tobogan
+20.50 - Water Bucket - Vandspand
+14.25 - Table Tennis - Bordtenni
+12.50 - Water Slide - Tobogan
+10.75 - Water Bottle - Waterfle
 10.25 - Magic Hat - Joben
-10.00 - Water Bottle - Waterfle
+9.75 - Paint Bucket - Fargburk
 9.25 - Paper Airplane - Papirfly
-9.00 - Paint Bucket - Fargburk
 8.00 - Games Controller - Controller
+7.75 - Candy Cane - Acadea
+7.75 - Paint Palette - Verfpalet
 7.25 - Party Hat
-7.00 - Candy Cane - Acadea
 6.75 - Magic Carpet
 6.75 - Water Balloon - Gavettone
+6.25 - Magma Cube
+6.25 - Table Cloth - Dug
 6.25 - Water Park
-5.50 - Magma Cube
-5.50 - Paint Palette - Verfpalet
-5.50 - Table Cloth - Dug
 4.75 - Magic Wand
 0.75 - Santa Claus
 0.00 - Candy Buckets
@@ -275,7 +303,7 @@ Please enter the matching expression: .a3 .*
 ``` TXT
 Theme: _a___ _o____
 Please enter the matching expression: .a3 .o.*
-10.00 - Water Bottle - Waterfle
+10.75 - Water Bottle - Waterfle
 8.00 - Games Controller - Controller
 # Here you can choose according to the general outline of the player's building
 ```
@@ -284,7 +312,7 @@ Please enter the matching expression: .a3 .o.*
 Theme: _a___ _o___e
 Please enter the matching expression: .a3 .o.*e
 The theme is 12 characters long
-10.00 - Water Bottle - Waterfle
+10.75 - Water Bottle - Waterfle
 ```
 
 ## ⚜ Configuration Modification
@@ -297,7 +325,8 @@ The theme is 12 characters long
 GTB_THESAURUS = r"GTB_Thesaurus_Demo.xlsx"
 ```
 
-- **Note**: There should be at least an "English" column in the thesaurus file (strictly case sensitive)
+> [!WARNING]
+> There should be at least an "English" column in the thesaurus file (strictly case sensitive)
 
 ### 2. Modify the program output language
 
@@ -347,7 +376,8 @@ AUTO_COPY = False
 RAC_MODE = False
 ```
 
-- **Note**: Enabling random copying mode requires enabling automatic copying mode at the same time. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`
+> [!NOTE]
+> Enabling random copying mode requires enabling automatic copying mode at the same time. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`
 
 ### 6. Modify the log assisted processing mode status
 
@@ -357,41 +387,44 @@ RAC_MODE = False
 LAP_MODE = False
 ```
 
-- Example of Output Style (Among them, `3` is the current round, `10` is the total rounds, `NoticeYou` is the name of the builder of the current round, and `12` is the number of characters in the current round theme including spaces)
+- Example of Output Style (Among them, `3` is the current round, `10` is the total rounds, `NoticeYou` is the name of the builder of the current round, and `13` is the number of characters in the current round theme including spaces)
 
   ``` TXT
-  [3/10] NoticeYou(12)
+  [3/10] NoticeYou(13)
   ```
 
-- Example of Comparative Guessing (Take Shopping Bag as an Example)
+- Example of Comparative Guessing (Take Conveyor Belt as an Example)
 
   ``` TXT
   Theme: ________ ___
-  [3/10] NoticeYou(12)
-  Please enter the matching expression: 8 3
-  The theme is 12 characters long
-  9.00 - Shopping Bag - Handlepose
-  7.25 - Sleeping Bag - Sovepose
-  4.75 - Baseball Bat
+  [3/10] NoticeYou(13)
+  Please enter the matching expression: 8 4
+  The theme is 13 characters long
+  13.00 - Swimming Pool - Basen
+  7.50 - Wrecking Ball - Sloopkogel
+  4.50 - Conveyor Belt - Forderband
+  0.00 - Presents Pile
   ```
 
   ``` TXT
-  [3/10] NoticeYou(12)
-  NoticeSC: sovepose
-  Detects that the player guessed theme(s) Sleeping Bag but did not guess correctly, and the filtered matching entries will be output accordingly
-  9.00 - Shopping Bag - Handlepose
-  4.75 - Baseball Bat
+  [3/10] NoticeYou(13)
+  NoticeMW: basen
+  Detects that the player guessed theme(s) Swimming Pool but did not guess correctly, and the filtered matching entries will be output accordingly
+  7.50 - Wrecking Ball - Sloopkogel
+  4.50 - Conveyor Belt - Forderband
+  0.00 - Presents Pile
   ```
 
   ``` TXT
-  [3/10] NoticeYou(12)
-  NoticeZH: 棒球棍
-  Detects that the player guessed theme(s) Sleeping Bag, Baseball Bat but did not guess correctly, and the filtered matching entries will be output accordingly
-  9.00 - Shopping Bag - Handlepose
-  # Here you can guess the correct theme directly
+  [3/10] NoticeYou(13)
+  NoticeRU: шар для сноса зданий
+  Detects that the player guessed theme(s) Swimming Pool, Wrecking Ball but did not guess correctly, and the filtered matching entries will be output accordingly
+  4.50 - Conveyor Belt - Forderband
+  0.00 - Presents Pile
   ```
 
-- **Tip**: The log assisted processing mode supports processing when the server language is set to Simplified Chinese, Traditional Chinese, Japanese, Korean, Russian, German, French, Spanish, Portuguese, Italian or English, and supports to compare the themes guessed by players using Simplified Chinese, Traditional Chinese, Japanese, Korean, Russian, German, French, Spanish, Portuguese, Italian, English, Shortcut(s) or Multiword(s). If your thesaurus file version is different, the actual comparison effect may change
+> [!TIP]
+> The log assisted processing mode supports processing when the server language is set to Simplified Chinese, Traditional Chinese, Japanese, Korean, Russian, German, French, Spanish, Portuguese, Italian or English, and supports to compare the themes guessed by players using Simplified Chinese, Traditional Chinese, Japanese, Korean, Russian, German, French, Spanish, Portuguese, Italian, English, Shortcut(s) or Multiword(s). If your thesaurus file version is different, the actual comparison effect may change
 
 ### 7. Modify the path of the log file
 
@@ -409,7 +442,8 @@ LOG_FILE = r"C:\Minecraft\.minecraft\logs\latest.log"
 LAP_INTERVAL = 0.05
 ```
 
-- **Tip**: It is recommended to set the interval in the range of `0.01` ~ `0.20` seconds. If you find that the game-related status is not updated in time or fail to capture the themes guessed by players after enabling the log assisted processing mode, you can reduce the repeat reading interval appropriately
+> [!TIP]
+> It is recommended to set the interval in the range of `0.01` ~ `0.20` seconds. If you find that the game-related status is not updated in time or fail to capture the themes guessed by players after enabling the log assisted processing mode, you can reduce the repeat reading interval appropriately
 
 ### 9. Modify the custom copy content at the end of the game
 
@@ -419,7 +453,8 @@ LAP_INTERVAL = 0.05
 CUSTOM_CONTENT = "Good Game"
 ```
 
-- **Note**: Custom content will only be copied when automatic copying mode and log assisted processing mode are enabled. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 6`
+> [!NOTE]
+> Custom content will only be copied when automatic copying mode and log assisted processing mode are enabled. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 6`
 
 ### 10. Modify the theme auxiliary recording mode status
 
@@ -429,7 +464,8 @@ CUSTOM_CONTENT = "Good Game"
 TAR_MODE = False
 ```
 
-- **Note**: Enabling theme auxiliary recording mode requires enabling log assisted processing mode at the same time. For details on how to enable log assisted processing mode, see `Configuration Modification Method 6`
+> [!NOTE]
+> Enabling theme auxiliary recording mode requires enabling log assisted processing mode at the same time. For details on how to enable log assisted processing mode, see `Configuration Modification Method 6`
 
 ### 11. Modify the path of the theme auxiliary recording file
 
@@ -447,7 +483,8 @@ GTB_TAR_FILE = r"GTB_TAR_File.txt"
 SAS_MODE = False
 ```
 
-- **Note**: Enabling semi-automatic sending mode requires enabling automatic copying mode and log assisted processing mode at the same time. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 6`
+> [!NOTE]
+> Enabling semi-automatic sending mode requires enabling automatic copying mode and log assisted processing mode at the same time. For details on how to enable automatic copying mode, see `Configuration Modification Method 4`, and for how to enable log assisted processing mode, see `Configuration Modification Method 6`
 
 ### 13. Modify the semi-automatic sending interval
 
@@ -457,7 +494,8 @@ SAS_MODE = False
 SAS_INTERVAL = 2.0
 ```
 
-- **Tip**: This interval is the additional pause time after subtracting the remaining cooldown time of the repeat guess, it is recommended to set the interval in the range of `1.0` ~ `5.0` second(s). Setting the interval too short may trigger the server's anti-spam mechanism and result in being kicked out of the game
+> [!TIP]
+> This interval is the additional pause time after subtracting the remaining cooldown time of the repeat guess, it is recommended to set the interval in the range of `1.0` ~ `5.0` second(s). Setting the interval too short may trigger the server's anti-spam mechanism and result in being kicked out of the game
 
 ### 14. Modify the game window title
 
@@ -467,7 +505,74 @@ SAS_INTERVAL = 2.0
 WINDOW_TITLE = "Minecraft"
 ```
 
+### 15. Modify the player warning control mode status
+
+- The player warning control mode is disabled by default. If you need to warn the subsequent players entering the waiting room in real time and send a notification after the players in player warning control list enter the waiting room, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+
+``` Python
+PWC_MODE = False
+```
+
+> [!TIP]
+> This mode cannot warn players who are playing anonymously
+
+> [!NOTE]
+> Enabling player warning control mode requires enabling log assisted processing mode at the same time. For details on how to enable log assisted processing mode, see `Configuration Modification Method 6`
+
+### 16. Modify the player warning control enhanced mode status
+
+- The player warning control enhanced mode is disabled by default. If you want to automatically return to the game lobby after the players in player warning control list enter the waiting room, please find the following code in `GTB-Solver_main.py` and replace `False` with `True`
+
+``` Python
+PWCE_MODE = False
+```
+
+> [!NOTE]
+> Enabling player warning control enhanced mode requires enabling player warning control mode and semi-automatic sending mode at the same time. For details on how to enable player warning control mode, see `Configuration Modification Method 15`, and for how to enable semi-automatic sending mode, see `Configuration Modification Method 12`
+
+### 17. Modify the path of the player warning control offline list file
+
+- The default path is the same folder as `GTB-Solver_main.py`. If you need to modify the path of the player warning control offline list file, please find the following code in `GTB-Solver_main.py` and replace the path in quotation marks
+
+``` Python
+PWC_OFFLINE_LIST = r"GTB_PWC_Offline_List.json"
+```
+
+### 18. Modify the player warning control mode threshold
+
+- Adds the top `500` players in the "Guess The Build" wins leaderboard to player warning control list by default. If you need to modify the player warning control mode threshold, please find the following code in `GTB-Solver_main.py` and modify the value
+
+``` Python
+PWC_THRESHOLD = 500
+```
+
+> [!TIP]
+> This threshold can currently be set in the range of `1` ~ `1000`
+
+### 19. Modify the player warning control mode blacklist
+
+- The player warning control mode blacklist is empty by default. If you need to add additional players to player warning control list, please find the following code in `GTB-Solver_main.py` and add the player name to the list
+
+``` Python
+PWC_BLACKLIST = []
+```
+
+### 20. Modify the player warning control mode whitelist
+
+- The player warning control mode whitelist is empty by default. If you need to delete players that may appear in player warning control list, please find the following code in `GTB-Solver_main.py` and add the player name to the list
+
+``` Python
+PWC_WHITELIST = []
+```
+
 ## ⚜ Important Notes
 
-- This project is for Demo **ONLY**, the provided thesaurus file `GTB_Thesaurus_Demo.xlsx` contains 100 pairs of sample words and a few Shortcut(s) & Multiword(s), you can continue to supplement it on the original basis or replace the thesaurus file according to the aforementioned configuration modification method
-- Abuse of GTB-Solver will give you an unfair advantage in the game! Please use it reasonably within a limited scope. The developer is **NOT** responsible for the BAN caused by abuse of the program
+> [!IMPORTANT]
+> This project is for Demo **ONLY**, the provided thesaurus file `GTB_Thesaurus_Demo.xlsx` contains 100 pairs of sample words and a few Shortcut(s) & Multiword(s), you can continue to supplement it on the original basis or replace the thesaurus file according to the aforementioned configuration modification method
+
+> [!CAUTION]
+> Abuse of GTB-Solver will give you an unfair advantage in the game! Please use it reasonably within a limited scope. The developer is **NOT** responsible for the BAN caused by abuse of the program
+
+---
+
+<p align="center">Made with Love ❤️</p>

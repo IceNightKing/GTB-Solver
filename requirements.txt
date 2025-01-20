@@ -1,0 +1,7 @@
+colorama
+pandas
+pyperclip
+pyautogui
+requests
+openpyxl
+pyarrow

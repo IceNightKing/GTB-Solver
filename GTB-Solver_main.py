@@ -1,6 +1,6 @@
 """
 GTB-Solver: Quickly guess the theme of "Guess The Build" game on Hypixel server based on multi-language hints and regular expressions.
-Version: 5.0
+Version: 5.1
 Developer: IceNight
 GitHub: https://github.com/IceNightKing
 """
@@ -34,6 +34,18 @@ SAS_MODE = False
 SAS_INTERVAL = 2.0
 # Modify the game window title
 WINDOW_TITLE = "Minecraft"
+# Modify the player warning control mode status
+PWC_MODE = False
+# Modify the player warning control enhanced mode status
+PWCE_MODE = False
+# Modify the path of the player warning control offline list file
+PWC_OFFLINE_LIST = r"GTB_PWC_Offline_List.json"
+# Modify the player warning control mode threshold
+PWC_THRESHOLD = 500
+# Modify the player warning control mode blacklist
+PWC_BLACKLIST = []
+# Modify the player warning control mode whitelist
+PWC_WHITELIST = []
 # ------------------------------------------------------------------------------
 
 import colorama
@@ -48,10 +60,14 @@ from collections import deque
 import time
 import pyautogui
 import random
+import requests
+from datetime import datetime
+import json
 
 def output_language():
     global lang
 
+    system_lang = ""
     system_lang_dic = {
         "zh": {"zh", "chinese"},
         "cht": {"cht", "traditional", "hk", "hong-kong", "mo", "macao", "tw", "taiwan"},
@@ -87,23 +103,23 @@ def output_language():
         print(f'{Fore.YELLOW}{output_message("unsupported_language", lang, moe)}{Style.RESET_ALL}')
         lang = "en"
 
-def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_elem=None, correct_theme=None, LAP_guess_cnt=None):
+def output_message(key, lang, moe=False, e=None, word_chars=None, current_theme_chars=None, output_del_elem=None, correct_theme=None, LAP_guess_cnt=None, player_position=None, current_player_join=None, PWC_request_time=None, PWC_player_lst_ver=None):
     messages = {
         "unsupported_language": {
             "en": f'Warn: Language code "{lang}" is not yet supported, GTB-Solver will output in English'
         },
         "program_info": {
-            "zh": "欢迎使用建筑猜猜宝 v5.0 ",
-            "cht": "歡迎使用建築猜猜寶 v5.0 ",
-            "jp": "GTB-Solver v5.0 へようこそ",
-            "kor": "GTB-Solver v5.0 에 오신 것을 환영합니다",
-            "ru": "Добро пожаловать в GTB-Solver v5.0",
-            "de": "Willkommen bei GTB-Solver v5.0",
-            "fra": "Bienvenue dans GTB-Solver v5.0",
-            "spa": "Bienvenido a GTB-Solver v5.0",
-            "pt": "Bem-vindo ao GTB-Solver v5.0",
-            "it": "Benvenuti nel GTB Solver v5.0",
-            "en": "Welcome to GTB-Solver v5.0"
+            "zh": "欢迎使用建筑猜猜宝 v5.1 ",
+            "cht": "歡迎使用建築猜猜寶 v5.1 ",
+            "jp": "GTB-Solver v5.1 へようこそ",
+            "kor": "GTB-Solver v5.1 에 오신 것을 환영합니다",
+            "ru": "Добро пожаловать в GTB-Solver v5.1",
+            "de": "Willkommen bei GTB-Solver v5.1",
+            "fra": "Bienvenue dans GTB-Solver v5.1",
+            "spa": "Bienvenido a GTB-Solver v5.1",
+            "pt": "Bem-vindo ao GTB-Solver v5.1",
+            "it": "Benvenuti nel GTB Solver v5.1",
+            "en": "Welcome to GTB-Solver v5.1"
         },
         "program_note": {
             "zh": "温馨提示：建筑猜猜宝默认重复运行，输入 0 或按下 Ctrl+C 以退出程序",
@@ -174,7 +190,7 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "zh": "输出萌化模式\t\t\t",
             "cht": "輸出萌化模式\t\t\t",
             "jp": "出力萌えモード\t\t\t\t\t",
-            "kor": "출력 모에 모드\t\t\t",
+            "kor": "출력 모에 모드\t\t\t\t",
             "ru": "Режим Выхода Моэ\t\t\t",
             "de": "Ausgabe Moe Modus\t\t\t\t",
             "fra": "Mode de Sortie Moe\t\t\t\t",
@@ -187,7 +203,7 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "zh": "自动复制模式\t\t\t",
             "cht": "自動複製模式\t\t\t",
             "jp": "自動コピーモード\t\t\t\t",
-            "kor": "자동 복사 모드\t\t\t",
+            "kor": "자동 복사 모드\t\t\t\t",
             "ru": "Режим Автоматического Копирования\t",
             "de": "Automatischer Kopiermodus\t\t\t",
             "fra": "Mode de Copie Automatique\t\t\t",
@@ -200,7 +216,7 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "zh": "随机复制模式\t\t\t",
             "cht": "隨機複製模式\t\t\t",
             "jp": "ランダムコピーモード\t\t\t\t",
-            "kor": "랜덤 복사 모드\t\t\t",
+            "kor": "랜덤 복사 모드\t\t\t\t",
             "ru": "Режим Случайного Копирования\t\t",
             "de": "Zufälliger Kopiermodus\t\t\t\t",
             "fra": "Mode de Copie Aléatoire\t\t\t\t",
@@ -213,7 +229,7 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "zh": "日志辅助处理模式\t\t",
             "cht": "日誌輔助處理模式\t\t",
             "jp": "ログアシスト処理モード\t\t\t\t",
-            "kor": "로그 지원 처리 모드\t\t",
+            "kor": "로그 지원 처리 모드\t\t\t",
             "ru": "Режим Вспомогательной Обработки Журнала\t",
             "de": "Protokollunterstützter Verarbeitungsmodus\t",
             "fra": "Mode de Traitement Assisté par Journal\t\t",
@@ -226,7 +242,7 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "zh": "主题辅助记录模式\t\t",
             "cht": "主題輔助記錄模式\t\t",
             "jp": "テーマ補助記録モード\t\t\t\t",
-            "kor": "테마 보조녹화 모드\t\t",
+            "kor": "테마 보조녹화 모드\t\t\t",
             "ru": "Режим Вспомогательной Записи Темы\t",
             "de": "Thema Hilfsaufnahmemodus\t\t\t",
             "fra": "Mode d'Enregistrement Auxiliaire du Thème\t",
@@ -239,7 +255,7 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "zh": "半自动发送模式\t\t\t",
             "cht": "半自動發送模式\t\t\t",
             "jp": "半自動送信モード\t\t\t\t",
-            "kor": "반자동 전송 모드\t\t",
+            "kor": "반자동 전송 모드\t\t\t",
             "ru": "Режим Полуавтоматической Отправки\t",
             "de": "Halbautomatischer Sendemodus\t\t\t",
             "fra": "Mode d'Envoi Semi-Automatique\t\t\t",
@@ -248,122 +264,187 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "it": "Modalità di Invio Semi-Automatico\t\t",
             "en": "Semi-Automatic Sending Mode\t\t"
         },
+        "program_PWC_STD_name": {
+            "zh": "玩家预警控制模式\t\t",
+            "cht": "玩家預警控制模式\t\t",
+            "jp": "プレイヤー警告制御モード\t\t\t",
+            "kor": "플레이어 경고 제어 모드\t\t\t",
+            "ru": "Режим Контроля Предупреждений Игрока\t",
+            "de": "Spielerwarnungs-Kontrollmodus\t\t\t",
+            "fra": "Mode de Contrôle d'Avertissement du Joueur\t",
+            "spa": "Modo de Control de Advertencia del Jugador\t",
+            "pt": "Modo de Controle de Aviso do Jogador\t\t",
+            "it": "Modalità di Controllo Avviso Giocatore\t\t",
+            "en": "Player Warning Control Mode\t\t"
+        },
+        "program_PWCE_STD_name": {
+            "zh": "玩家预警控制增强模式\t\t",
+            "cht": "玩家預警控制增強模式\t\t",
+            "jp": "プレイヤー警告制御強化モード\t\t\t",
+            "kor": "플레이어 경고 제어 강화 모드\t\t",
+            "ru": "Режим Контроля Предупреждений Игрока +\t",
+            "de": "Spielerwarnungs-Kontrolle Erweiterter Modus\t",
+            "fra": "Mode de Contrôle d'Avertissement du Joueur +\t",
+            "spa": "Modo de Control de Advertencia del Jugador +\t",
+            "pt": "Modo de Controle de Aviso do Jogador Aprimorado\t",
+            "it": "Modalità Avanzata di Controllo Avviso Giocatore\t",
+            "en": "Player Warning Control Enhanced Mode\t"
+        },
         "error_thesaurus_file_not_found": {
             "zh": "错误：未找到词库文件，请检查文件路径是否设置正确",
             "cht": "錯誤：未找到詞庫檔案，請檢查檔案路徑是否設定正確",
             "jp": "エラー：シソーラス・ファイルが見つかりません、ファイルのパスが正しく設定されているか確認してください",
-            "kor": "오류: 동의어 사전 파일을 찾을 수 없습니다. 파일 경로가 올바르게 구성되었는지 확인하십시오",
+            "kor": "오류: 동의어 사전 파일을 찾을 수 없는 경우 파일 경로가 올바르게 설정되어 있는지 확인하세요",
             "ru": "Ошибка: Файл тезауруса не найден, проверьте, правильно ли настроен путь к файлу",
-            "de": "Fehler: Thesaurus-Datei nicht gefunden. Bitte überprüfen Sie, ob der Dateipfad richtig konfiguriert ist",
-            "fra": "Erreur: Fichier thésaurus non trouvé, veuillez vérifier si le chemin du fichier est correctement configuré",
-            "spa": "Error: No se encontró el archivo de tesauro, verifique si la ruta del archivo está configurada correctamente",
-            "pt": "Erro: Arquivo do thesaurus não encontrado, verifique se o caminho do arquivo está configurado corretamente",
-            "it": "Errore: File del thesaurus non trovato, verificare che il percorso del file sia configurato correttamente",
+            "de": "Fehler: Thesaurus-Datei nicht gefunden, bitte überprüfen Sie, ob der Dateipfad richtig konfiguriert ist",
+            "fra": "Erreur: Fichier thésaurus introuvable, veuillez vérifier si le chemin d'accès au fichier est correctement configuré",
+            "spa": "Error: Archivo de tesauro no encontrado, por favor compruebe si la ruta del archivo está configurada correctamente",
+            "pt": "Erro: Arquivo thesaurus não encontrado, verifique se o caminho do arquivo está configurado corretamente",
+            "it": "Errore: Il file thesaurus non è stato trovato, verificare che il percorso del file sia configurato correttamente",
             "en": "Error: Thesaurus file not found, please check if the file path is configured correctly"
         },
         "error_thesaurus_column_not_found": {
             "zh": "错误：未找到 English 列，请检查词库列名是否设置正确",
             "cht": "錯誤：未找到 English 欄，請檢查詞庫欄名是否設定正確",
             "jp": "エラー：「English」カラムが見つかりません、シソーラス・カラム名が正しく設定されているか確認してください",
-            "kor": '오류: "English" 열을 찾을 수 없습니다. 동의어 사전 열 이름이 올바르게 구성되었는지 확인하십시오',
-            "ru": 'Ошибка: Колонка «English» не найдена, проверьте, правильно ли настроено имя колонки тезауруса',
-            "de": 'Fehler: Spalte „English“ nicht gefunden. Bitte überprüfen Sie, ob der Thesaurus-Spaltenname richtig konfiguriert ist',
-            "fra": 'Erreur: Colonne «English» non trouvée, veuillez vérifier si le nom de la colonne du thésaurus est correctement configuré',
-            "spa": 'Error: No se encontró la columna "English", verifique si el nombre de la columna del tesauro está configurado correctamente',
-            "pt": 'Erro: Coluna "English" não encontrada, verifique se o nome da coluna do thesaurus está configurado corretamente',
-            "it": 'Errore: Colonna "English" non trovata, controllare che il nome della colonna del thesaurus sia configurato correttamente',
+            "kor": '오류: "English" 열을 찾을 수 없는 경우 동의어 사전 열 이름이 올바르게 구성되어 있는지 확인하세요',
+            "ru": "Ошибка: Колонка «English» не найдена, проверьте, правильно ли настроено имя колонки тезауруса",
+            "de": "Fehler: Spalte „English“ nicht gefunden, bitte prüfen Sie, ob der Name der Thesaurus-Spalte richtig konfiguriert ist",
+            "fra": "Erreur: Colonne «English» introuvable, veuillez vérifier si le nom de la colonne thésaurus est configuré correctement",
+            "spa": "Error: Columna «English» no encontrada, por favor compruebe si el nombre de la columna tesauro está configurado correctamente",
+            "pt": "Erro: Coluna “English” não encontrada, verifique se o nome da coluna thesaurus está configurado corretamente",
+            "it": "Errore: Colonna “English” non trovata, verificare se il nome della colonna thesaurus è configurato correttamente",
             "en": 'Error: "English" column not found, please check if the the thesaurus column name is configured correctly'
-        },
-        "error_log_file_not_found": {
-            "zh": "错误：未找到日志文件，日志辅助处理模式启动失败，请检查文件路径是否设置正确",
-            "cht": "錯誤：未找到日誌檔案，日誌輔助處理模式啟動失敗，請檢查檔案路徑是否設定正確",
-            "jp": "エラー：ログファイルが見つからなかったため、ログアシスト処理モードを開始できませんでした。ファイルのパスが正しく設定されているか確認してください",
-            "kor": "오류: 로그 파일을 찾을 수 없어 로그 지원 처리 모드를 시작하지 못했습니다. 파일 경로가 올바르게 구성되었는지 확인하십시오",
-            "ru": "Ошибка: Режим обработки журнала не удалось запустить, поскольку файл журнала не был найден, проверьте правильность пути к файлу",
-            "de": "Fehler: Der protokollgestützte Verarbeitungsmodus konnte nicht gestartet werden, da die Protokolldatei nicht gefunden wurde. Überprüfen Sie bitte, ob der Dateipfad richtig konfiguriert ist",
-            "fra": "Erreur: Le mode de traitement assisté par journal n'a pas pu démarrer car le fichier journal n'a pas été trouvé, veuillez vérifier si le chemin du fichier est correctement configuré",
-            "spa": "Error: El modo de procesamiento asistido por registro no pudo iniciarse porque no se encontró el archivo de registro, verifique si la ruta del archivo está configurada correctamente",
-            "pt": "Erro: O modo de processamento assistido por log falhou ao iniciar porque o arquivo de log não foi encontrado, verifique se o caminho do arquivo está configurado corretamente",
-            "it": "Errore: La modalità di elaborazione assistita dal registro non è riuscita ad avviarsi perché il file di registro non è stato trovato, controllare che il percorso del file sia configurato correttamente",
-            "en": "Error: The log assisted processing mode failed to start because the log file was not found, please check if the file path is configured correctly"
-        },
-        "error_log_decoding_failed": {
-            "zh": "错误：未能成功解码日志文件，日志辅助处理模式启动失败，请删除日志文件后重新开始游戏",
-            "cht": "錯誤：未能成功解碼日誌檔案，日誌輔助處理模式啟動失敗，請刪除日誌檔案後重新開始遊戲",
-            "jp": "エラー：ログファイルが正常にデコードできなかったため、ログアシスト処理モードを開始できませんでした。ログファイルを削除してゲームを再起動してください",
-            "kor": "오류: 로그 파일을 성공적으로 디코딩할 수 없어 로그 지원 처리 모드를 시작하지 못했습니다. 로그 파일을 삭제하고 게임을 다시 시작해주세요",
-            "ru": "Ошибка: Не удалось запустить режим обработки журнала, поскольку файл журнала не удалось успешно декодировать. Пожалуйста, удалите файл журнала и перезапустите игру",
-            "de": "Fehler: Der Protokoll-unterstützte Verarbeitungsmodus konnte nicht gestartet werden, da die Protokolldatei nicht erfolgreich dekodiert werden konnte. Bitte löschen Sie die Protokolldatei und starten Sie das Spiel neu",
-            "fra": "Erreur: Le mode de traitement assisté par journal n'a pas pu démarrer car le fichier journal n'a pas pu être décodé correctement. Veuillez supprimer le fichier journal et redémarrer le jeu",
-            "spa": "Error: El modo de procesamiento asistido por registro no se pudo iniciar porque no se pudo decodificar correctamente el archivo de registro. Borre el archivo de registro y reinicie el juego",
-            "pt": "Erro: O modo de processamento assistido por log falhou ao iniciar porque o arquivo de log não pôde ser decodificado com sucesso. Exclua o arquivo de log e reinicie o jogo",
-            "it": "Errore: La modalità di elaborazione assistita dal registro non è riuscita ad avviarsi perché il file di registro non è stato decodificato correttamente. Elimina il file di registro e riavvia il gioco",
-            "en": "Error: The log assisted processing mode failed to start because the log file could not be decoded successfully. Please delete the log file and restart the game"
-        },
-        "error_TAR_file_decoding_failed": {
-            "zh": "错误：未能成功解码主题辅助记录文件，主题辅助记录模式启动失败，请删除辅助记录文件后重新开始游戏",
-            "cht": "錯誤：未能成功解碼主題輔助記錄檔案，主題輔助記錄模式啟動失敗，請刪除輔助記錄檔案後重新開始遊戲",
-            "jp": "エラー：テーマ補助記録ファイルが正常にデコードできなかったため、テーマ補助記録モードを開始できませんでした。補助記録ファイルを削除してゲームを再起動してください",
-            "kor": "오류: 테마 보조녹음 파일을 성공적으로 디코딩하지 못해 테마 보조녹화 모드를 시작하지 못했습니다. 보조녹화 파일을 삭제하고 게임을 다시 시작해주세요",
-            "ru": "Ошибка: Не удалось запустить режим вспомогательной записи темы, поскольку файл вспомогательной записи темы не удалось успешно декодировать. Пожалуйста, удалите файл вспомогательной записи и перезапустите игру",
-            "de": "Fehler: Der Modus „Hilfsaufnahme des Themas“ konnte nicht gestartet werden, da die Hilfsaufnahmedatei des Themas nicht erfolgreich dekodiert werden konnte. Bitte löschen Sie die Hilfsaufnahmedatei und starten Sie das Spiel neu",
-            "fra": "Erreur: Le mode d'enregistrement auxiliaire du thème n'a pas pu démarrer car le fichier d'enregistrement auxiliaire du thème n'a pas pu être décodé correctement. Veuillez supprimer le fichier d'enregistrement auxiliaire et redémarrer le jeu",
-            "spa": "Error: El modo de grabación auxiliar del tema no se pudo iniciar porque no se pudo decodificar correctamente el archivo de grabación auxiliar del tema. Elimina el archivo de grabación auxiliar y reinicia el juego",
-            "pt": "Erro: O modo de gravação auxiliar do tema falhou ao iniciar porque o arquivo de gravação auxiliar do tema não pôde ser decodificado com sucesso. Exclua o arquivo de gravação auxiliar e reinicie o jogo",
-            "it": "Errore: La modalità di registrazione ausiliaria del tema non è riuscita ad avviarsi perché il file di registrazione ausiliaria del tema non è stato decodificato correttamente. Elimina il file di registrazione ausiliaria e riavvia il gioco",
-            "en": "Error: The theme auxiliary recording mode failed to start because the theme auxiliary recording file could not be decoded successfully. Please delete the auxiliary recording file and restart the game"
         },
         "error_RAC_disabled_autocopy": {
             "zh": "错误：随机复制模式启动失败，因为前置的自动复制模式尚未开启，请检查程序配置是否正确",
             "cht": "錯誤：隨機複製模式啟動失敗，因為前置的自動複製模式尚未開啟，請檢查程式配置是否正確",
             "jp": "エラー：前回の自動コピーモードが有効になっていないため、ランダムコピーモードを開始できませんでした。プログラムの設定が正しいか確認してください",
-            "kor": "오류: 이전 자동 복사 모드가 활성화되지 않았기 때문에 임의 복사 모드를 시작할 수 없습니다. 프로그램 구성이 올바른지 확인하세요",
-            "ru": "Ошибка: Не удалось запустить режим произвольного копирования, поскольку не был включен предыдущий автоматический режим копирования. Проверьте, пожалуйста, правильность конфигурации программы",
-            "de": "Fehler: Der Zufallskopiermodus konnte nicht gestartet werden, da der vorherige automatische Kopiermodus nicht aktiviert wurde. Bitte überprüfen Sie, ob die Programmkonfiguration korrekt ist",
-            "fra": "Erreur: Le mode de copie aléatoire n'a pas pu démarrer car le mode de copie automatique précédent n'a pas été activé. Veuillez vérifier si la configuration du programme est correcte",
-            "spa": "Error: El modo de copia aleatoria no se pudo iniciar porque no se había habilitado el modo de copia automática anterior. Verifique si la configuración del programa es correcta",
-            "pt": "Erro: O modo de cópia aleatória falhou ao iniciar porque o modo de cópia automática anterior não foi habilitado. Verifique se a configuração do programa está correta",
-            "it": "Errore: La modalità di copia casuale non è riuscita ad avviarsi perché la precedente modalità di copia automatica non è stata abilitata. Controllare se la configurazione del programma è corretta",
+            "kor": "오류: 이전 자동 복사 모드가 활성화되어 있지 않아 랜덤 복사 모드를 시작하지 못했습니다. 프로그램 구성이 올바른지 확인하세요",
+            "ru": "Ошибка: Режим случайного копирования не удалось запустить, поскольку не был включен предыдущий режим автоматического копирования. Пожалуйста, проверьте правильность конфигурации программы",
+            "de": "Fehler: Der Zufällige Kopiermodus konnte nicht gestartet werden, weil der vorherige automatische Kopiermodus nicht aktiviert wurde. Bitte prüfen Sie, ob die Programmkonfiguration korrekt ist",
+            "fra": "Erreur: Le mode de copie aléatoire n'a pas démarré parce que le mode de copie automatique précédent n'a pas été activé. Veuillez vérifier si la configuration du programme est correcte",
+            "spa": "Error: El modo de copia aleatoria no se ha iniciado porque no se ha activado el modo de copia automática anterior. Compruebe si la configuración del programa es correcta",
+            "pt": "Erro: O modo de cópia aleatória não foi iniciado porque o modo de cópia automática anterior não foi ativado. Verifique se a configuração do programa está correta",
+            "it": "Errore: La modalità di copia casuale non si è avviata perché la modalità di copia automatica precedente non è stata attivata. Verificare che la configurazione del programma sia corretta",
             "en": "Error: The random copying mode failed to start because the previous automatic copying mode has not been enabled. Please check if the program configuration is correct"
         },
         "error_TAR_disabled_LAP": {
             "zh": "错误：主题辅助记录模式启动失败，因为前置的日志辅助处理模式尚未开启，请检查程序配置是否正确",
             "cht": "錯誤：主題輔助記錄模式啟動失敗，因為前置的日誌輔助處理模式尚未開啟，請檢查程式配置是否正確",
             "jp": "エラー：前回のログアシスト処理モードが有効になっていないため、テーマ補助記録モードを開始できませんでした。プログラムの設定が正しいか確認してください",
-            "kor": "오류: 이전 로그 지원 처리 모드가 활성화되지 않았기 때문에 테마 보조 녹음 모드를 시작하지 못했습니다. 프로그램 구성이 올바른지 확인해주세요",
-            "ru": "Ошибка: Не удалось запустить вспомогательный режим записи темы, поскольку не был включен предыдущий вспомогательный режим обработки журнала. Проверьте, пожалуйста, правильность конфигурации программы",
-            "de": "Fehler: Der Themen-Hilfsaufzeichnungsmodus konnte nicht gestartet werden, da der vorherige Protokoll-unterstützte Verarbeitungsmodus nicht aktiviert wurde. Bitte überprüfen Sie, ob die Programmkonfiguration korrekt ist",
-            "fra": "Erreur: Le mode d'enregistrement auxiliaire du thème n'a pas pu démarrer car le mode de traitement assisté par journal précédent n'a pas été activé. Veuillez vérifier si la configuration du programme est correcte",
-            "spa": "Error: El modo de grabación auxiliar del tema no se pudo iniciar porque no se habilitó el modo de procesamiento asistido por registro anterior. Verifique si la configuración del programa es correcta",
-            "pt": "Erro: O modo de gravação auxiliar do tema falhou ao iniciar porque o modo de processamento assistido de log anterior não foi habilitado. Verifique se a configuração do programa está correta",
-            "it": "Errore: La modalità di registrazione ausiliaria del tema non è riuscita ad avviarsi perché la precedente modalità di elaborazione assistita dal registro non è stata abilitata. Controllare se la configurazione del programma è corretta",
+            "kor": "오류: 이전 로그 지원 처리 모드가 활성화되어 있지 않아 테마 보조녹화 모드를 시작하지 못했습니다. 프로그램 구성이 올바른지 확인하세요",
+            "ru": "Ошибка: Режим вспомогательной записи темы не удалось запустить, так как не был включен предыдущий режим вспомогательной обработки журнала. Пожалуйста, проверьте правильность конфигурации программы",
+            "de": "Fehler: Das Thema Hilfsaufnahmemodus konnte nicht gestartet werden, weil der vorherige Protokollunterstützter Verarbeitungsmodus nicht aktiviert wurde. Bitte prüfen Sie, ob die Programmkonfiguration korrekt ist",
+            "fra": "Erreur: Le mode d'enregistrement auxiliaire du thème n'a pas démarré parce que le mode de traitement assisté par journal précédent n'a pas été activé. Veuillez vérifier si la configuration du programme est correcte",
+            "spa": "Error: El modo de grabación auxiliar de tema no ha podido iniciarse porque no se ha habilitado el modo de procesamiento asistido por registro anterior. Compruebe si la configuración del programa es correcta",
+            "pt": "Erro: O modo de gravação auxiliar do tema não foi iniciado porque o modo de processamento assistido por log anterior não foi ativado. Verifique se a configuração do programa está correta",
+            "it": "Errore: La modalità di registrazione ausiliaria del tema non si è avviata perché la modalità di elaborazione assistita dal registro precedente non è stata abilitata. Verificare che la configurazione del programma sia corretta",
             "en": "Error: The theme auxiliary recording mode failed to start because the previous log assisted processing mode has not been enabled. Please check if the program configuration is correct"
         },
         "error_SAS_disabled_autocopy": {
             "zh": "错误：半自动发送模式启动失败，因为前置的自动复制模式尚未开启，请检查程序配置是否正确",
             "cht": "錯誤：半自動發送模式啟動失敗，因為前置的自動複製模式尚未開啟，請檢查程式配置是否正確",
             "jp": "エラー：前回の自動コピーモードが有効になっていないため、半自動送信モードを開始できませんでした。プログラムの設定が正しいか確認してください",
-            "kor": "오류: 이전 자동 복사 모드가 활성화되지 않았기 때문에 반자동 전송 모드를 시작하지 못했습니다. 프로그램 구성이 올바른지 확인해주세요",
-            "ru": "Ошибка: Не удалось запустить полуавтоматический режим отправки, поскольку не был включен предыдущий автоматический режим копирования. Проверьте, пожалуйста, правильность конфигурации программы",
-            "de": "Fehler: Der halbautomatische Sendemodus konnte nicht gestartet werden, da der vorherige automatische Kopiermodus nicht aktiviert wurde. Bitte überprüfen Sie, ob die Programmkonfiguration korrekt ist",
-            "fra": "Erreur: Le mode d'envoi semi-automatique n'a pas pu démarrer car le mode de copie automatique précédent n'a pas été activé. Veuillez vérifier si la configuration du programme est correcte",
-            "spa": "Error: El modo de envío semiautomático no se pudo iniciar porque no se había habilitado el modo de copia automática anterior. Verifique si la configuración del programa es correcta",
-            "pt": "Erro: O modo de envio semiautomático falhou ao iniciar porque o modo de cópia automática anterior não foi habilitado. Verifique se a configuração do programa está correta",
-            "it": "Errore: La modalità di invio semi-automatico non è riuscita ad avviarsi perché la precedente modalità di copia automatica non è stata abilitata. Controllare se la configurazione del programma è corretta",
+            "kor": "오류: 이전 자동 복사 모드가 활성화되어 있지 않아 반자동 전송 모드를 시작하지 못했습니다. 프로그램 구성이 올바른지 확인하세요",
+            "ru": "Ошибка: Режим полуавтоматической отправки не удалось запустить, поскольку не был включен предыдущий режим автоматического копирования. Пожалуйста, проверьте правильность конфигурации программы",
+            "de": "Fehler: Der Halbautomatischer Sendemodus konnte nicht gestartet werden, weil der vorherige Automatischer Kopiermodus nicht aktiviert wurde. Bitte prüfen Sie, ob die Programmkonfiguration korrekt ist",
+            "fra": "Erreur: Le mode d'envoi semi-automatique n'a pas démarré car le mode de copie automatique précédent n'a pas été activé. Veuillez vérifier si la configuration du programme est correcte",
+            "spa": "Error: El modo de envío semiautomático no ha podido iniciarse porque no se ha activado el modo de copia automática anterior. Compruebe si la configuración del programa es correcta",
+            "pt": "Erro: O modo de envio semiautomático não foi iniciado porque o modo de cópia automática anterior não foi ativado. Verifique se a configuração do programa está correta",
+            "it": "Errore: La modalità di invio semi-automatico non si è avviata perché la modalità di copia automatica precedente non è stata abilitata. Verificare che la configurazione del programma sia corretta",
             "en": "Error: The semi-automatic sending mode failed to start because the previous automatic copying mode has not been enabled. Please check if the program configuration is correct"
         },
         "error_SAS_disabled_LAP": {
             "zh": "错误：半自动发送模式启动失败，因为前置的日志辅助处理模式尚未开启，请检查程序配置是否正确",
             "cht": "錯誤：半自動發送模式啟動失敗，因為前置的日誌輔助處理模式尚未開啟，請檢查程式配置是否正確",
             "jp": "エラー：前回のログアシスト処理モードが有効になっていないため、半自動送信モードを開始できませんでした。プログラムの設定が正しいか確認してください",
-            "kor": "오류: 이전 로그 지원 처리 모드가 활성화되지 않았기 때문에 반자동 전송 모드를 시작하지 못했습니다. 프로그램 구성이 올바른지 확인해주세요",
-            "ru": "Ошибка: Не удалось запустить полуавтоматический режим отправки, так как не был включен предыдущий режим обработки с помощью журнала. Проверьте, пожалуйста, правильность конфигурации программы",
-            "de": "Fehler: Der halbautomatische Sendemodus konnte nicht gestartet werden, da der vorherige protokollgestützte Verarbeitungsmodus nicht aktiviert wurde. Bitte überprüfen Sie, ob die Programmkonfiguration korrekt ist",
-            "fra": "Erreur: Le mode d'envoi semi-automatique n'a pas pu démarrer car le mode de traitement assisté par journal précédent n'a pas été activé. Veuillez vérifier si la configuration du programme est correcte",
-            "spa": "Error: El modo de envío semiautomático no se pudo iniciar porque no se había habilitado el modo de procesamiento asistido por registro anterior. Verifique si la configuración del programa es correcta",
-            "pt": "Erro: O modo de envio semiautomático falhou ao iniciar porque o modo de processamento assistido por log anterior não foi habilitado. Verifique se a configuração do programa está correta",
-            "it": "Errore: La modalità di invio semi-automatico non è riuscita ad avviarsi perché la precedente modalità di elaborazione assistita dal log non è stata abilitata. Controllare se la configurazione del programma è corretta",
+            "kor": "오류: 이전 로그 지원 처리 모드가 활성화되어 있지 않아 반자동 전송 모드를 시작하지 못했습니다. 프로그램 구성이 올바른지 확인하세요",
+            "ru": "Ошибка: Режим полуавтоматической отправки не удалось запустить, поскольку предыдущий режим вспомогательной обработки журнала не был включен. Пожалуйста, проверьте правильность конфигурации программы",
+            "de": "Fehler: Der Halbautomatischer Sendemodus konnte nicht gestartet werden, weil der vorherige Protokollunterstützter Verarbeitungsmodus nicht aktiviert wurde. Bitte prüfen Sie, ob die Programmkonfiguration korrekt ist",
+            "fra": "Erreur: Le mode d'envoi semi-automatique n'a pas démarré parce que le mode de traitement assisté par journal précédent n'a pas été activé. Veuillez vérifier si la configuration du programme est correcte",
+            "spa": "Error: El modo de envío semiautomático no ha podido iniciarse porque no se ha habilitado el modo de procesamiento asistido por registro anterior. Compruebe si la configuración del programa es correcta",
+            "pt": "Erro: O modo de envio semiautomático não foi iniciado porque o modo de processamento assistido por log anterior não foi ativado. Verifique se a configuração do programa está correta",
+            "it": "Errore: La modalità di invio semi-automatico non si è avviata perché la modalità di elaborazione assistita dal registro precedente non è stata abilitata. Verificare che la configurazione del programma sia corretta",
             "en": "Error: The semi-automatic sending mode failed to start because the previous log assisted processing mode has not been enabled. Please check if the program configuration is correct"
+        },
+        "error_PWC_disabled_LAP": {
+            "zh": "错误：玩家预警控制模式启动失败，因为前置的日志辅助处理模式尚未开启，请检查程序配置是否正确",
+            "cht": "錯誤：玩家預警控制模式啟動失敗，因為前置的日誌輔助處理模式尚未開啟，請檢查程式設定是否正確",
+            "jp": "エラー：前回のログアシスト処理モードが有効になっていないため、プレイヤー警告制御モードを開始できませんでした。プログラムの設定が正しいか確認してください",
+            "kor": "오류: 이전 로그 지원 처리 모드가 활성화되어 있지 않아 플레이어 경고 제어 모드를 시작하지 못했습니다. 프로그램 구성이 올바른지 확인하세요",
+            "ru": "Ошибка: Режим контроля предупреждений игрока не удалось запустить, поскольку не был включен предыдущий режим вспомогательной обработки журнала. Пожалуйста, проверьте правильность конфигурации программы",
+            "de": "Fehler: Der Spielerwarnungs-Kontrollmodus konnte nicht gestartet werden, weil der vorherige Protokollunterstützter Verarbeitungsmodus nicht aktiviert wurde. Bitte prüfen Sie, ob die Programmkonfiguration korrekt ist",
+            "fra": "Erreur: Le mode de contrôle avertissement du joueur n'a pas réussi à démarrer parce que le mode de traitement assisté par journal précédent n'a pas été activé. Veuillez vérifier si la configuration du programme est correcte",
+            "spa": "Error: El modo de control de advertencia del jugador no se ha iniciado porque no se ha activado el modo de procesamiento asistido por registro anterior. Compruebe si la configuración del programa es correcta",
+            "pt": "Erro: O modo de controle de aviso do jogador não foi iniciado porque o modo de processamento assistido por log anterior não foi ativado. Verifique se a configuração do programa está correta",
+            "it": "Errore: La modalità di controllo avviso giocatore non si è avviata perché la modalità di elaborazione assistita dal registro precedente non è stata abilitata. Verificare che la configurazione del programma sia corretta",
+            "en": "Error: The player warning control mode failed to start because the previous log assisted processing mode has not been enabled. Please check if the program configuration is correct"
+        },
+        "error_PWCE_disabled_PWC": {
+            "zh": "错误：玩家预警控制增强模式启动失败，因为前置的玩家预警控制模式尚未开启，请检查程序配置是否正确",
+            "cht": "錯誤：玩家預警控制增強模式啟動失敗，因為前置的玩家預警控制模式尚未開啟，請檢查程式配置是否正確",
+            "jp": "エラー：前回のプレイヤー警告制御モードが有効になっていないため、プレイヤー警告制御強化モードを開始できませんでした。プログラムの設定が正しいか確認してください",
+            "kor": "오류: 이전 플레이어 경고 제어 강화 모드가 활성화되지 않아서 플레이어 경고 제어 강화 모드를 시작하지 못했습니다. 프로그램 구성이 올바른지 확인하세요",
+            "ru": "Ошибка: Режим расширенного контроля предупреждений игрока не удалось запустить, поскольку предыдущий режим контроля предупреждений игрока не был включен. Пожалуйста, проверьте правильность конфигурации программы",
+            "de": "Fehler: Der Spielerwarnungs-Kontrolle Erweiterter Modus konnte nicht gestartet werden, weil der vorherige Spielerwarnungs-Kontrollmodus nicht aktiviert wurde. Bitte prüfen Sie, ob die Programmkonfiguration korrekt ist",
+            "fra": "Erreur: Le mode de contrôle d'avertissement du joueur amélioré n'a pas démarré car le mode de contrôle d'avertissement du joueur précédent n'a pas été activé. Veuillez vérifier si la configuration du programme est correcte",
+            "spa": "Error: El modo mejorado de control de advertencia del jugador no se ha iniciado porque no se ha activado el modo de control de advertencia del jugador anterior. Compruebe si la configuración del programa es correcta",
+            "pt": "Erro: O modo de controle de aviso do jogador aprimorado falhou ao iniciar porque o modo de controle de aviso do jogador anterior não foi ativado. Verifique se a configuração do programa está correta",
+            "it": "Errore: La modalità avanzata di controllo avviso giocatore non si è avviata perché la modalità di controllo avviso giocatore precedente non è stata abilitata. Verificare che la configurazione del programma sia corretta",
+            "en": "Error: The player warning control enhanced mode failed to start because the previous player warning control mode has not been enabled. Please check if the program configuration is correct"
+        },
+        "error_PWCE_disabled_SAS": {
+            "zh": "错误：玩家预警控制增强模式启动失败，因为前置的半自动发送模式尚未开启，请检查程序配置是否正确",
+            "cht": "錯誤：玩家預警控制增強模式啟動失敗，因為前置的半自動發送模式尚未開啟，請檢查程式配置是否正確",
+            "jp": "エラー：前回の半自動送信モードが有効になっていないため、プレイヤー警告制御強化モードを開始できませんでした。プログラムの設定が正しいか確認してください",
+            "kor": "오류: 이전 반자동 전송 모드가 활성화되어 있지 않아 플레이어 경고 제어 강화 모드를 시작하지 못했습니다. 프로그램 구성이 올바른지 확인하세요",
+            "ru": "Ошибка: Режим расширенного контроля предупреждений игрока не удалось запустить, поскольку не был включен предыдущий режим полуавтоматической отправки. Пожалуйста, проверьте правильность конфигурации программы",
+            "de": "Fehler: Der Spielerwarnungs-Kontrolle Erweiterter Modus konnte nicht gestartet werden, weil der vorherige Halbautomatischer Sendemodus nicht aktiviert wurde. Bitte prüfen Sie, ob die Programmkonfiguration korrekt ist",
+            "fra": "Erreur: Le mode de contrôle du joueur amélioré n'a pas démarré parce que le mode d'envoi semi-automatique précédent n'a pas été activé. Veuillez vérifier si la configuration du programme est correcte",
+            "spa": "Error: El modo mejorado de control de advertencia del jugador no se ha iniciado porque no se ha activado el modo de envío semiautomático anterior. Compruebe si la configuración del programa es correcta",
+            "pt": "Erro: O modo de controle de aviso do jogador aprimorado falhou ao iniciar porque o modo de envio semiautomático anterior não foi ativado. Verifique se a configuração do programa está correta",
+            "it": "Errore: La modalità avanzata di controllo avviso giocatore non si è avviata perché la modalità di invio semi-automatico precedente non è stata abilitata. Verificare che la configurazione del programma sia corretta",
+            "en": "Error: The player warning control enhanced mode failed to start because the previous semi-automatic sending mode has not been enabled. Please check if the program configuration is correct"
+        },
+        "error_LAP_log_file_not_found": {
+            "zh": "错误：未找到日志文件，日志辅助处理模式启动失败，请检查文件路径是否设置正确",
+            "cht": "錯誤：未找到日誌檔案，日誌輔助處理模式啟動失敗，請檢查檔案路徑是否設定正確",
+            "jp": "エラー：ログファイルが見つからなかったため、ログアシスト処理モードを開始できませんでした。ファイルのパスが正しく設定されているか確認してください",
+            "kor": "오류: 로그 파일을 찾을 수 없어 로그 지원 처리 모드를 시작하지 못했습니다. 파일 경로가 올바르게 구성되어 있는지 확인하세요",
+            "ru": "Ошибка: Режим вспомогательной обработки журнала не удалось запустить, так как файл журнала не найден, проверьте правильность пути к файлу",
+            "de": "Fehler: Der Protokollunterstützter Verarbeitungsmodus konnte nicht gestartet werden, weil die Protokolldatei nicht gefunden wurde. Überprüfen Sie, ob der Dateipfad richtig konfiguriert ist",
+            "fra": "Erreur: Le mode de traitement assisté par journal n'a pas démarré car le fichier journal n'a pas été trouvé. Veuillez vérifier si le chemin d'accès au fichier est configuré correctement",
+            "spa": "Error: El modo de procesamiento asistido por registro no pudo iniciarse porque no se encontró el archivo de registro, por favor compruebe si la ruta del archivo está configurada correctamente",
+            "pt": "Erro: O modo de processamento assistido por log falhou ao iniciar porque o arquivo de log não foi encontrado. Verifique se o caminho do arquivo está configurado corretamente",
+            "it": "Errore: La modalità di elaborazione assistita dal registro non è stata avviata perché il file di registro non è stato trovato, verificare che il percorso del file sia configurato correttamente",
+            "en": "Error: The log assisted processing mode failed to start because the log file was not found, please check if the file path is configured correctly"
+        },
+        "error_LAP_log_decoding_failed": {
+            "zh": "错误：未能成功解码日志文件，日志辅助处理模式启动失败，请删除日志文件后重新开始游戏",
+            "cht": "錯誤：未能成功解碼日誌檔案，日誌輔助處理模式啟動失敗，請刪除日誌檔案後重新開始遊戲",
+            "jp": "エラー：ログファイルが正常にデコードできなかったため、ログアシスト処理モードを開始できませんでした。ログファイルを削除してゲームを再起動してください",
+            "kor": "오류: 로그 파일을 성공적으로 디코딩할 수 없어 로그 지원 처리 모드를 시작하지 못했습니다. 로그 파일을 삭제하고 게임을 다시 시작하세요",
+            "ru": "Ошибка: Режим вспомогательной обработки журнала не удалось запустить, так как файл журнала не удалось успешно декодировать. Пожалуйста, удалите файл журнала и перезапустите игру",
+            "de": "Fehler: Der Protokollunterstützter Verarbeitungsmodus konnte nicht gestartet werden, weil die Protokolldatei nicht erfolgreich dekodiert werden konnte. Bitte löschen Sie die Protokolldatei und starten Sie das Spiel neu",
+            "fra": "Erreur: Le mode de traitement assisté par journal n'a pas pu démarrer car le fichier journal n'a pas pu être décodé avec succès. Veuillez supprimer le fichier journal et redémarrer le jeu",
+            "spa": "Error: El modo de procesamiento asistido por registro no ha podido iniciarse porque el archivo de registro no se ha descodificado correctamente. Borra el archivo de registro y reinicia el juego",
+            "pt": "Erro: O modo de processamento assistido por log falhou ao iniciar porque o arquivo de log não pôde ser decodificado com sucesso. Exclua o arquivo de registro e reinicie o jogo",
+            "it": "Errore: La modalità di elaborazione assistita dal registro non si è avviata perché non è stato possibile decodificare correttamente il file di registro. Cancellare il file di registro e riavviare il gioco",
+            "en": "Error: The log assisted processing mode failed to start because the log file could not be decoded successfully. Please delete the log file and restart the game"
+        },
+        "error_TAR_file_decoding_failed": {
+            "zh": "错误：未能成功解码主题辅助记录文件，主题辅助记录模式启动失败，请删除辅助记录文件后重新开始游戏",
+            "cht": "錯誤：未能成功解碼主題輔助記錄檔案，主題輔助記錄模式啟動失敗，請刪除輔助記錄檔案後重新開始遊戲",
+            "jp": "エラー：テーマ補助記録ファイルが正常にデコードできなかったため、テーマ補助記録モードを開始できませんでした。補助記録ファイルを削除してゲームを再起動してください",
+            "kor": "오류: 테마 보조녹화 파일을 성공적으로 디코딩하지 못하여 테마 보조녹화 모드를 시작하지 못했습니다. 보조 녹화 파일을 삭제하고 게임을 다시 시작하세요",
+            "ru": "Ошибка: Режим вспомогательной записи темы не удалось запустить, поскольку файл вспомогательной записи темы не удалось успешно декодировать. Пожалуйста, удалите файл вспомогательной записи и перезапустите игру",
+            "de": "Fehler: Das Thema Hilfsaufnahmemodus konnte nicht gestartet werden, weil die Hilfsaufnahmedatei des Themas nicht erfolgreich dekodiert werden konnte. Bitte löschen Sie die Hilfsaufnahmedatei und starten Sie das Spiel neu",
+            "fra": "Erreur: Le mode d'enregistrement auxiliaire du thème n'a pas réussi à démarrer car le fichier d'enregistrement auxiliaire du thème n'a pas pu être décodé avec succès. Veuillez supprimer le fichier d'enregistrement auxiliaire et redémarrer le jeu",
+            "spa": "Error: El modo de grabación auxiliar de tema no ha podido iniciarse porque el archivo de grabación auxiliar de tema no ha podido descodificarse correctamente. Elimina el archivo de grabación auxiliar y reinicia el juego",
+            "pt": "Erro: O modo de gravação auxiliar do tema falhou ao iniciar porque o arquivo de gravação auxiliar do tema não pôde ser decodificado com êxito. Exclua o arquivo de gravação auxiliar e reinicie o jogo",
+            "it": "Errore: La modalità di registrazione ausiliaria del tema non si è avviata perché il file di registrazione ausiliario del tema non è stato decodificato correttamente. Eliminare il file di registrazione ausiliario e riavviare il gioco",
+            "en": "Error: The theme auxiliary recording mode failed to start because the theme auxiliary recording file could not be decoded successfully. Please delete the auxiliary recording file and restart the game"
         },
         "error_SAS_window_not_found": {
             "zh": "错误：未找到游戏窗口，当前内容半自动发送失败，请检查游戏窗口名称是否设置正确",
@@ -377,6 +458,45 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "pt": "Erro: O envio semiautomático do conteúdo atual falhou porque a janela do jogo não foi encontrada. Verifique se o título da janela do jogo está definido corretamente",
             "it": "Errore: L'invio semi-automatico del contenuto corrente non è riuscito perché la finestra di gioco non è stata trovata. Controlla se il titolo della finestra di gioco è impostato correttamente",
             "en": "Error: The current content semi-automatic sending failed because the game window was not found. Please check if the game window title is set correctly"
+        },
+        "note_PWC_offline_list": {
+            "zh": "注意：玩家预警控制在线列表获取失败，程序将尝试加载离线列表",
+            "cht": "注意：玩家預警控制網路列表取得失敗，程式將嘗試載入離線列表",
+            "jp": "注：プレイヤー警告制御オンラインリストを取得できませんでした。プログラムはオフラインリストのロードを試行します",
+            "kor": "참고: 플레이어 경고 제어 온라인 목록을 가져오는 데 실패했습니다. 프로그램은 오프라인 목록을 로드하려고 시도합니다",
+            "ru": "Примечание: Не удалось получить список онлайн-контроля предупреждений игрока, программа попытается загрузить автономный список",
+            "de": "Hinweis: Das Abrufen der Online-Liste der Spielerwarnungs-Kontrolle ist fehlgeschlagen. Das Programm versucht, die Offline-Liste zu laden",
+            "fra": "Remarque: Échec de l'obtention de la liste de contrôle d'avertissement du joueur en ligne, le programme tentera de charger la liste hors ligne",
+            "spa": "Nota: No se pudo obtener la lista de control de advertencia del jugador en línea, el programa intentará cargar la lista fuera de línea",
+            "pt": "Nota: Falha ao obter a lista online de controle de aviso do jogador, o programa tentará carregar a lista offline",
+            "it": "Nota: Impossibile ottenere l'elenco di controllo degli avvisi del lettore online, il programma proverà a caricare l'elenco offline",
+            "en": "Note: Failed to get the player warning control online list, the program will try to load the offline list"
+        },
+        "error_PWC_offline_list_not_found": {
+            "zh": "错误：未找到玩家预警控制离线列表文件，玩家预警控制模式启动失败，请检查文件路径是否设置正确",
+            "cht": "錯誤：未找到玩家預警控制離線列表檔案，玩家預警控制模式啟動失敗，請檢查檔案路徑是否設定正確",
+            "jp": "エラー：プレイヤー警告制御オフラインリストファイルが見つからなかったため、プレイヤー警告制御モードを開始できませんでした。ファイルのパスが正しく設定されているか確認してください",
+            "kor": "오류: 플레이어 경고 제어 오프라인 목록 파일을 찾을 수 없어 플레이어 경고 제어 모드를 시작하지 못했습니다. 파일 경로가 올바르게 구성되어 있는지 확인해 주세요",
+            "ru": "Ошибка: Режим контроля предупреждений игрока не удалось запустить, потому что файл списка автономного контроля предупреждений игрока не найден, проверьте, правильно ли настроен путь к файлу",
+            "de": "Fehler: Der Spielerwarnungs-Kontrollmodus konnte nicht gestartet werden, weil die Offline-Listendatei der Spielerwarnungs-Kontrolle nicht gefunden wurde. Überprüfen Sie, ob der Dateipfad richtig konfiguriert ist",
+            "fra": "Erreur: Le mode de contrôle avertissement du joueur n'a pas réussi à démarrer car le fichier de la liste hors ligne de contrôle avertissement du joueur n'a pas été trouvé, veuillez vérifier si le chemin d'accès au fichier est configuré correctement",
+            "spa": "Error: El modo de control de advertencia del jugador no ha podido iniciarse porque no se ha encontrado el archivo de la lista offline de control del jugador, por favor compruebe si la ruta del archivo está configurada correctamente",
+            "pt": "Erro: O modo de controle de aviso do jogador falhou ao iniciar porque o arquivo da lista off-line de controle de aviso do jogador não foi encontrado. Verifique se o caminho do arquivo está configurado corretamente",
+            "it": "Errore: La modalità di controllo avviso giocatore non si è avviata perché il file dell'elenco offline di controllo avviso giocatore non è stato trovato, verificare che il percorso del file sia configurato correttamente",
+            "en": "Error: The player warning control mode failed to start because the player warning control offline list file was not found, please check if the file path is configured correctly"
+        },
+        "error_PWC_offline_list_decoding_failed": {
+            "zh": "错误：未能成功解码玩家预警控制离线列表文件，玩家预警控制模式启动失败，请尝试手动重新下载后替换原有文件",
+            "cht": "錯誤：未能成功解碼玩家預警控制離線列表檔案，玩家預警控制模式啟動失敗，請嘗試手動重新下載後替換原有檔案",
+            "jp": "エラー：プレイヤー警告制御オフラインリストファイルが正常にデコードできなかったため、プレイヤー警告制御モードを開始できませんでした。手動で再ダウンロードして、元のファイルを置き換えてみてください",
+            "kor": "오류: 플레이어 경고 제어 오프라인 목록 파일을 성공적으로 디코딩하지 못하여 플레이어 경고 제어 모드를 시작하지 못했습니다. 원본 파일을 수동으로 다시 다운로드하여 교체해 보세요",
+            "ru": "Ошибка: Режим контроля предупреждений игрока не удалось запустить, потому что файл списка автономного контроля предупреждений игрока не удалось успешно декодировать. Пожалуйста, попробуйте вручную перезагрузить и заменить оригинальный файл",
+            "de": "Fehler: Der Spielerwarnungs-Kontrollmodus konnte nicht gestartet werden, weil die Offline-Listendatei der Spielerwarnungs-Kontrolle nicht erfolgreich dekodiert werden konnte. Bitte versuchen Sie, die Originaldatei manuell erneut herunterzuladen und zu ersetzen",
+            "fra": "Erreur: Le mode de contrôle d'avertissement du joueur n'a pas pu démarrer car le fichier de la liste hors ligne de contrôle d'avertissement du joueur n'a pas pu être décodé avec succès. Veuillez essayer de retélécharger manuellement et de remplacer le fichier original",
+            "spa": "Error: El modo de control de advertencia del jugador no ha podido iniciarse porque el archivo de la lista offline de control de advertencia del jugador no ha podido descodificarse correctamente. Intenta volver a descargar manualmente y reemplazar el archivo original",
+            "pt": "Erro: O modo de controle de aviso do jogador falhou ao iniciar porque o arquivo da lista off-line de controle de aviso do jogador não pôde ser decodificado com êxito. Tente fazer um novo download manual e substituir o arquivo original",
+            "it": "Errore: La modalità di controllo avviso giocatore non si è avviata perché non è stato possibile decodificare il file dell'elenco offline di controllo avviso giocatore. Provare a riscaricare manualmente e a sostituire il file originale",
+            "en": "Error: The player warning control mode failed to start because the player warning control offline list file could not be decoded successfully. Please try to manually re-download and replace the original file"
         },
         "error_exception": {
             "zh": f'错误：{e} ',
@@ -418,8 +538,8 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "en": "You have exited the program"
         },
         "output_en_word_chars": {
-            "zh": f'该主题字数为 {Fore.YELLOW}{word_chars}{Fore.CYAN} 个字母',
-            "cht": f'此主題字數為 {Fore.YELLOW}{word_chars}{Fore.CYAN} 個字母',
+            "zh": f'该主题英语字数为 {Fore.YELLOW}{word_chars}{Fore.CYAN} 个字母',
+            "cht": f'此主題英語字數為 {Fore.YELLOW}{word_chars}{Fore.CYAN} 個字母',
             "jp": f'テーマの英字数は {Fore.YELLOW}{word_chars}{Fore.CYAN} です',
             "kor": f'테마는 영어로 {Fore.YELLOW}{word_chars}{Fore.CYAN} 자 길이입니다',
             "ru": f'Тема имеет длину {Fore.YELLOW}{word_chars}{Fore.CYAN} символов на Английском языке',
@@ -440,7 +560,7 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "fra": f'Le thème est {Fore.YELLOW}{word_chars}{Fore.CYAN} caractère(s) de long en Chinois Simplifié',
             "spa": f'El tema tiene {Fore.YELLOW}{word_chars}{Fore.CYAN} carácter(es) de longitud en Chino Simplificado',
             "pt": f'O tema tem {Fore.YELLOW}{word_chars}{Fore.CYAN} caractere(s) de comprimento em Chinês Simplificado',
-            "it": f'Il tema è lungo {Fore.YELLOW}{word_chars}{Fore.CYAN} carattere/i in Cinese Semplificato',
+            "it": f'Il tema è lungo {Fore.YELLOW}{word_chars}{Fore.CYAN} carattere(i) in Cinese Semplificato',
             "en": f'The theme is {Fore.YELLOW}{word_chars}{Fore.CYAN} character(s) long in Simplified Chinese'
         },
         "output_cht_word_chars": {
@@ -453,7 +573,7 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "fra": f'Le thème est {Fore.YELLOW}{word_chars}{Fore.CYAN} caractère(s) de long en Chinois Traditionnel',
             "spa": f'El tema tiene {Fore.YELLOW}{word_chars}{Fore.CYAN} carácter(es) de longitud en Chino Tradicional',
             "pt": f'O tema tem {Fore.YELLOW}{word_chars}{Fore.CYAN} caractere(s) de comprimento em Chinês Tradicional',
-            "it": f'Il tema è lungo {Fore.YELLOW}{word_chars}{Fore.CYAN} carattere/i in Cinese Tradizionale',
+            "it": f'Il tema è lungo {Fore.YELLOW}{word_chars}{Fore.CYAN} carattere(i) in Cinese Tradizionale',
             "en": f'The theme is {Fore.YELLOW}{word_chars}{Fore.CYAN} character(s) long in Traditional Chinese'
         },
         "output_jp_word_chars": {
@@ -466,7 +586,7 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "fra": f'Le thème est long de {Fore.YELLOW}{word_chars}{Fore.CYAN} caractère(s) en Japonais',
             "spa": f'El tema tiene {Fore.YELLOW}{word_chars}{Fore.CYAN} carácter(es) de longitud en Japonés',
             "pt": f'O tema tem {Fore.YELLOW}{word_chars}{Fore.CYAN} caractere(s) de comprimento em Japonês',
-            "it": f'Il tema è lungo {Fore.YELLOW}{word_chars}{Fore.CYAN} carattere/i in Giapponese',
+            "it": f'Il tema è lungo {Fore.YELLOW}{word_chars}{Fore.CYAN} carattere(i) in Giapponese',
             "en": f'The theme is {Fore.YELLOW}{word_chars}{Fore.CYAN} character(s) long in Japanese'
         },
         "output_kor_word_chars": {
@@ -479,7 +599,7 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "fra": f'Le thème est {Fore.YELLOW}{word_chars}{Fore.CYAN} caractère(s) de long en Coréen',
             "spa": f'El tema tiene una longitud de {Fore.YELLOW}{word_chars}{Fore.CYAN} carácter(es) en Coreano',
             "pt": f'O tema tem {Fore.YELLOW}{word_chars}{Fore.CYAN} caractere(s) em Coreano',
-            "it": f'Il tema è lungo {Fore.YELLOW}{word_chars}{Fore.CYAN} carattere/i in Coreano',
+            "it": f'Il tema è lungo {Fore.YELLOW}{word_chars}{Fore.CYAN} carattere(i) in Coreano',
             "en": f'The theme is {Fore.YELLOW}{word_chars}{Fore.CYAN} character(s) long in Korean'
         },
         "output_ru_word_chars": {
@@ -625,6 +745,19 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "it": "Il proprietario del lotto non ha piazzato blocchi! Saltando",
             "en": "The builder of this round hasn't placed any blocks! Skipping"
         },
+        "output_LAP_diff_chars_note": {
+            "zh": f'注意：匹配式对应字数({Fore.YELLOW}{word_chars}{Fore.CYAN}) ≠ 本回合主题字数({Fore.YELLOW}{current_theme_chars}{Fore.CYAN})',
+            "cht": f'注意：匹配式對應字數({Fore.YELLOW}{word_chars}{Fore.CYAN}) ≠ 本回合主題字數({Fore.YELLOW}{current_theme_chars}{Fore.CYAN})',
+            "jp": f'注：マッチする式に対応する文字数({Fore.YELLOW}{word_chars}{Fore.CYAN}) ≠ 現在のラウンドのテーマの文字数({Fore.YELLOW}{current_theme_chars}{Fore.CYAN})',
+            "kor": f'참고: 매칭 표현식의 문자 수({Fore.YELLOW}{word_chars}{Fore.CYAN}) ≠ 현재 라운드 테마의 문자 수({Fore.YELLOW}{current_theme_chars}{Fore.CYAN})',
+            "ru": f'Примечание: Количество символов в совпадающем выражении({Fore.YELLOW}{word_chars}{Fore.CYAN}) ≠ Количество символов в текущей теме раунда({Fore.YELLOW}{current_theme_chars}{Fore.CYAN})',
+            "de": f'Hinweis: Anzahl der Zeichen im passenden Ausdruck({Fore.YELLOW}{word_chars}{Fore.CYAN}) ≠ Anzahl der Zeichen im aktuellen Rundenthema({Fore.YELLOW}{current_theme_chars}{Fore.CYAN})',
+            "fra": f"Remarque: Nombre de caractères dans l'expression correspondante({Fore.YELLOW}{word_chars}{Fore.CYAN}) ≠ Nombre de caractères dans le thème de la ronde actuelle({Fore.YELLOW}{current_theme_chars}{Fore.CYAN})",
+            "spa": f'Nota: Número de caracteres en la expresión correspondiente({Fore.YELLOW}{word_chars}{Fore.CYAN}) ≠ Número de caracteres en el tema de la ronda actual({Fore.YELLOW}{current_theme_chars}{Fore.CYAN})',
+            "pt": f'Nota: Número de caracteres na expressão correspondente({Fore.YELLOW}{word_chars}{Fore.CYAN}) ≠ Número de caracteres no tema da rodada atual({Fore.YELLOW}{current_theme_chars}{Fore.CYAN})',
+            "it": f"Nota: Numero di caratteri nell'espressione corrispondente({Fore.YELLOW}{word_chars}{Fore.CYAN}) ≠ Numero di caratteri nel tema del round corrente({Fore.YELLOW}{current_theme_chars}{Fore.CYAN})",
+            "en": f'Note: Number of characters in the matching expression({Fore.YELLOW}{word_chars}{Fore.CYAN}) ≠ Number of characters in the current round theme({Fore.YELLOW}{current_theme_chars}{Fore.CYAN})'
+        },
         "output_LAP_guess_info": {
             "zh": f'检测到有玩家猜测了主题 {Fore.YELLOW}{output_del_elem}{Fore.RED} 但未猜对，即将据此输出筛选后的匹配条目',
             "cht": f'偵測到有玩家猜測了主題 {Fore.YELLOW}{output_del_elem}{Fore.RED} 但未猜對，即將據此輸出篩選後的匹配條目',
@@ -664,6 +797,19 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "it": f'Il tema di questo round era {Fore.YELLOW}{correct_theme}{Fore.CYAN}',
             "en": f'The theme of this round was {Fore.YELLOW}{correct_theme}{Fore.CYAN}'
         },
+        "output_LAP_game_over": {
+            "zh": f'本场游戏结束，日志辅助处理模式共计帮助您猜测了 {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} 次',
+            "cht": f'本場遊戲結束，日誌輔助處理模式總計幫助您猜測了 {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} 次',
+            "jp": f'ゲームは終了しました。ログアシスト処理モードにより、合計 {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} 回推測できました',
+            "kor": f'게임이 끝났고, 로그 지원 처리 모드를 통해 총 {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} 번 추측하는 데 도움이 되었습니다',
+            "ru": f'Игра окончена, и режим вспомогательной обработки журнала помог вам угадать {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} раз(а) в общей сложности',
+            "de": f'Das Spiel ist vorbei, und der Protokollunterstützter Verarbeitungsmodus hat dir geholfen, insgesamt {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} zu erraten',
+            "fra": f'Le jeu est terminé, et le mode de traitement assisté par journal vous a permis de deviner {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} temps(s) au total',
+            "spa": f'El juego ha terminado, y el modo de procesamiento asistido por registro te ha ayudado a adivinar {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} vez(s) en total',
+            "pt": f'O jogo terminou, e o modo de processamento assistido por log o ajudou a adivinhar {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} tempo(s) no total',
+            "it": f'La partita è finita e la modalità di elaborazione assistita dal registro ti ha aiutato a indovinare {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} tempo(i) in totale',
+            "en": f'The game is over, and the log assisted processing mode has helped you guess {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} time(s) in total'
+        },
         "output_TAR_theme_added": {
             "zh": f'已将主题 {Fore.YELLOW}{correct_theme}{Fore.GREEN} 添加至辅助记录文件',
             "cht": f'已將主題 {Fore.YELLOW}{correct_theme}{Fore.GREEN} 新增至輔助記錄檔案',
@@ -677,19 +823,6 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "it": f'Il tema {Fore.YELLOW}{correct_theme}{Fore.GREEN} è stato aggiunto al file di registrazione ausiliario',
             "en": f'Theme {Fore.YELLOW}{correct_theme}{Fore.GREEN} has been added to the auxiliary recording file'
         },
-        "output_LAP_game_over": {
-            "zh": f'本场游戏结束，日志辅助处理模式共计帮助您猜测了 {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} 次',
-            "cht": f'本場遊戲結束，日誌輔助處理模式總計幫助您猜測了 {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} 次',
-            "jp": f'ゲームは終了しました。ログアシスト処理モードにより、合計 {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} 回推測できました',
-            "kor": f'게임이 끝났고, 로그 지원 처리 모드를 통해 총 {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} 번 추측하는 데 도움이 되었습니다',
-            "ru": f'Игра окончена, и режим обработки логов помог вам угадать {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} раз(а) в сумме',
-            "de": f'Das Spiel ist vorbei und der protokollgestützte Verarbeitungsmodus hat Ihnen geholfen, insgesamt {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} Mal zu erraten',
-            "fra": f'Le jeu est terminé et le mode de traitement assisté par journal vous a aidé à deviner {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} fois au total',
-            "spa": f'El juego ha terminado y el modo de procesamiento asistido por registro te ha ayudado a adivinar {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} veces en total',
-            "pt": f'O jogo acabou, e o modo de processamento assistido por log ajudou você a adivinhar {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} vez(es) no total',
-            "it": f'La partita è terminata e la modalità di elaborazione assistita dal registro ti ha aiutato a indovinare {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} tempo/i in totale',
-            "en": f'The game is over, and the log assisted processing mode has helped you guess {Fore.YELLOW}{LAP_guess_cnt}{Fore.MAGENTA} time(s) in total'
-        },
         "output_SAS_content_sent": {
             "zh": f'已发送剪贴板内容 {Fore.YELLOW}{pyperclip.paste()}{Fore.GREEN} 至游戏内',
             "cht": f'已發送剪貼簿內容 {Fore.YELLOW}{pyperclip.paste()}{Fore.GREEN} 至遊戲內',
@@ -702,6 +835,58 @@ def output_message(key, lang, moe=False, word_chars=None, e=None, output_del_ele
             "pt": f'Conteúdo da área de transferência {Fore.YELLOW}{pyperclip.paste()}{Fore.GREEN} enviado para o jogo',
             "it": f'Inviato il contenuto degli appunti {Fore.YELLOW}{pyperclip.paste()}{Fore.GREEN} al gioco',
             "en": f'Sent clipboard content {Fore.YELLOW}{pyperclip.paste()}{Fore.GREEN} to the game'
+        },
+        "output_PWC_player_info": {
+            "zh": f'检测到排名第 {Fore.CYAN}{player_position}{Fore.RED} 位的玩家 {Fore.YELLOW}{current_player_join}{Fore.RED} 触发预警规则',
+            "cht": f'偵測到排名第 {Fore.CYAN}{player_position}{Fore.RED} 位的玩家 {Fore.YELLOW}{current_player_join}{Fore.RED} 觸發預警規則',
+            "jp": f'ランキング {Fore.CYAN}{player_position}{Fore.RED} 位のプレイヤー、{Fore.YELLOW}{current_player_join}{Fore.RED} が警告ルールをトリガーしたことが検出されました',
+            "kor": f'{Fore.CYAN}{player_position}{Fore.RED} 위인 플레이어 {Fore.YELLOW}{current_player_join}{Fore.RED} 가 경고 규칙이 발동된 것으로 감지되었습니다',
+            "ru": f'Игрок №{Fore.CYAN}{player_position}{Fore.RED}, {Fore.YELLOW}{current_player_join}{Fore.RED}, был замечен в срабатывании правила предупреждения',
+            "de": f'Es wurde festgestellt, dass der Spieler mit der Rangliste Nr.{Fore.CYAN}{player_position}{Fore.RED}, {Fore.YELLOW}{current_player_join}{Fore.RED}, die Warnregel auslöste',
+            "fra": f"Le joueur classé n°{Fore.CYAN}{player_position}{Fore.RED}, {Fore.YELLOW}{current_player_join}{Fore.RED}, a été détecté déclenchant la règle d'avertissement",
+            "spa": f'Se detectó que el jugador número {Fore.CYAN}{player_position}{Fore.RED} del ranking, {Fore.YELLOW}{current_player_join}{Fore.RED}, activó la regla de advertencia',
+            "pt": f'O jogador número {Fore.CYAN}{player_position}{Fore.RED}, {Fore.YELLOW}{current_player_join}{Fore.RED}, foi detectado acionando a regra de advertência',
+            "it": f"Il giocatore numero {Fore.CYAN}{player_position}{Fore.RED} in classifica, {Fore.YELLOW}{current_player_join}{Fore.RED}, è stato scoperto mentre attivava la regola dell'avvertimento",
+            "en": f'The #{Fore.CYAN}{player_position}{Fore.RED} ranked player, {Fore.YELLOW}{current_player_join}{Fore.RED}, was detected triggering the warning rule'
+        },
+        "output_PWC_online_list_info": {
+            "zh": f'玩家预警控制在线列表获取完成，耗时 {Fore.YELLOW}{PWC_request_time}{Fore.GREEN} 秒，列表版本：{Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN} ',
+            "cht": f'玩家預警控制網路列表取得完成，耗時 {Fore.YELLOW}{PWC_request_time}{Fore.GREEN} 秒，列表版本：{Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN} ',
+            "jp": f'プレイヤー警告制御オンラインリストの取得が完了しました。所要時間は {Fore.YELLOW}{PWC_request_time}{Fore.GREEN} 秒、リストバージョン：{Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN} ',
+            "kor": f'플레이어 경고 제어 온라인 목록이 완료되었습니다. 소요 시간은 {Fore.YELLOW}{PWC_request_time}{Fore.GREEN} 초입니다. 목록 버전: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}',
+            "ru": f'Список управления предупреждениями игроков в режиме онлайн завершен, потребовалось {Fore.YELLOW}{PWC_request_time}{Fore.GREEN} секунд, версия списка: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}',
+            "de": f'Online-Liste zur Spielerwarnungs-Kontrolle fertiggestellt, dauerte {Fore.YELLOW}{PWC_request_time}{Fore.GREEN} Sekunden, Listenversion: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}',
+            "fra": f"La liste de contrôle d'avertissement du joueur en ligne est terminée, cela a pris {Fore.YELLOW}{PWC_request_time}{Fore.GREEN} secondes, version de la liste: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}",
+            "spa": f'La lista de control de advertencia del jugador en línea se completó, tomó {Fore.YELLOW}{PWC_request_time}{Fore.GREEN} segundos, versión de la lista: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}',
+            "pt": f'A lista de controle de aviso do jogador on-line foi concluída, levou {Fore.YELLOW}{PWC_request_time}{Fore.GREEN} segundos, versão da lista: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}',
+            "it": f"L'elenco di controllo degli avvisi dei giocatori online è stato completato, ha impiegato {Fore.YELLOW}{PWC_request_time}{Fore.GREEN} secondi, versione dell'elenco: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}",
+            "en": f'Player warning control online list get completed, took {Fore.YELLOW}{PWC_request_time}{Fore.GREEN} seconds, list version: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}'
+        },
+        "output_PWC_offline_list_info": {
+            "zh": f'玩家预警控制离线列表加载完成，列表版本：{Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN} ',
+            "cht": f'玩家預警控制離線列表載入完成，列表版本：{Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN} ',
+            "jp": f'プレイヤー警告制御オフラインリストのロードが完了しました。リストバージョン：{Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN} ',
+            "kor": f'플레이어 경고 제어 오프라인 목록 로드가 완료되었습니다. 목록 버전: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}',
+            "ru": f'Загрузка списка управления предупреждениями игрока в автономном режиме завершена, версия списка: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}',
+            "de": f'Laden der Offline-Liste der Spielerwarnungs-Kontrolle abgeschlossen, Listenversion: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}',
+            "fra": f"Le chargement de la liste hors ligne du contrôle d'avertissement du joueur est terminé, version de la liste: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}",
+            "spa": f'Se completó la carga de la lista de control de advertencia del jugador sin conexión, versión de la lista: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}',
+            "pt": f'Carregamento da lista offline de controle de aviso do jogador concluído, versão da lista: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}',
+            "it": f"Caricamento dell'elenco offline del controllo di avviso del lettore completato, versione dell'elenco: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}",
+            "en": f'Player warning control offline list loading completed, list version: {Fore.CYAN}{PWC_player_lst_ver}{Fore.GREEN}'
+        },
+        "output_PWCE_return_lobby": {
+            "zh": "即将返回游戏大厅",
+            "cht": "即將返回遊戲大廳",
+            "jp": "ゲームロビーに戻ります",
+            "kor": "게임 로비로 돌아갑니다",
+            "ru": "Возвращаемся в игровое лобби",
+            "de": "Zurück zur Spiellobby",
+            "fra": "Retour au lobby du jeu",
+            "spa": "Regresando al lobby del juego",
+            "pt": "Retornando ao lobby do jogo",
+            "it": "Ritorno alla lobby del gioco",
+            "en": "Returning to the game lobby"
         }
     }
 
@@ -807,13 +992,13 @@ def pattern_from_input(user_input):
     }
     target_column = None
     num = pattern = ""
-    banned_chars = r'()?'
+    banned_chars = r'()'
 
     for prefix, column in column_prefix_dic.items():
         if user_input.startswith(prefix) and column in df.columns:
             user_input = user_input[len(prefix):]
-            user_input = r'[a-zA-Z]' if prefix in {"@sc", "@mw"} and user_input in {"1", ".", "_"} else user_input
-            user_input = r'[a-zA-Z].*' if prefix in {"@sc", "@mw"} and user_input in {".*", "_*", ".+", "_+", "1.*", "1_*", "..*", "._*", "_.*", "__*"} else user_input
+            user_input = r'[a-zA-Z]' if prefix in {"@sc", "@mw"} and user_input in {".", "_", "%"} else user_input
+            user_input = r'[a-zA-Z].*' if prefix in {"@sc", "@mw"} and user_input in {".*", "_*", "%*", ".+", "_+", "%+", "..*", "._*", ".%*", "_.*", "__*", "_%*", "%.*", "%_*", "%%*"} else user_input
             target_column = column if user_input else target_column
             break
 
@@ -838,7 +1023,12 @@ def input_thesaurus():
         print(f'{Fore.YELLOW}{output_message("error_thesaurus_file_not_found", lang, moe)}{Style.RESET_ALL}')
         exit()
     else:
-        df = pd.read_excel(GTB_THESAURUS, keep_default_na=False).replace("", "%")
+        def replace_null_values(cell):
+            if cell == "" or cell == "-":
+                return "%"
+            return cell
+
+        df = pd.read_excel(GTB_THESAURUS, keep_default_na=False).apply(lambda col: col.map(replace_null_values))
 
     print(f'{Fore.YELLOW}{"-" * 10} {output_message("thesaurus_self_check_starts", lang, moe)} {"-" * 10}{Style.RESET_ALL}')
     for column in ["English", "简体中文", "繁體中文", "日本語", "한국어", "Русский", "Deutsch", "Français", "Español", "Português", "Italiano", "Shortcut(s)", "Multiword(s)"]:
@@ -856,13 +1046,17 @@ def program_self_check():
     LAP_color = Fore.GREEN if LAP_MODE and os.path.exists(LOG_FILE) else (Fore.YELLOW if LAP_MODE else Fore.RED)
     TAR_color = Fore.GREEN if TAR_MODE and LAP_MODE else (Fore.YELLOW if TAR_MODE else Fore.RED)
     SAS_color = Fore.GREEN if SAS_MODE and AUTO_COPY and LAP_MODE else (Fore.YELLOW if SAS_MODE else Fore.RED)
+    PWC_color = Fore.GREEN if PWC_MODE and LAP_MODE else (Fore.YELLOW if PWC_MODE else Fore.RED)
+    PWCE_color = Fore.GREEN if PWCE_MODE and PWC_MODE and SAS_MODE and AUTO_COPY and LAP_MODE else (Fore.YELLOW if PWCE_MODE else Fore.RED)
     mode_color_dic = {
             "MOE": MOE_color,
             "AC": AC_color,
             "RAC": RAC_color,
             "LAP": LAP_color,
             "TAR": TAR_color,
-            "SAS": SAS_color
+            "SAS": SAS_color,
+            "PWC": PWC_color,
+            "PWCE": PWCE_color
         }
 
     print(f'{Fore.MAGENTA}{"-" * 10} {output_message("program_self_check_starts", lang, moe)} {"-" * 10}{Style.RESET_ALL}')
@@ -883,6 +1077,13 @@ def program_self_check():
             print(f'{Fore.YELLOW}{output_message("error_SAS_disabled_autocopy", lang, moe)}{Style.RESET_ALL}')
         if not LAP_MODE:
             print(f'{Fore.YELLOW}{output_message("error_SAS_disabled_LAP", lang, moe)}{Style.RESET_ALL}')
+    if PWC_MODE and not LAP_MODE:
+        print(f'{Fore.YELLOW}{output_message("error_PWC_disabled_LAP", lang, moe)}{Style.RESET_ALL}')
+    if PWCE_MODE:
+        if not PWC_MODE:
+            print(f'{Fore.YELLOW}{output_message("error_PWCE_disabled_PWC", lang, moe)}{Style.RESET_ALL}')
+        if not SAS_MODE:
+            print(f'{Fore.YELLOW}{output_message("error_PWCE_disabled_SAS", lang, moe)}{Style.RESET_ALL}')
 
 def input_matching():
     global lang_code_dic, LAP_match_lst_dic
@@ -969,6 +1170,7 @@ def input_matching():
                 "Multiword(s)": []
             }
             target_column_code = {v: k for k, v in lang_code_dic.items()}.get(target_column, None)
+            word_chars = ""
             output_word_chars_flag = False
             color_cnt = 0
 
@@ -1015,16 +1217,16 @@ def input_matching():
                 for column in ["Shortcut(s)", "Multiword(s)"]:
                     if column in df.columns:
                         LAP_match_lst_dic[column].append(row[column])
-                        if row[column] not in {"%", "-"}:
+                        if row[column] != "%":
                             text_row += f' - {text_color}{row[column]}{Style.RESET_ALL}'
                     else:
-                        LAP_match_lst_dic[column].append("-")
+                        LAP_match_lst_dic[column].append("%")
 
                 print(text_row)
 
                 if copy_to_clipboard:
                     for column in ["Shortcut(s)", "Multiword(s)"]:
-                        if column in df.columns and row[column] not in {"%", "-"}:
+                        if column in df.columns and row[column] != "%":
                             pyperclip.copy(row[column].split(" & ")[0].lower())
                             copy_to_clipboard = False
                             break
@@ -1059,30 +1261,34 @@ def input_matching():
             for lang_code, full_lang in lang_code_dic.items():
                 if target_column in {i for i in word_chars_lst_dic} and len(word_chars_lst_dic[target_column]) == 1:
                     print(f'{Fore.CYAN}{output_message(f"output_{target_column_code}_word_chars", lang, moe, word_chars_lst_dic[target_column][0])}{Style.RESET_ALL}')
+                    word_chars = word_chars_lst_dic[target_column][0]
                     output_word_chars_flag = True
                     break
                 if lang_code == lang and len(word_chars_lst_dic[full_lang]) == 1:
                     print(f'{Fore.CYAN}{output_message(f"output_{lang_code}_word_chars", lang, moe, word_chars_lst_dic[full_lang][0])}{Style.RESET_ALL}')
+                    word_chars = word_chars_lst_dic[full_lang][0]
                     output_word_chars_flag = True
                     break
-            print(f'{Fore.CYAN}{output_message("output_en_word_chars", lang, moe, word_chars_lst_dic["English"][0])}{Style.RESET_ALL}') if not output_word_chars_flag and len(word_chars_lst_dic["English"]) == 1 else ""
+            if not output_word_chars_flag and len(word_chars_lst_dic["English"]) == 1:
+                print(f'{Fore.CYAN}{output_message("output_en_word_chars", lang, moe, word_chars_lst_dic["English"][0])}{Style.RESET_ALL}')
+                word_chars = word_chars_lst_dic["English"][0]
 
             for _, row in matching_rows.iterrows():
                 process_row(row)
                 color_cnt += 1
+
             retry_flag = LAP_retry_flag = True
+            print(f'{Fore.CYAN}{output_message("output_LAP_diff_chars_note", lang, moe, word_chars=word_chars, current_theme_chars=current_theme_chars)}{Style.RESET_ALL}') if "current_theme_chars" in globals() and current_theme_chars and word_chars and current_theme_chars != str(word_chars) else ""
             print(f'{Fore.YELLOW}{"-" * 30}{Style.RESET_ALL}')
 
         else:
-            if lang_switch:
-                print(f'{Fore.MAGENTA}{output_message("language_switched", lang, moe)}{Style.RESET_ALL}')
-            else:
-                print(f'{Fore.YELLOW}{output_message("match_failed", lang, moe)}{Style.RESET_ALL}')
+            print(f'{Fore.MAGENTA}{output_message("language_switched", lang, moe)}{Style.RESET_ALL}') if lang_switch else print(f'{Fore.YELLOW}{output_message("match_failed", lang, moe)}{Style.RESET_ALL}')
 
 def LAP_main():
     global LAP_match_lst_dic
-    global retry_flag, LAP_retry_flag, cooldown_time_flag, SAS_flag
-    global current_cooldown_time
+    global retry_flag, LAP_retry_flag, cooldown_time_flag, SAS_flag, PWC_flag
+    global PWC_player_original_lst, PWC_player_lst
+    global current_player_join, current_theme_chars, current_cooldown_time
 
     LAP_match_lst_dic = {
         "WF": [],
@@ -1103,10 +1309,13 @@ def LAP_main():
     player_guess_lst = []
     current_player_guess_lst = []
     del_elem_lst = []
-    current_game_round = current_builder_name = current_theme_chars = current_player_guess = current_correct_theme = ""
+    PWC_player_original_lst = []
+    PWC_player_lst = []
+    current_player_join = current_game_round = current_builder_name = current_theme_chars = current_player_guess = current_correct_theme = ""
     game_round = total_round = builder_name = theme_chars = f"{Fore.BLUE}NA"
     retry_flag = LAP_retry_flag = builder_left_flag = builder_AFK_flag = builder_unplaced_flag = correct_guess_flag = game_over_flag = False
     cooldown_time_flag = SAS_flag = False
+    PWC_flag = True
     current_cooldown_time = 0.0
     LAP_guess_cnt = 0
 
@@ -1118,7 +1327,7 @@ def LAP_main():
     try:
         while True:
             if not os.path.exists(LOG_FILE):
-                print(f'{Fore.YELLOW}{output_message("error_log_file_not_found", lang, moe)}{Style.RESET_ALL}')
+                print(f'{Fore.YELLOW}{output_message("error_LAP_log_file_not_found", lang, moe)}{Style.RESET_ALL}')
                 break
             else:
                 with open(LOG_FILE, "r", encoding="GB18030") as latest_log:
@@ -1131,12 +1340,16 @@ def LAP_main():
 
                     COMMON_FORMAT_PREFIX = r'\[(?:[01]\d|2[0-3]):(?:[0-5]\d):(?:[0-5]\d)\] \[Render thread/INFO\]: \[System\] \[CHAT\] '
 
+                    search_player_join = re.search(
+                        rf'{COMMON_FORMAT_PREFIX}¡?(.{{2,16}})(?: has joined|加入了游戏| 加入了遊戲| が参加しました| 님이 참여했습니다| присоединился| hat das Spiel betreten| a rejoint| se ha unido| entrou na partida| è entrato)',
+                        log_last_line
+                    )
                     search_game_round = re.search(
-                        rf'{COMMON_FORMAT_PREFIX}(?:Round: |回合：|ラウンド：|라운드: |Раунд: |Runde: |Manche: |Ronda: |Rodada: )(.+)/(.+)',
+                        rf'{COMMON_FORMAT_PREFIX}(?:Round: |回合：|ラウンド：|라운드: |Раунд: |Runde: |Manche: |Ronda: |Rodada: )(.{{1,2}})/(.{{1,2}})',
                         log_last_line
                     )
                     search_builder_name = re.search(
-                        rf'{COMMON_FORMAT_PREFIX}(?:Builder: |建筑师：|建築師：|建築家：|건축가: |Строитель: |Erbauer: |Constructeur: |Constructor: |Construtor: |Costruttore: )(.+)',
+                        rf'{COMMON_FORMAT_PREFIX}(?:Builder: |建筑师：|建築師：|建築家：|건축가: |Строитель: |Erbauer: |Constructeur: |Constructor: |Construtor: |Costruttore: )(.{{2,16}})',
                         log_last_line
                     )
                     search_builder_left = re.search(
@@ -1152,11 +1365,11 @@ def LAP_main():
                         log_last_line
                     )
                     search_theme_chars = re.search(
-                        rf'{COMMON_FORMAT_PREFIX}(?:The theme is |该主题字数为|主題為 |テーマの文字数は |이 주제는 |Количество символов в теме: |Das Thema ist |Le thème est composé de |El tema es |O tema tem |Il tema è lungo )(\d+)',
+                        rf'{COMMON_FORMAT_PREFIX}(?:The theme is |该主题字数为|主題為 |テーマの文字数は |이 주제는 |Количество символов в теме: |Das Thema ist |Le thème est composé de |El tema es |O tema tem |Il tema è lungo )(\d{{1,2}})',
                         log_last_line
                     )
                     search_player_guess = re.search(
-                        rf'{COMMON_FORMAT_PREFIX}.*?(?:Rookie|Untrained|Amateur|Apprentice|Experienced|Seasoned|Trained|Skilled|Talented|Professional|Expert|Master|#10 Builder|#[1-9] Builder|初来乍到|未经雕琢|初窥门径|学有所成|驾轻就熟|历练老成|技艺精湛|炉火纯青|技惊四座|巧夺天工|闻名于世|建筑大师|#10建筑师|#[1-9]建筑师|初來乍到|技藝生疏|初窺門徑|學徒|駕輕就熟|識途老馬|技藝精湛|爐火純青|技驚四座|巧奪天工|聞名於世|大師|#10 建築師|#[2-9] 建築師|冠絕當世|新人|一般人|アマチュア|見習|経験者|熟達者|ベテラン|熟練者|人材|職業人|専門家|マスター|#10 建築家|#[1-9] 建築家|풋내기|일반인|아마추어|견습기|경험자|숙달자|베테랑|숙련자|인재|직업인|전문가|마스터|#10 건축가|#[1-9] 건축가|Новичок|Необученный|Любитель|Ученик|Опытный|Бывалый|Обученный|Умелый|Талантливый|Профессионал|Эксперт|Мастер|Строитель #10|Строитель #[1-9]|Anfänger|Untrainiert|Lehrling|Erfahren|Trainiert|Bewandt|Talentiert|Professionell|Experte|Meister|#10 Baumeister|#[2-9] Baumeister|#1 Erbauer|Débutant|Novice|Apprenti|Expérimenté|Saisonnier|Entraîné|Compétent|Talentueux|Professionnel|Maitre|Constructeur #1|Novato|Iniciado|Aficionado|Aprendiz|Experimentado|Habilidoso|Entrenado|Talentoso|Profesional|Experto|Maestro|Constructor #10|Constructor #[1-9]|Amador|Dedicado|Veterano|Inteligente|Perito|Profissional|Experiente|Mestre|Colocação|1º colocado|Novellino|Non Allenato|Dilettante|Apprendista|Esperto|Allenato|Abile|Talentuoso|Professionista|10° Costruttore|[1-9]° Costruttore).*?: (.+)',
+                        rf'{COMMON_FORMAT_PREFIX}.*?(?:Rookie|Untrained|Amateur|Prospect|Apprentice|Experienced|Seasoned|Trained|Skilled|Talented|Professional|Artisan|Expert|Master|Legend|Grandmaster|Celestial|Divine|Ascended|#10 Builder|#[1-9] Builder|初来乍到|未经雕琢|初窥门径|学有所成|驾轻就熟|历练老成|技艺精湛|炉火纯青|技惊四座|巧夺天工|闻名于世|建筑大师|传说星耀|最强王者|#10建筑师|#[1-9]建筑师|初來乍到|技藝生疏|初窺門徑|學徒|駕輕就熟|識途老馬|技藝精湛|爐火純青|技驚四座|巧奪天工|聞名於世|大師|傳說|一代宗師|#10 建築師|#[2-9] 建築師|冠絕當世|新人|一般人|アマチュア|見習|経験者|熟達者|ベテラン|熟練者|人材|職業人|専門家|マスター|レジェンド|グランドマスター|#10 建築家|#[1-9] 建築家|풋내기|일반인|아마추어|견습기|경험자|숙달자|베테랑|숙련자|인재|직업인|전문가|마스터|레전드|그랜드마스터|#10 건축가|#[1-9] 건축가|Новичок|Необученный|Любитель|Ученик|Опытный|Бывалый|Обученный|Умелый|Талантливый|Профессионал|Эксперт|Мастер|Легенда|Гроссмейстер|Строитель #10|Строитель #[1-9]|Anfänger|Untrainiert|Lehrling|Erfahren|Trainiert|Bewandt|Talentiert|Professionell|Experte|Meister|Legende|Großmeister|#10 Baumeister|#[2-9] Baumeister|#1 Erbauer|Débutant|Novice|Apprenti|Expérimenté|Saisonnier|Entraîné|Compétent|Talentueux|Professionnel|Maitre|Légende|Grand maitre|Constructeur #1|Novato|Iniciado|Aficionado|Aprendiz|Experimentado|Habilidoso|Entrenado|Talentoso|Profesional|Experto|Maestro|Leyenda|Gran Maestro|Constructor #10|Constructor #[1-9]|Amador|Dedicado|Veterano|Inteligente|Perito|Profissional|Experiente|Mestre|Lenda|Supremo|Colocação|1º colocado|Novellino|Non Allenato|Dilettante|Apprendista|Esperto|Allenato|Abile|Talentuoso|Professionista|Leggenda|10° Costruttore|[1-9]° Costruttore).*?: (.+)',
                         log_last_line
                     )
                     search_correct_guess = re.search(
@@ -1179,6 +1392,12 @@ def LAP_main():
                     if LAP_retry_flag:
                         LAP_game_info()
                         LAP_retry_flag = False
+
+                    if PWC_MODE and search_player_join:
+                        player_join = search_player_join.group(1)
+                        if current_player_join != player_join:
+                            current_player_join = player_join
+                            PWC_main()
 
                     if search_game_round:
                         game_round = search_game_round.group(1)
@@ -1266,19 +1485,12 @@ def LAP_main():
                                             if index < len(LAP_match_lst_dic[key]):
                                                 for lang_code, full_lang in lang_code_dic.items():
                                                     if lang_code == lang and key == full_lang:
-                                                        if LAP_match_lst_dic[full_lang][index] not in {"%", "-"}:
+                                                        if LAP_match_lst_dic[full_lang][index] != "%":
                                                             del_elem_lst.append(LAP_match_lst_dic[full_lang][index])
                                                         elif index < len(LAP_match_lst_dic["English"]):
                                                             del_elem_lst.append(LAP_match_lst_dic["English"][index])
 
-                                    del_elem_lst_seen = set()
-                                    del_elem_lst_dedup = []
-
-                                    for i in del_elem_lst:
-                                        if i not in del_elem_lst_seen:
-                                            del_elem_lst_seen.add(i)
-                                            del_elem_lst_dedup.append(i)
-                                    del_elem_lst = del_elem_lst_dedup
+                                    del_elem_lst = list(dict.fromkeys(del_elem_lst))
 
                                     for key in LAP_match_lst_dic.keys():
                                         LAP_match_lst_dic[key] = [elem for i, elem in enumerate(LAP_match_lst_dic[key]) if i not in indices_to_remove]
@@ -1307,18 +1519,18 @@ def LAP_main():
                                                 elements_row = " - ".join(
                                                     f'{elem_color}{LAP_match_lst_dic[key][i]}{Style.RESET_ALL}'
                                                     for key in ["WF", "English", full_lang, "Shortcut(s)", "Multiword(s)"]
-                                                    if key in df.columns and LAP_match_lst_dic[key][i] not in {"%", "-"}
+                                                    if key in df.columns and LAP_match_lst_dic[key][i] != "%"
                                                 )
                                                 if AUTO_COPY and i == 0:
                                                     if RAC_MODE:
                                                         random_AC_lang = random.choice(["简体中文", "繁體中文", "日本語", "한국어", "Русский", "Deutsch", "Français", "Español", "Português", "Italiano"])
                                                         for key in ["Shortcut(s)", "Multiword(s)", random_AC_lang, "English"]:
-                                                            if key in df.columns and LAP_match_lst_dic[key][i] not in {"%", "-"}:
+                                                            if key in df.columns and LAP_match_lst_dic[key][i] != "%":
                                                                 pyperclip.copy(LAP_match_lst_dic[key][i].split(" & ")[0].lower())
                                                                 break
                                                     else:
                                                         for key in ["Shortcut(s)", "Multiword(s)", full_lang, "English"]:
-                                                            if key in df.columns and LAP_match_lst_dic[key][i] not in {"%", "-"}:
+                                                            if key in df.columns and LAP_match_lst_dic[key][i] != "%":
                                                                 pyperclip.copy(LAP_match_lst_dic[key][i].split(" & ")[0].lower())
                                                                 break
                                                 elem_matched = True
@@ -1327,18 +1539,18 @@ def LAP_main():
                                             elements_row = " - ".join(
                                                 f'{elem_color}{LAP_match_lst_dic[key][i]}{Style.RESET_ALL}'
                                                 for key in ["WF", "English", "Shortcut(s)", "Multiword(s)"]
-                                                if key in df.columns and LAP_match_lst_dic[key][i] not in {"%", "-"}
+                                                if key in df.columns and LAP_match_lst_dic[key][i] != "%"
                                             )
                                             if AUTO_COPY and i == 0:
                                                 if RAC_MODE:
                                                     random_AC_lang = random.choice(["简体中文", "繁體中文", "日本語", "한국어", "Русский", "Deutsch", "Français", "Español", "Português", "Italiano"])
                                                     for key in ["Shortcut(s)", "Multiword(s)", random_AC_lang, "English"]:
-                                                        if key in df.columns and LAP_match_lst_dic[key][i] not in {"%", "-"}:
+                                                        if key in df.columns and LAP_match_lst_dic[key][i] != "%":
                                                             pyperclip.copy(LAP_match_lst_dic[key][i].split(" & ")[0].lower())
                                                             break
                                                 else:
                                                     for key in ["Shortcut(s)", "Multiword(s)", "English"]:
-                                                        if key in df.columns and LAP_match_lst_dic[key][i] not in {"%", "-"}:
+                                                        if key in df.columns and LAP_match_lst_dic[key][i] != "%":
                                                             pyperclip.copy(LAP_match_lst_dic[key][i].split(" & ")[0].lower())
                                                             break
 
@@ -1399,7 +1611,7 @@ def LAP_main():
                 time.sleep(LAP_INTERVAL)
 
     except UnicodeDecodeError:
-        print(f'{Fore.YELLOW}{output_message("error_log_decoding_failed", lang, moe)}{Style.RESET_ALL}')
+        print(f'{Fore.YELLOW}{output_message("error_LAP_log_decoding_failed", lang, moe)}{Style.RESET_ALL}')
 
 def SAS_main():
     global cooldown_time_flag, SAS_flag
@@ -1427,6 +1639,62 @@ def SAS_main():
 
     cooldown_time_flag = SAS_flag = False
     print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end="")
+
+def PWC_main():
+    global PWC_flag
+    global PWC_player_original_lst, PWC_player_lst
+    global player_position
+
+    API_URL = f"https://api.shmeado.club/leaderboards/wins_guess_the_build_bb/1000"
+
+    if PWC_flag:
+        try:
+            PWC_start_time = time.time()
+            response = requests.get(API_URL)
+            PWC_request_time = round(time.time() - PWC_start_time, 2)
+            data = response.json()
+
+            PWC_player_lst_timestamp = data["timestamp"]
+            PWC_player_lst_ver = datetime.fromtimestamp(PWC_player_lst_timestamp).strftime("%Y/%m/%d")
+            PWC_player_original_lst = [entry["name"] for entry in data["entries"][:PWC_THRESHOLD]]
+            PWC_player_lst = PWC_player_original_lst.copy()
+            print(f'\r\x1b[K{Fore.GREEN}{output_message("output_PWC_online_list_info", lang, moe, PWC_request_time=PWC_request_time, PWC_player_lst_ver=PWC_player_lst_ver)}{Style.RESET_ALL}')
+
+        except Exception:
+            print(f'\r\x1b[K{Fore.YELLOW}{output_message("note_PWC_offline_list", lang, moe)}{Style.RESET_ALL}')
+
+            try:
+                if not os.path.exists(PWC_OFFLINE_LIST):
+                    print(f'{Fore.YELLOW}{output_message("error_PWC_offline_list_not_found", lang, moe)}{Style.RESET_ALL}')
+                else:
+                    with open(PWC_OFFLINE_LIST, "r", encoding="GB18030") as PWC_file:
+                        data = json.load(PWC_file)
+
+                    PWC_player_lst_timestamp = data["timestamp"]
+                    PWC_player_lst_ver = datetime.fromtimestamp(PWC_player_lst_timestamp).strftime("%Y/%m/%d")
+                    PWC_player_original_lst = [entry["name"] for entry in data["entries"][:PWC_THRESHOLD]]
+                    PWC_player_lst = PWC_player_original_lst.copy()
+                    print(f'{Fore.GREEN}{output_message("output_PWC_offline_list_info", lang, moe, PWC_player_lst_ver=PWC_player_lst_ver)}{Style.RESET_ALL}')
+
+            except (UnicodeDecodeError, json.decoder.JSONDecodeError):
+                print(f'{Fore.YELLOW}{output_message("error_PWC_offline_list_decoding_failed", lang, moe)}{Style.RESET_ALL}')
+
+        PWC_player_lst.extend(PWC_BLACKLIST)
+        PWC_player_lst = [player for player in PWC_player_lst if player not in PWC_WHITELIST]
+        PWC_player_lst = list(dict.fromkeys(PWC_player_lst))
+        PWC_flag = False
+        print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end="")
+
+    if current_player_join in PWC_player_lst:
+        player_position = PWC_player_original_lst.index(current_player_join) + 1 if current_player_join in PWC_player_original_lst else "NA"
+        print(f'\r\x1b[K{Fore.RED}{output_message("output_PWC_player_info", lang, moe, player_position=player_position, current_player_join=current_player_join)}{Style.RESET_ALL}')
+
+        if PWCE_MODE and SAS_MODE and AUTO_COPY:
+            print(f'{Fore.YELLOW}{output_message("output_PWCE_return_lobby", lang, moe)}{Style.RESET_ALL}')
+            pyperclip.copy("/lobby")
+            SAS_main()
+        else:
+            print(f'{Fore.RED}{output_message("input_prompt", lang, moe)}{Style.RESET_ALL}', end="")
 
 def solver():
     global moe
