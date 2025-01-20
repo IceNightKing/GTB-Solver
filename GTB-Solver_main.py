@@ -1260,17 +1260,17 @@ def input_matching():
 
             for lang_code, full_lang in lang_code_dic.items():
                 if target_column in {i for i in word_chars_lst_dic} and len(word_chars_lst_dic[target_column]) == 1:
-                    print(f'{Fore.CYAN}{output_message(f"output_{target_column_code}_word_chars", lang, moe, word_chars_lst_dic[target_column][0])}{Style.RESET_ALL}')
+                    print(f'{Fore.CYAN}{output_message(f"output_{target_column_code}_word_chars", lang, moe, word_chars=word_chars_lst_dic[target_column][0])}{Style.RESET_ALL}')
                     word_chars = word_chars_lst_dic[target_column][0]
                     output_word_chars_flag = True
                     break
                 if lang_code == lang and len(word_chars_lst_dic[full_lang]) == 1:
-                    print(f'{Fore.CYAN}{output_message(f"output_{lang_code}_word_chars", lang, moe, word_chars_lst_dic[full_lang][0])}{Style.RESET_ALL}')
+                    print(f'{Fore.CYAN}{output_message(f"output_{lang_code}_word_chars", lang, moe, word_chars=word_chars_lst_dic[full_lang][0])}{Style.RESET_ALL}')
                     word_chars = word_chars_lst_dic[full_lang][0]
                     output_word_chars_flag = True
                     break
             if not output_word_chars_flag and len(word_chars_lst_dic["English"]) == 1:
-                print(f'{Fore.CYAN}{output_message("output_en_word_chars", lang, moe, word_chars_lst_dic["English"][0])}{Style.RESET_ALL}')
+                print(f'{Fore.CYAN}{output_message("output_en_word_chars", lang, moe, word_chars=word_chars_lst_dic["English"][0])}{Style.RESET_ALL}')
                 word_chars = word_chars_lst_dic["English"][0]
 
             for _, row in matching_rows.iterrows():
@@ -1645,7 +1645,7 @@ def PWC_main():
     global PWC_player_original_lst, PWC_player_lst
     global player_position
 
-    API_URL = f"https://api.shmeado.club/leaderboards/wins_guess_the_build_bb/1000"
+    API_URL = "https://api.shmeado.club/leaderboards/wins_guess_the_build_bb/1000"
 
     if PWC_flag:
         try:
