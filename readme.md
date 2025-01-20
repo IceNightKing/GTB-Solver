@@ -64,15 +64,9 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 ### 2024/04/18 - v4.1
 
 - \[Add\] Added word frequency statistical index
-
-> [!NOTE]
-> The word frequency statistical index is weighted by time gradient and calculated from a total of approximately 15,000 rounds of game data provided by multiple players, and it is for reference only
-
+  - The word frequency statistical index is weighted by time gradient and calculated from a total of approximately 15,000 rounds of game data provided by multiple players, and it is for reference only
 - \[Opt\] The program now defaults to outputting in descending order according to word frequency statistical index
-
-> [!TIP]
-> If you still need to output according to the original rules, please use the "English" column as the sort basis in the thesaurus file `GTB_Thesaurus_Demo.xlsx`, and sort in ascending order of English letters
-
+  - If you still need to output according to the original rules, please use the "English" column as the sort basis in the thesaurus file `GTB_Thesaurus_Demo.xlsx`, and sort in ascending order of English letters
 - \[Opt\] Thesaurus update
 
 ### 2024/04/02 - v4.0
@@ -80,14 +74,12 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 - \[Add\] Traditional Chinese input matching support
 - \[Add\] Japanese input matching support
 - \[Fix\] Fixed an issue where the character `'` could not be matched
-
   ``` TXT
   # The following theme(s) have now been able to be matched correctly
   5.00 - Farmer's Market
   0.25 - Santa's Workshop
   0.00 - Santa's Sleigh
   ```
-
 - \[Opt\] Now the user can match Traditional Chinese by prefixing `@cht`
 - \[Opt\] Now the user can match Japanese by prefixing `@jp`
 - \[Opt\] Thesaurus update
@@ -112,12 +104,10 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 ### 2024/02/20 - v3.3
 
 - \[Fix\] Fixed an issue where the character `.` could not be matched
-
   ``` TXT
   # The following theme(s) have now been able to be matched correctly
   0.00 - Mrs. Claus
   ```
-
 - \[Opt\] Code optimization
 
 ### 2024/02/14 - v3.2
@@ -136,7 +126,6 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
 
 - \[Add\] Simplified Chinese input matching support
 - \[Fix\] Fixed an issue where the character `-` could not be matched
-
   ``` TXT
   # The following theme(s) have now been able to be matched correctly
   5.00 - Sci-fi
@@ -145,7 +134,6 @@ Quickly guess the theme of "Guess The Build" game on Hypixel server based on mul
   0.00 - Jack-O-Lantern
   0.00 - Trick-or-Treating
   ```
-
 - \[Fix\] Fixed `KeyError` crash that could be caused by incorrectly configured thesaurus column name
 
 ### 2024/02/04 - Demo_202402
