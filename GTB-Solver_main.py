@@ -1661,7 +1661,7 @@ def PWC_main():
             print(f'\r\x1b[K{Fore.GREEN}{output_message("output_PWC_online_list_info", lang, moe, PWC_request_time=PWC_request_time, PWC_player_lst_ver=PWC_player_lst_ver)}{Style.RESET_ALL}')
 
         except Exception:
-            print(f'\r\x1b[K{Fore.YELLOW}{output_message("note_PWC_offline_list", lang, moe)}{Style.RESET_ALL}')
+            print(f'\r\x1b[K{Fore.CYAN}{output_message("note_PWC_offline_list", lang, moe)}{Style.RESET_ALL}')
 
             try:
                 if not os.path.exists(PWC_OFFLINE_LIST):
